@@ -2,6 +2,9 @@
 <img src="docs/disnet.svg">
 
 The sweet sound of that neural network distortion
+
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
 </div>
 
 ## What is DISNET?

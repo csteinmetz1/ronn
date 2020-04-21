@@ -1,1 +1,8 @@
+# OS junk
 .DS_Store
+
+# Python
+env/
+__pycache__/
+samples/
+
