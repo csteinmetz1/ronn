@@ -24,6 +24,7 @@ class DISNET():
                 stride=1, 
                 activation="ReLU", 
                 dilations=[], 
+                residual=False,
                 init=None): 
 
         self.n_inputs = n_inputs
@@ -34,6 +35,7 @@ class DISNET():
         self.stride = stride
         self.activation = activation
         self.dilations = dilations
+        self.residual = residual
         self.init = init
 
         self.build() # construct the model
@@ -48,6 +50,7 @@ class DISNET():
                                  stride=self.stride, 
                                  activation=self.activation,
                                  dilations=self.dilations,
+                                 residual=self.residual,
                                  init=self.init)
 
     def process(self, x):
@@ -55,7 +58,8 @@ class DISNET():
         ch,s = x.size()
 
         # pass through the model after adding batch dim
-        x = self.model(x.view(1,ch,s))
+        with torch.no_grad():
+            x = self.model(x.view(1,ch,s))
 
         # return without the batch dimension
         return torch.squeeze(x)

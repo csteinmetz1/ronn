@@ -1,6 +1,6 @@
 import torch 
 
-from .utils import get_activation
+from .utils import get_activation, center_crop
 
 class DISNETModel(torch.nn.Module):
     def __init__(self, 
@@ -12,6 +12,7 @@ class DISNETModel(torch.nn.Module):
                  stride=1, 
                  activation="ReLU", 
                  dilations=[], 
+                 residual=False,
                  init=None):
         super(DISNETModel, self).__init__()
         
@@ -26,6 +27,7 @@ class DISNETModel(torch.nn.Module):
         self.stride = stride
         self.activation = activation
         self.dilations = dilations
+        self.residual = residual
         self.init = init
 
         # create each block (layer) in the network
@@ -50,11 +52,22 @@ class DISNETModel(torch.nn.Module):
         # now apply the weight init to each layer
         for k, param in dict(self.named_parameters()).items():
             if "weight" in k:
-                torch.nn.init.kaiming_normal_(param)
+                torch.nn.init.normal_(param)                   # smooth 
+                #torch.nn.init.uniform_(param,a=-0.1,b=0.1)     # harsh
+                #torch.nn.init.constant_(param, 0.1)            # doesn't work
+                #torch.nn.init.dirac_(param)                    # nice, but only left channel
+                #torch.nn.init.xavier_uniform_(param)           # nice and smooth, even roomy
+                #torch.nn.init.xavier_normal_(param)            # similar to uniform, harsher
+                #torch.nn.init.kaiming_uniform_(param)          # hmm could be nice 
+                #torch.nn.init.orthogonal_(param)               # inconsistent results
 
     def forward(self, x):
 
         for block in self.blocks:
-            x = block(x)
+            x_in = x        # store for residual
+            x = block(x)    # process through convolutional block
+
+            if self.residual:
+                x = torch.add(x, center_crop(x_in, x.shape[-1]))
 
         return x
