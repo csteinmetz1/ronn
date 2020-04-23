@@ -27,7 +27,24 @@ touching TensorFlow or PyTorch.
 - Number of layers
 - Kernel size 
 - Stride
-- Activation functions (ReLU, Tanh, PReLU)
+- Activation functions (ReLU, Tanh, PReLU, etc.)
 - Dilation pattern
 - Initialization method 
 - Randomize all weights
+- Transposed convolutions for upsampling
+
+### Further ideas
+- a GUI that shows the construction of the network as you add layers, change activations, etc. 
+- a transfer function window that shows the shape of the current activation function being used. 
+- use FiLM as a further way to adjust the distortion character. For example, create a 2D plane the
+  user will sample from and then use a set of linear layers to project this to gamma and beta coefficients
+  for each layers (using linear adaptors), then the user can control the input to this MLP. 
+- Minimalist UI with white background inspired by Pure Data
+
+## Setup
+
+To install libtorch (PyTorch C++ do the following).
+
+1. Navigate the to [PyTorch website]() and download the correct `.zip` for your OS.     
+2. Unzip this and place the `libtorch` directory into the `plugin` directory. 
+3. Run the `build.sh` script, which will build then run the demo program. 
