@@ -6,6 +6,6 @@ link_directories("/usr/local/lib" "/usr/local/opt/llvm/lib")
 
 find_package(Torch REQUIRED)
 
-add_executable(disnetlib example.cpp)
+add_executable(disnetlib disnetlib.cpp)
 target_link_libraries(disnetlib "${TORCH_LIBRARIES}")
 set_property(TARGET disnetlib PROPERTY CXX_STANDARD 14)
