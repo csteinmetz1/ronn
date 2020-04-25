@@ -1,52 +1,85 @@
 #include<iostream>
+#include<string>
+#include <cstdint>
 #include<torch/torch.h>
 
-
 struct Model : torch::nn::Module {
-    Model(int nInputs, int nOutputs, int nChannels, int kernelWidth, bool bias) :
-        conv1(torch::nn::Conv1dOptions(nInputs,   nChannels, kernelWidth).stride(1).bias(bias)),
-        conv2(torch::nn::Conv1dOptions(nChannels, nChannels, kernelWidth).stride(1).bias(bias)),
-        conv3(torch::nn::Conv1dOptions(nChannels, nChannels, kernelWidth).stride(1).bias(bias)),
-        conv4(torch::nn::Conv1dOptions(nChannels, nChannels, kernelWidth).stride(1).bias(bias)),
-        conv5(torch::nn::Conv1dOptions(nChannels, nChannels, kernelWidth).stride(1).bias(bias)),
-        conv6(torch::nn::Conv1dOptions(nChannels, nOutputs,  kernelWidth).stride(1).bias(bias)),
-        activation(torch::nn::LeakyReLU(torch::nn::LeakyReLUOptions().negative_slope(0.2)))
-    {
-        // construct and register your layers
-        register_module("conv1", conv1);
-        register_module("conv2", conv2);
-        register_module("conv3", conv3);
-        register_module("conv4", conv4);
-        register_module("conv5", conv5);
-        register_module("conv6", conv6);
-        register_module("activation", activation);
-    }
-    // the forward operation (how data will flow from layer to layer)
-    torch::Tensor forward(torch::Tensor x){
-        // let's pass relu 
-        x = activation(conv1(x));
-        x = activation(conv2(x));
-        x = activation(conv3(x));
-        x = activation(conv4(x));
-        x = activation(conv5(x));
-        x = conv6(x);
+    Model(int nInputs, int nOutputs, int nLayers, int nChannels, int kernelWidth, bool bias) {
 
+        for (int i = 0; i < nLayers; i++) {
+            if (i == 0) {
+                inChannels = nInputs;
+                outChannels = nChannels;
+            }
+            else if (i + 1 == nLayers) {
+                inChannels = nChannels;
+                outChannels = nOutputs;
+            }
+            else {
+                inChannels = nChannels;
+                outChannels = nChannels;
+            }
+            conv.push_back(torch::nn::Conv1d(
+                torch::nn::Conv1dOptions(inChannels,outChannels,kernelWidth)
+                .stride(1)
+                .bias(bias)));
+        }
+
+        // now register each convolutional layer
+        for (auto i = 0; i < conv.size(); i++) {
+            register_module("conv"+std::to_string(i), conv[i]);
+        }
+
+        // and setup the activation functions
+        leakyrelu = torch::nn::LeakyReLU(
+                        torch::nn::LeakyReLUOptions()
+                        .negative_slope(0.2));
+    }
+    // the forward operation
+    torch::Tensor forward(torch::Tensor x){
+        // we iterate over the convolutions
+        for (auto i = 0; i < conv.size(); i++) {
+            if (i + 1 < conv.size()) {
+                x = torch::relu(conv[i](x));
+            }
+            else {
+                x = conv[i](x);
+            }
+        }
         return x;
     }
-    torch::nn::Conv1d conv1,conv2,conv3,conv4,conv5,conv6;
-    torch::nn::LeakyReLU activation;
+    int inChannels, outChannels;
+    std::vector<torch::nn::Conv1d> conv;
+
+    // activation functions
+    torch::nn::ReLU relu;
+    torch::nn::Tanh tanh;             
+    torch::nn::LeakyReLU leakyrelu;
+    torch::nn::
 };
 
 int main(){
 
-    torch::NoGradGuard no_grad_guard; // don't compute gradients
+    // don't compute gradients
+    torch::NoGradGuard no_grad_guard; 
 
-    Model model(1, 2, 8, 3, false);
+    // define the model config
+    int nInputs     = 1;
+    int nOutputs    = 2;
+    int nLayers     = 6;
+    int nChannels   = 8;
+    int kernelWidth = 3;
+    bool bias       = false;
+
+    // build the model
+    Model model(nInputs, nOutputs, nLayers, nChannels, kernelWidth, bias);
     
+    // pass through a random tensor
     auto in = torch::rand({1,1,44100});
     auto out = model.forward(in);
 
-    std::cout << in << std::endl;
-    std::cout << out << std::endl;
+    for (auto i = 0; i < out.dim(); i++){
+        std::cout << out.size(i) << std::endl;
+    }
 
 }
