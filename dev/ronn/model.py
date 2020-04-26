@@ -2,7 +2,7 @@ import torch
 
 from .utils import get_activation, center_crop
 
-class DISNETModel(torch.nn.Module):
+class RONNModel(torch.nn.Module):
     def __init__(self, 
                  n_inputs=1,
                  n_outputs=1,
@@ -14,7 +14,7 @@ class DISNETModel(torch.nn.Module):
                  dilations=[], 
                  residual=False,
                  init=None):
-        super(DISNETModel, self).__init__()
+        super(RONNModel, self).__init__()
         
         # if no dilations provided, set them all to 1
         if len(dilations) == 0: dilations = [1 for n in range(n_layers)]

@@ -2,10 +2,10 @@ import os
 import sys
 import torch
 
-from .model import DISNETModel
+from .model import RONNModel
 
-class DISNET():
-    """ Top-level DISNET object. 
+class RONN():
+    """ Top-level RONN object. 
 
     Args:
         n_layers (int, optional): number of convolutional layers in the network.
@@ -42,7 +42,7 @@ class DISNET():
 
     def build(self):
         """ Given the current model configuration, build a PyTorch model. """
-        self.model = DISNETModel(n_inputs=self.n_inputs,
+        self.model = RONNModel(n_inputs=self.n_inputs,
                                  n_outputs=self.n_outputs,
                                  n_layers=self.n_layers, 
                                  n_channels=self.n_channels,
