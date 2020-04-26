@@ -2,7 +2,7 @@ import torch
 
 from .utils import get_activation, center_crop
 
-class RONNModel(torch.nn.Module):
+class ronnModel(torch.nn.Module):
     def __init__(self, 
                  n_inputs=1,
                  n_outputs=1,
@@ -14,7 +14,7 @@ class RONNModel(torch.nn.Module):
                  dilations=[], 
                  residual=False,
                  init=None):
-        super(RONNModel, self).__init__()
+        super(ronnModel, self).__init__()
         
         # if no dilations provided, set them all to 1
         if len(dilations) == 0: dilations = [1 for n in range(n_layers)]
