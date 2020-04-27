@@ -1,7 +1,40 @@
 import torch 
 
 from .utils import get_activation, center_crop
+from .condition import GlobalConditionGenerator, FiLM
 
+class ConvolutionalBlock(torch.nn.Module):
+    def __init__(self, 
+                in_channels, 
+                out_channels, 
+                kernel_size, 
+                stride, 
+                dilation,
+                activation,
+                cond_dim):
+        super(ConvolutionalBlock, self).__init__()
+
+        # contruct the components of the block
+        self.conv = torch.nn.Conv1d(in_channels, 
+                        out_channels, 
+                        kernel_size, 
+                        stride=stride, 
+                        dilation=dilation)
+        self.adpt = torch.nn.Linear(cond_dim, out_channels*2)
+        self.acti = get_activation(activation)
+    
+    def forward(self, x, y=None):
+
+        x = self.conv(x)
+
+        if y is not None:
+            y = self.adpt(y)
+            x = FiLM(x, y)
+
+        x = self.acti(x)
+
+        return x
+        
 class ronnModel(torch.nn.Module):
     def __init__(self, 
                  n_inputs=1,
@@ -13,7 +46,8 @@ class ronnModel(torch.nn.Module):
                  activation="ReLU", 
                  dilations=[], 
                  residual=False,
-                 init=None):
+                 init=None,
+                 film_dim=2):
         super(ronnModel, self).__init__()
         
         # if no dilations provided, set them all to 1
@@ -29,6 +63,10 @@ class ronnModel(torch.nn.Module):
         self.dilations = dilations
         self.residual = residual
         self.init = init
+        self.film_dim = film_dim
+
+        # create MLP for FiLM generation
+        self.generator = GlobalConditionGenerator(self.film_dim)
 
         # create each block (layer) in the network
         self.blocks = torch.nn.ModuleList()
@@ -38,16 +76,13 @@ class ronnModel(torch.nn.Module):
             in_channels = n_channels if n != 0 else n_inputs
             out_channels = n_channels if n != (n_layers-1) else n_outputs
 
-            # contruct the components of the block
-            block = torch.nn.Sequential(
-                torch.nn.Conv1d(in_channels, 
-                                out_channels, 
-                                kernel_size, 
-                                stride=stride, 
-                                dilation=dilations[n]),
-                get_activation(activation))
-
-            self.blocks.append(block)
+            self.blocks.append(ConvolutionalBlock(in_channels,
+                                                  out_channels,
+                                                  kernel_size,
+                                                  stride,
+                                                  dilations[n],
+                                                  activation,
+                                                  self.generator.cond_dim))
 
         # now apply the weight init to each layer
         for k, param in dict(self.named_parameters()).items():
@@ -61,11 +96,18 @@ class ronnModel(torch.nn.Module):
                 #torch.nn.init.kaiming_uniform_(param)          # hmm could be nice 
                 #torch.nn.init.orthogonal_(param)               # inconsistent results
 
-    def forward(self, x):
+    def forward(self, x, y=None):
+
+        if y is not None:
+            y = self.generator(y)   # generate the global conditioning
 
         for block in self.blocks:
-            x_in = x        # store for residual
-            x = block(x)    # process through convolutional block
+            x_in = x  # store for residual
+
+            if y is not None:
+                x = block(x, y=y)  # process through convolutional block
+            else:
+                x = block(x)
 
             if self.residual:
                 x = torch.add(x, center_crop(x_in, x.shape[-1]))

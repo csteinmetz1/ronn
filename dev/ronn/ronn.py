@@ -25,7 +25,8 @@ class ronn():
                 activation="ReLU", 
                 dilations=[], 
                 residual=False,
-                init=None): 
+                init=None,
+                film_dim=2): 
 
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
@@ -37,6 +38,7 @@ class ronn():
         self.dilations = dilations
         self.residual = residual
         self.init = init
+        self.film_dim = film_dim
 
         self.build() # construct the model
 
@@ -51,15 +53,19 @@ class ronn():
                                  activation=self.activation,
                                  dilations=self.dilations,
                                  residual=self.residual,
-                                 init=self.init)
+                                 init=self.init,
+                                 film_dim=self.film_dim)
 
-    def process(self, x):
+    def process(self, x, y=None):
         """ Given a frame of audio, pass it through the model. """
         ch,s = x.size()
 
         # pass through the model after adding batch dim
         with torch.no_grad():
-            x = self.model(x.view(1,ch,s))
+            if y is not None:
+                x = self.model(x.view(1,ch,s), y)
+            else:
+                x = self.model(x.view(1,ch,s))
 
         # return without the batch dimension
         return torch.squeeze(x)
