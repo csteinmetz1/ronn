@@ -17,6 +17,23 @@ def center_crop(x, size):
     
     return x[...,s:e]
 
+def calculate_receptive_field(kernel_size, n_layers, stride, dilations=[]):
+    """ Given model parameters, calcualte the receptive field. 
+
+    Args:
+        model (obj): model object.
+
+    """
+
+    if len(dilations) == 0:
+        dilations = [1 for n in range(n_layers)]
+
+    receptive_field = kernel_size
+
+    for n in range(n_layers):
+        receptive_field += ((kernel_size-1)*stride)*dilations[n]
+
+    return receptive_field
 
 def get_activation(activation_type):
     """ Give a string defining the activation and return the function itself.
