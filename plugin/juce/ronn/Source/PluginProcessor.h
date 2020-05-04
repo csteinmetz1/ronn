@@ -64,7 +64,7 @@ private:
     // define the model config
     int nInputs     = 1;
     int nOutputs    = 1;
-    int nLayers     = 1;
+    int nLayers     = 6;
     int nChannels   = 8;
     int kernelWidth = 3;
     bool bias       = false;

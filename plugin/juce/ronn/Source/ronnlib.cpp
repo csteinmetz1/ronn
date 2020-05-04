@@ -16,9 +16,13 @@ Model::Model(int nInputs,
              float* dilations) {
 
         for (int i = 0; i < nLayers; i++) {
-            if (i == 0) {
+            if (i == 0 && nLayers > 1) {
                 inChannels = nInputs;
                 outChannels = nChannels;
+            }
+            else if (i == 0) {
+                inChannels = nInputs;
+                outChannels = nOutputs; 
             }
             else if (i + 1 == nLayers) {
                 inChannels = nChannels;
@@ -36,9 +40,11 @@ Model::Model(int nInputs,
         }
 
         activation = act; // set the activation function
+        nConv = nLayers;
 
         // now register each convolutional layer
-        for (auto i = 0; i < conv.size(); i++) {
+        for (auto i = 0; i < nConv; i++) {
+            std::cout << "register" << i << std::endl;
             register_module("conv"+std::to_string(i), conv[i]);
         }
 
@@ -51,8 +57,8 @@ Model::Model(int nInputs,
 // the forward operation
 torch::Tensor Model::forward(torch::Tensor x) {
     // we iterate over the convolutions
-    for (auto i = 0; i < conv.size(); i++) {
-        if (i + 1 < conv.size()) {
+    for (auto i = 0; i < nConv; i++) {
+        if (i + 1 < nConv) {
             if (activation.compare("ReLU") == 0)
                 x = torch::relu(conv[i](x));
             else if (activation.compare("LeakyReLU") == 0)
@@ -60,7 +66,7 @@ torch::Tensor Model::forward(torch::Tensor x) {
             else if (activation.compare("Tanh") == 0)
                 x = torch::tanh(conv[i](x));
             else if (activation.compare("Sigmoid") == 0)
-                x = torch::tanh(conv[i](x));
+                x = torch::sigmoid(conv[i](x));
             else if (activation.compare("ELU") == 0)
                 x = torch::elu(conv[i](x));
             else if (activation.compare("SELU") == 0)
@@ -84,7 +90,7 @@ torch::Tensor Model::forward(torch::Tensor x) {
 }
 
 void Model::init(std::string initType){
-    for (auto i = 0; i < conv.size(); i++) {
+    for (auto i = 0; i < nConv; i++) {
         if (initType.compare("normal"))
             torch::nn::init::normal_(conv[i]->weight);
         else if (initType.compare("uniform"))

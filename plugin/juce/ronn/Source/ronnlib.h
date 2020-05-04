@@ -6,6 +6,7 @@
 class Model : public torch::nn::Module {
 
     int inChannels, outChannels;
+    int nConv;
     std::vector<torch::nn::Conv1d> conv;
 
     // activation functions
