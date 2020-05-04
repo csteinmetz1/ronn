@@ -25,15 +25,6 @@ RonnAudioProcessor::RonnAudioProcessor()
                        )
 #endif
 {
-    // define the model itself
-    Model model(nInputs, 
-                nOutputs, 
-                nLayers, 
-                nChannels, 
-                kernelWidth, 
-                bias, 
-                act,
-                dilations);
 }
 
 RonnAudioProcessor::~RonnAudioProcessor()
@@ -105,8 +96,15 @@ void RonnAudioProcessor::changeProgramName (int index, const String& newName)
 //==============================================================================
 void RonnAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    // define the model itself
+    model = std::make_shared<Model>(nInputs, 
+                nOutputs, 
+                nLayers, 
+                nChannels, 
+                kernelWidth, 
+                bias, 
+                act,
+                dilations);
 }
 
 void RonnAudioProcessor::releaseResources()
@@ -145,6 +143,8 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+    torch::zeros({1,1,}); 
+
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -163,6 +163,11 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
+        auto input = torch::rand({1,1,buffer.getNumSamples()});
+        auto output = model->forward(input);
+        std::cout << output << std::endl;
+
+        //.item<float>() use this to convert back to float
 
         // ..do something to the data...
     }
