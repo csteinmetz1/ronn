@@ -39,11 +39,17 @@ Model::Model(int nInputs,
                 .bias(bias)));
         }
 
-        activation = act; // set the activation function
-        nConv = nLayers;
+        setInputs(nInputs);
+        setOutputs(nOutputs);
+        setLayers(nLayers);
+        setChannels(nChannels);
+        setKernelWidth(kernelWidth);
+        setBias(bias);
+        setActivation(activation);
+        setDilations(dilations);
 
         // now register each convolutional layer
-        for (auto i = 0; i < nConv; i++) {
+        for (auto i = 0; i < getLayers(); i++) {
             std::cout << "register" << i << std::endl;
             register_module("conv"+std::to_string(i), conv[i]);
         }
@@ -57,8 +63,8 @@ Model::Model(int nInputs,
 // the forward operation
 torch::Tensor Model::forward(torch::Tensor x) {
     // we iterate over the convolutions
-    for (auto i = 0; i < nConv; i++) {
-        if (i + 1 < nConv) {
+    for (auto i = 0; i < getLayers(); i++) {
+        if (i + 1 < getLayers()) {
             if (activation.compare("ReLU") == 0)
                 x = torch::relu(conv[i](x));
             else if (activation.compare("LeakyReLU") == 0)
@@ -90,7 +96,7 @@ torch::Tensor Model::forward(torch::Tensor x) {
 }
 
 void Model::init(std::string initType){
-    for (auto i = 0; i < nConv; i++) {
+    for (auto i = 0; i < getLayers(); i++) {
         if (initType.compare("normal"))
             torch::nn::init::normal_(conv[i]->weight);
         else if (initType.compare("uniform"))
@@ -104,4 +110,12 @@ void Model::init(std::string initType){
         else if (initType.compare("kamming_uniform"))
             torch::nn::init::kaiming_uniform_(conv[i]->weight);            
     }
+}
+
+int Model::getOutputSize(int frameSize){
+    int outputSize = frameSize;
+    for (auto i = 0; i < getLayers(); i++) {
+        outputSize = outputSize - ((getKernelWidth()-1) * getDilations()[i]);
+    }
+    return outputSize;
 }

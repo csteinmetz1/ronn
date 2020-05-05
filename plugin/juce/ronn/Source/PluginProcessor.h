@@ -68,7 +68,7 @@ private:
     int nChannels   = 8;
     int kernelWidth = 3;
     bool bias       = false;
-    std::string act = "Softshrink";
+    std::string act = "Softplus";
     float dilations [6] = {1,2,4,8,16,32};
     std::shared_ptr<Model> model;
 

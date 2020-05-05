@@ -25,6 +25,14 @@ RonnAudioProcessor::RonnAudioProcessor()
                        )
 #endif
 {
+    model = std::make_shared<Model>(nInputs, 
+            nOutputs, 
+            nLayers, 
+            nChannels, 
+            kernelWidth, 
+            bias, 
+            act,
+            dilations);
 }
 
 RonnAudioProcessor::~RonnAudioProcessor()
@@ -97,14 +105,8 @@ void RonnAudioProcessor::changeProgramName (int index, const String& newName)
 void RonnAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // define the model itself
-    model = std::make_shared<Model>(nInputs, 
-                nOutputs, 
-                nLayers, 
-                nChannels, 
-                kernelWidth, 
-                bias, 
-                act,
-                dilations);
+
+
 }
 
 void RonnAudioProcessor::releaseResources()
@@ -143,7 +145,16 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    torch::zeros({1,1,}); 
+    int outputSize, padSize, frameSize;
+    torch::Tensor input;
+    torch::Tensor output;
+
+    frameSize = buffer.getNumSamples();
+    outputSize = model->getOutputSize(frameSize);
+    padSize = frameSize - outputSize;
+    input = torch::rand({1,1,frameSize + padSize});
+
+    //input = torch::rand({1,1,44100});
 
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -163,9 +174,9 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-        auto input = torch::rand({1,1,buffer.getNumSamples()});
-        auto output = model->forward(input);
-        std::cout << output << std::endl;
+        output = model->forward(input);
+        //std::cout << output << std::endl;
+        buffer.copyFrom(0,0,&output.item<float>(),frameSize);
 
         //.item<float>() use this to convert back to float
 
