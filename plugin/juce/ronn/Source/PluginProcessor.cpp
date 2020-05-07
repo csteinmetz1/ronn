@@ -152,7 +152,6 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     frameSize = buffer.getNumSamples();
     outputSize = model->getOutputSize(frameSize);
     padSize = frameSize - outputSize;
-    input = torch::rand({1,1,frameSize + padSize});
 
     //input = torch::rand({1,1,44100});
 
@@ -173,14 +172,11 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     // interleaved by keeping the same state.
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        auto* channelData = buffer.getWritePointer (channel);
+        //auto* channelData = buffer.getWritePointer (channel);
+        input = torch::rand({1,1,frameSize + padSize});
         output = model->forward(input);
-        //std::cout << output << std::endl;
-        buffer.copyFrom(0,0,&output.item<float>(),frameSize);
-
-        //.item<float>() use this to convert back to float
-
-        // ..do something to the data...
+        auto outputData = output.data_ptr<float>();
+        buffer.copyFrom(channel,0,outputData,frameSize);
     }
 }
 

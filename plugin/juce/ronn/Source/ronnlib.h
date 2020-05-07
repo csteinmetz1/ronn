@@ -23,7 +23,7 @@ struct Model : public torch::nn::Module {
         void setLayers(int newLayers){layers = newLayers;};
         void setChannels(int newChannels){channels = newChannels;};
         void setKernelWidth(int newKernelWidth){kernelWidth = newKernelWidth;};
-        void setBias(bool newBias){bias = bias;};
+        void setBias(bool newBias){bias = newBias;};
         void setActivation(std::string newActivation){activation = newActivation;};
         void setDilations(float* newDilations){dilations = newDilations;};
 
