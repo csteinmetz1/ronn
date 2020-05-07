@@ -61,10 +61,12 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RonnAudioProcessor)
 
     //==============================================================================
+    AudioParameterInt* layers;
+
+    //==============================================================================
     // define the model config
     int nInputs     = 1;
     int nOutputs    = 1;
-    int nLayers     = 6;
     int nChannels   = 8;
     int kernelWidth = 3;
     bool bias       = false;
