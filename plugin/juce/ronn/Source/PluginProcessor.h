@@ -56,10 +56,6 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-private:
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RonnAudioProcessor)
-
     //==============================================================================
     AudioParameterInt* layers;
 
@@ -71,7 +67,11 @@ private:
     int kernelWidth = 3;
     bool bias       = false;
     std::string act = "Softplus";
-    float dilations [6] = {1,2,4,8,16,32};
+    std::vector<float> dilations {1,2,4,8,16,32,64,128,256,512,1024,2048};
     std::shared_ptr<Model> model;
+
+private:
+    //==============================================================================
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RonnAudioProcessor)
 
 };

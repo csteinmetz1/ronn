@@ -16,7 +16,8 @@
 //==============================================================================
 /**
 */
-class RonnAudioProcessorEditor  : public AudioProcessorEditor
+class RonnAudioProcessorEditor  : public AudioProcessorEditor,
+                                  private Slider::Listener 
 {
 public:
     RonnAudioProcessorEditor (RonnAudioProcessor&);
@@ -27,9 +28,13 @@ public:
     void resized() override;
 
 private:
+    void sliderValueChanged (Slider* slider) override;
+
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     RonnAudioProcessor& processor;
+
+    Slider layersSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RonnAudioProcessorEditor)
 };

@@ -13,51 +13,60 @@ Model::Model(int nInputs,
              int kernelWidth, 
              bool bias, 
              std::string act,
-             float* dilations) {
+             std::vector<float> cDilations) {
 
-        for (int i = 0; i < nLayers; i++) {
-            if (i == 0 && nLayers > 1) {
-                inChannels = nInputs;
-                outChannels = nChannels;
-            }
-            else if (i == 0) {
-                inChannels = nInputs;
-                outChannels = nOutputs; 
-            }
-            else if (i + 1 == nLayers) {
-                inChannels = nChannels;
-                outChannels = nOutputs;
-            }
-            else {
-                inChannels = nChannels;
-                outChannels = nChannels;
-            }
-            conv.push_back(torch::nn::Conv1d(
-                torch::nn::Conv1dOptions(inChannels,outChannels,kernelWidth)
-                .stride(1)
-                .dilation(dilations[i])
-                .bias(bias)));
-        }
+        inputs = nInputs;
+        outputs = nOutputs;
+        layers = nLayers;
+        channels = nChannels;
+        kernelWidth = kernelWidth;
+        bias = bias;
+        activation = act;
+        dilations = cDilations;
 
-        setInputs(nInputs);
-        setOutputs(nOutputs);
-        setLayers(nLayers);
-        setChannels(nChannels);
-        setKernelWidth(kernelWidth);
-        setBias(bias);
-        setActivation(activation);
-        setDilations(dilations);
-
-        // now register each convolutional layer
-        for (auto i = 0; i < getLayers(); i++) {
-            std::cout << "register" << i << std::endl;
-            register_module("conv"+std::to_string(i), conv[i]);
-        }
+        buildModel();
 
         // and setup the activation functions
         leakyrelu = torch::nn::LeakyReLU(
                         torch::nn::LeakyReLUOptions()
                         .negative_slope(0.2));
+}
+
+void Model::buildModel() {
+
+    // conv.clear(); // remove previous layers
+
+    //const float* convDilations = getDilations();
+
+    // construct the convolutional layers
+    for (int i = 0; i < getLayers(); i++) {
+        if (i == 0 && getLayers() > 1) {
+            inChannels = getInputs();
+            outChannels = getChannels();
+        }
+        else if (i == 0) {
+            inChannels = getInputs();
+            outChannels = getOutputs(); 
+        }
+        else if (i + 1 == getLayers()) {
+            inChannels = getChannels();
+            outChannels = getOutputs();
+        }
+        else {
+            inChannels = getChannels();
+            outChannels = getChannels();
+        }
+        conv.push_back(torch::nn::Conv1d(
+            torch::nn::Conv1dOptions(inChannels,outChannels,getKernelWidth())
+            .stride(1)
+            .dilation(1) //getDilations()[i]
+            .bias(getBias())));
+    }
+
+    // now register each convolutional layer
+    for (auto i = 0; i < getLayers(); i++) {
+        register_module("conv"+std::to_string(i), conv[i]);
+    }
 }
 
 // the forward operation
