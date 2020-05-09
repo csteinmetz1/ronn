@@ -10,8 +10,8 @@ Model::Model(int nInputs,
              int nOutputs, 
              int nLayers, 
              int nChannels, 
-             int kernelWidth, 
-             bool bias, 
+             int kWidth, 
+             bool useBias, 
              std::string act,
              std::vector<float> cDilations) {
 
@@ -19,8 +19,8 @@ Model::Model(int nInputs,
         outputs = nOutputs;
         layers = nLayers;
         channels = nChannels;
-        kernelWidth = kernelWidth;
-        bias = bias;
+        kernelWidth = kWidth;
+        bias = useBias;
         activation = act;
         dilations = cDilations;
 

@@ -34,8 +34,8 @@ RonnAudioProcessor::RonnAudioProcessor()
             nOutputs, 
             *layers, 
             nChannels, 
-            kernelWidth, 
-            bias, 
+            kWidth, 
+            useBias, 
             act,
             dilations);
 

@@ -10,8 +10,8 @@ struct Model : public torch::nn::Module {
               int nOutputs, 
               int nLayers, 
               int nChannels, 
-              int kernelWidth, 
-              bool bias, 
+              int kWidth, 
+              bool useBias, 
               std::string act,
               std::vector<float> dilations);
 

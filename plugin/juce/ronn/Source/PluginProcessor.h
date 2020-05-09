@@ -64,8 +64,8 @@ public:
     int nInputs     = 1;
     int nOutputs    = 1;
     int nChannels   = 8;
-    int kernelWidth = 3;
-    bool bias       = false;
+    int kWidth      = 3;
+    bool useBias    = false;
     std::string act = "Softplus";
     std::vector<float> dilations {1,2,4,8,16,32,64,128,256,512,1024,2048};
     std::shared_ptr<Model> model;
