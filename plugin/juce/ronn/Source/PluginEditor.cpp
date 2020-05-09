@@ -60,6 +60,10 @@ void RonnAudioProcessorEditor::resized()
 void RonnAudioProcessorEditor::sliderValueChanged (Slider* slider)
 {
     if (slider == &layersSlider) {
-        //processor.model->setLayers(layersSlider.getValue());
+        std::cout << layersSlider.getValue() << std::endl;
+        *processor.layers = layersSlider.getValue();
+        processor.buildModel();
+        std::cout << "rebuild model" << std::endl;
+
     }
 }

@@ -34,7 +34,7 @@ Model::Model(int nInputs,
 
 void Model::buildModel() {
 
-    // conv.clear(); // remove previous layers
+    int inChannels, outChannels;
 
     //const float* convDilations = getDilations();
 

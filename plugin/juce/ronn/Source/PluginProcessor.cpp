@@ -31,14 +31,13 @@ RonnAudioProcessor::RonnAudioProcessor()
 
     // neural network model
     model = std::make_shared<Model>(nInputs, 
-            nOutputs, 
-            *layers, 
-            nChannels, 
-            kWidth, 
-            useBias, 
-            act,
-            dilations);
-
+                                   nOutputs, 
+                                   *layers, 
+                                   nChannels, 
+                                   kWidth, 
+                                   useBias, 
+                                   act,
+                                   dilations);
 }
 
 RonnAudioProcessor::~RonnAudioProcessor()
@@ -200,6 +199,20 @@ void RonnAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
     if (xmlState.get() != nullptr)
         if (xmlState->hasTagName ("ronn"))
             *layers = xmlState->getIntAttribute ("layers", 6);
+}
+
+//==============================================================================
+
+void RonnAudioProcessor::buildModel() 
+{
+    model.reset(new Model(nInputs, 
+                                   nOutputs, 
+                                   *layers, 
+                                   nChannels, 
+                                   kWidth, 
+                                   useBias, 
+                                   act,
+                                   dilations));
 }
 
 //==============================================================================

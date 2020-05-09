@@ -20,14 +20,14 @@ struct Model : public torch::nn::Module {
         void buildModel();
         int getOutputSize(int frameSize);
 
-        void setBias(bool newBias){bias = newBias; buildModel();};
-        void setInputs(int newInputs){inputs = newInputs; buildModel();};
-        void setLayers(int newLayers){layers = newLayers; buildModel();};
-        void setOutputs(int newOutputs){outputs = newOutputs; buildModel();};
-        void setChannels(int newChannels){channels = newChannels; buildModel();};
+        void setBias(bool newBias){bias = newBias;};
+        void setInputs(int newInputs){inputs = newInputs;};
+        void setLayers(int newLayers){layers = newLayers;};
+        void setOutputs(int newOutputs){outputs = newOutputs;};
+        void setChannels(int newChannels){channels = newChannels;};
         void setActivation(std::string newActivation){activation = newActivation;};
-        void setDilations(std::vector<float> newDilations){dilations = newDilations; buildModel();};
-        void setKernelWidth(int newKernelWidth){kernelWidth = newKernelWidth; buildModel();};
+        void setDilations(std::vector<float> newDilations){dilations = newDilations;};
+        void setKernelWidth(int newKernelWidth){kernelWidth = newKernelWidth;};
 
         bool getBias(){return bias;};
         int getInputs(){return inputs;};
@@ -43,7 +43,6 @@ struct Model : public torch::nn::Module {
         bool bias;
         std::string activation;
         std::vector<float> dilations;
-        int inChannels, outChannels;
         std::vector<torch::nn::Conv1d> conv;      
         torch::nn::LeakyReLU leakyrelu;
 };

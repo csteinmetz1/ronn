@@ -60,6 +60,8 @@ public:
     AudioParameterInt* layers;
 
     //==============================================================================
+    void buildModel();
+    
     // define the model config
     int nInputs     = 1;
     int nOutputs    = 1;
