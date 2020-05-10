@@ -12,24 +12,24 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p)
+RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, AudioProcessorValueTreeState& vts)
+    : AudioProcessorEditor (&p), processor (p), valueTreeState (vts)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
 
-    // these define the parameters of our slider object
-    layersSlider.setSliderStyle (Slider::LinearBarVertical);
-    layersSlider.setRange(0, 12, 1);
-    layersSlider.setTextBoxStyle (Slider::NoTextBox, false, 90, 0);
-    layersSlider.setPopupDisplayEnabled (true, false, this);
-    layersSlider.setTextValueSuffix ("");
-    layersSlider.setValue(6);
-    layersSlider.addListener (this);
+    gainLabel.setText ("Gain", dontSendNotification);
+    addAndMakeVisible (gainLabel);
  
-    // this function adds the slider to the editor
-    addAndMakeVisible (&layersSlider);
+    addAndMakeVisible (gainSlider);
+    gainAttachment.reset (new SliderAttachment (valueTreeState, "gain", gainSlider));
+ 
+    invertButton.setButtonText ("Invert Phase");
+    addAndMakeVisible (invertButton);
+    invertAttachment.reset (new ButtonAttachment (valueTreeState, "invertPhase", invertButton));
+ 
+    setSize (paramSliderWidth + paramLabelWidth, jmax (100, paramControlHeight * 2));
 }
 
 RonnAudioProcessorEditor::~RonnAudioProcessorEditor()
@@ -54,16 +54,5 @@ void RonnAudioProcessorEditor::paint (Graphics& g)
 void RonnAudioProcessorEditor::resized()
 {
     // sets the position and size of the slider with arguments (x, y, width, height)
-    layersSlider.setBounds (40, 30, 20, getHeight() - 60);
 }
 
-void RonnAudioProcessorEditor::sliderValueChanged (Slider* slider)
-{
-    if (slider == &layersSlider) {
-        std::cout << layersSlider.getValue() << std::endl;
-        *processor.layers = layersSlider.getValue();
-        processor.buildModel();
-        std::cout << "rebuild model" << std::endl;
-
-    }
-}

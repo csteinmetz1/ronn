@@ -22,8 +22,19 @@ RonnAudioProcessor::RonnAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
 #endif
+    parameters (*this, nullptr, Identifier ("ronn"),
+                {
+                    std::make_unique<AudioParameterFloat> ("gain",            // parameter ID
+                                                           "Gain",            // parameter name
+                                                            0.0f,              // minimum value
+                                                            1.0f,              // maximum value
+                                                            0.5f),             // default value
+                    std::make_unique<AudioParameterBool> ("invertPhase",      // parameter ID
+                                                          "Invert Phase",     // parameter name
+                                                          false)              // default value
+                })
 {
 
     // parameters
@@ -187,8 +198,8 @@ AudioProcessorEditor* RonnAudioProcessor::createEditor()
 //==============================================================================
 void RonnAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    std::unique_ptr<XmlElement> xml (new XmlElement ("ronn"));
-    xml->setAttribute ("layers", (int) *layers);
+    auto state = parameters.copyState();
+    std::unique_ptr<XmlElement> xml (state.createXml());
     copyXmlToBinary (*xml, destData);
 }
 
@@ -197,8 +208,8 @@ void RonnAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
     std::unique_ptr<XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
  
     if (xmlState.get() != nullptr)
-        if (xmlState->hasTagName ("ronn"))
-            *layers = xmlState->getIntAttribute ("layers", 6);
+        if (xmlState->hasTagName (parameters.state.getType()))
+            parameters.replaceState (ValueTree::fromXml (*xmlState));
 }
 
 //==============================================================================

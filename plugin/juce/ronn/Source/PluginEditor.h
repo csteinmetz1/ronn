@@ -16,25 +16,32 @@
 //==============================================================================
 /**
 */
-class RonnAudioProcessorEditor  : public AudioProcessorEditor,
-                                  private Slider::Listener 
+class RonnAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
     RonnAudioProcessorEditor (RonnAudioProcessor&);
     ~RonnAudioProcessorEditor();
+
+    typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
+    typedef AudioProcessorValueTreeState::ButtonAttachment ButtonAttachment;
 
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
 
 private:
-    void sliderValueChanged (Slider* slider) override;
-
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     RonnAudioProcessor& processor;
 
-    Slider layersSlider;
+    AudioProcessorValueTreeState& valueTreeState;
+ 
+    Label gainLabel;
+    Slider gainSlider;
+    std::unique_ptr<SliderAttachment> gainAttachment;
+ 
+    ToggleButton invertButton; 
+    std::unique_ptr<ButtonAttachment> invertAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RonnAudioProcessorEditor)
 };

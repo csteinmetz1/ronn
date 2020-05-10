@@ -61,7 +61,7 @@ public:
 
     //==============================================================================
     void buildModel();
-    
+
     // define the model config
     int nInputs     = 1;
     int nOutputs    = 1;
@@ -75,5 +75,8 @@ public:
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RonnAudioProcessor)
+
+    //==============================================================================
+    AudioProcessorValueTreeState parameters;
 
 };
