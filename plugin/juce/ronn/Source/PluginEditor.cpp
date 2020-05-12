@@ -28,8 +28,6 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     invertButton.setButtonText ("Invert Phase");
     addAndMakeVisible (invertButton);
     invertAttachment.reset (new ButtonAttachment (valueTreeState, "invertPhase", invertButton));
- 
-    setSize (paramSliderWidth + paramLabelWidth, jmax (100, paramControlHeight * 2));
 }
 
 RonnAudioProcessorEditor::~RonnAudioProcessorEditor()

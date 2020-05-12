@@ -192,7 +192,7 @@ bool RonnAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* RonnAudioProcessor::createEditor()
 {
-    return new RonnAudioProcessorEditor (*this);
+    return new RonnAudioProcessorEditor (*this, parameters);
 }
 
 //==============================================================================

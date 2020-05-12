@@ -19,7 +19,7 @@
 class RonnAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
-    RonnAudioProcessorEditor (RonnAudioProcessor&);
+    RonnAudioProcessorEditor (RonnAudioProcessor&, AudioProcessorValueTreeState&);
     ~RonnAudioProcessorEditor();
 
     typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
