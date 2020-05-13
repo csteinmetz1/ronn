@@ -217,13 +217,13 @@ void RonnAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 void RonnAudioProcessor::buildModel() 
 {
     model.reset(new Model(nInputs, 
-                                   nOutputs, 
-                                   *layers, 
-                                   nChannels, 
-                                   kWidth, 
-                                   useBias, 
-                                   act,
-                                   dilations));
+                        nOutputs, 
+                        *layers, 
+                        nChannels, 
+                        kWidth, 
+                        useBias, 
+                        act,
+                        dilations));
 }
 
 //==============================================================================

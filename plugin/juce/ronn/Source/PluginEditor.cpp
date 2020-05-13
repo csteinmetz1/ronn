@@ -17,7 +17,6 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
 
     gainLabel.setText ("Gain", dontSendNotification);
     addAndMakeVisible (gainLabel);
@@ -28,6 +27,8 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     invertButton.setButtonText ("Invert Phase");
     addAndMakeVisible (invertButton);
     invertAttachment.reset (new ButtonAttachment (valueTreeState, "invertPhase", invertButton));
+
+    setSize (paramSliderWidth + paramLabelWidth, jmax (100, paramControlHeight * 2));
 }
 
 RonnAudioProcessorEditor::~RonnAudioProcessorEditor()
@@ -51,6 +52,12 @@ void RonnAudioProcessorEditor::paint (Graphics& g)
 
 void RonnAudioProcessorEditor::resized()
 {
-    // sets the position and size of the slider with arguments (x, y, width, height)
+    auto r = getLocalBounds();
+
+    auto gainRect = r.removeFromTop (paramControlHeight);
+    gainLabel .setBounds (gainRect.removeFromLeft (paramLabelWidth));
+    gainSlider.setBounds (gainRect);
+
+    invertButton.setBounds (r.removeFromTop (paramControlHeight));
 }
 

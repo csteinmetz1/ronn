@@ -19,6 +19,13 @@
 class RonnAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
+    enum
+    {
+        paramControlHeight = 40,
+        paramLabelWidth    = 80,
+        paramSliderWidth   = 300
+    };
+
     RonnAudioProcessorEditor (RonnAudioProcessor&, AudioProcessorValueTreeState&);
     ~RonnAudioProcessorEditor();
 
