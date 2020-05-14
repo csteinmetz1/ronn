@@ -61,6 +61,7 @@ public:
 
     //==============================================================================
     void buildModel();
+    bool modelChange = false;
 
     // define the model config
     int nInputs     = 1;
@@ -78,5 +79,9 @@ private:
 
     //==============================================================================
     AudioProcessorValueTreeState parameters;
+
+    std::atomic<float>* phaseParameter  = nullptr;
+    std::atomic<float>* gainParameter   = nullptr;
+    std::atomic<float>* layersParameter = nullptr;
 
 };

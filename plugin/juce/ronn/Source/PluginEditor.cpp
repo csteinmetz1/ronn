@@ -19,14 +19,19 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     // editor's size to whatever you need it to be.
 
     gainLabel.setText ("Gain", dontSendNotification);
-    addAndMakeVisible (gainLabel);
- 
-    addAndMakeVisible (gainSlider);
-    gainAttachment.reset (new SliderAttachment (valueTreeState, "gain", gainSlider));
- 
     invertButton.setButtonText ("Invert Phase");
+
+    addAndMakeVisible (gainLabel);
+    addAndMakeVisible (gainSlider);
+    addAndMakeVisible (layersSlider);
     addAndMakeVisible (invertButton);
+
+    gainAttachment.reset   (new SliderAttachment (valueTreeState, "gain", gainSlider));
+    layersAttachment.reset (new SliderAttachment (valueTreeState, "layers", layersSlider));
     invertAttachment.reset (new ButtonAttachment (valueTreeState, "invertPhase", invertButton));
+
+    // callbacks
+    layersSlider.onValueChange = [this] { processor.modelChange = true; };
 
     setSize (paramSliderWidth + paramLabelWidth, jmax (100, paramControlHeight * 2));
 }
@@ -56,7 +61,7 @@ void RonnAudioProcessorEditor::resized()
 
     auto gainRect = r.removeFromTop (paramControlHeight);
     gainLabel .setBounds (gainRect.removeFromLeft (paramLabelWidth));
-    gainSlider.setBounds (gainRect);
+    layersSlider.setBounds (gainRect);
 
     invertButton.setBounds (r.removeFromTop (paramControlHeight));
 }

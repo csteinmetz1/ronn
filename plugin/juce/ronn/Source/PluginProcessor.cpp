@@ -25,25 +25,21 @@ RonnAudioProcessor::RonnAudioProcessor()
                        ),
 #endif
     parameters (*this, nullptr, Identifier ("ronn"),
-                {
-                    std::make_unique<AudioParameterFloat> ("gain",            // parameter ID
-                                                           "Gain",            // parameter name
-                                                            0.0f,              // minimum value
-                                                            1.0f,              // maximum value
-                                                            0.5f),             // default value
-                    std::make_unique<AudioParameterBool> ("invertPhase",      // parameter ID
-                                                          "Invert Phase",     // parameter name
-                                                          false)              // default value
-                })
+    {
+        std::make_unique<AudioParameterFloat> ("gain", "Gain", 0.0f, 1.0f, 0.5f),
+        std::make_unique<AudioParameterBool>  ("invertPhase", "Invert Phase", false),
+        std::make_unique<AudioParameterInt>   ("layers", "Layers", 1, 12, 6)     
+    })
 {
 
-    // parameters
-    addParameter (layers = new AudioParameterInt("layers", "Layers", 1, 12, 6));
+    phaseParameter  = parameters.getRawParameterValue ("invertPhase");
+    gainParameter   = parameters.getRawParameterValue ("gain");
+    layersParameter = parameters.getRawParameterValue ("layers");
 
     // neural network model
     model = std::make_shared<Model>(nInputs, 
                                    nOutputs, 
-                                   *layers, 
+                                   *layersParameter, 
                                    nChannels, 
                                    kWidth, 
                                    useBias, 
@@ -161,6 +157,12 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+    if (modelChange == true) {
+        buildModel();
+        std::cout << "rebuild model" << std::endl;
+        modelChange = false;
+    }
+
     int outputSize, padSize, frameSize;
     torch::Tensor input;
     torch::Tensor output;
@@ -218,7 +220,7 @@ void RonnAudioProcessor::buildModel()
 {
     model.reset(new Model(nInputs, 
                         nOutputs, 
-                        *layers, 
+                        *layersParameter, 
                         nChannels, 
                         kWidth, 
                         useBias, 

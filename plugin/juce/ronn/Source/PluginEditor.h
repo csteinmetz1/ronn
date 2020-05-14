@@ -46,6 +46,9 @@ private:
     Label gainLabel;
     Slider gainSlider;
     std::unique_ptr<SliderAttachment> gainAttachment;
+
+    Slider layersSlider;
+    std::unique_ptr<SliderAttachment> layersAttachment;
  
     ToggleButton invertButton; 
     std::unique_ptr<ButtonAttachment> invertAttachment;
