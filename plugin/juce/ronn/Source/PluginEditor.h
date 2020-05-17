@@ -31,6 +31,8 @@ public:
 
     typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
     typedef AudioProcessorValueTreeState::ButtonAttachment ButtonAttachment;
+    typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
+
 
     //==============================================================================
     void paint (Graphics&) override;
@@ -40,18 +42,16 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     RonnAudioProcessor& processor;
-
     AudioProcessorValueTreeState& valueTreeState;
- 
-    Label gainLabel;
-    Slider gainSlider;
-    std::unique_ptr<SliderAttachment> gainAttachment;
 
-    Slider layersSlider;
-    std::unique_ptr<SliderAttachment> layersAttachment;
+    Slider layersSlider, kernelSlider, channelsSlider;
+    std::unique_ptr<SliderAttachment> layersAttachment, kernelAttachment, channelsAttachment;
  
-    ToggleButton invertButton; 
-    std::unique_ptr<ButtonAttachment> invertAttachment;
+    ToggleButton useBiasButton; 
+    std::unique_ptr<ButtonAttachment> useBiasAttachment;
+
+    ComboBox dilationsComboBox, activationsComboBox;
+    std::unique_ptr<ComboBoxAttachment> dilationsAttachment, activationsAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RonnAudioProcessorEditor)
 };

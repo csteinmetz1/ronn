@@ -6,13 +6,16 @@
 struct Model : public torch::nn::Module {
 
     public:
+
+        enum Activation {LeakyReLU, Tanh, Sigmoid, ReLU, ELU, SELU, GELU, RReLU, Softplus, Softshrink};
+
         Model(int nInputs, 
               int nOutputs, 
               int nLayers, 
               int nChannels, 
               int kWidth, 
               bool useBias, 
-              std::string act,
+              Activation act,
               std::vector<float> dilations);
 
         torch::Tensor forward(torch::Tensor);
@@ -25,7 +28,7 @@ struct Model : public torch::nn::Module {
         void setLayers(int newLayers){layers = newLayers;};
         void setOutputs(int newOutputs){outputs = newOutputs;};
         void setChannels(int newChannels){channels = newChannels;};
-        void setActivation(std::string newActivation){activation = newActivation;};
+        void setActivation(Activation newActivation){activation = newActivation;};
         void setDilations(std::vector<float> newDilations){dilations = newDilations;};
         void setKernelWidth(int newKernelWidth){kernelWidth = newKernelWidth;};
 
@@ -36,12 +39,12 @@ struct Model : public torch::nn::Module {
         int getChannels(){return channels;};
         int getKernelWidth(){return kernelWidth;};
         std::vector<float> getDilations(){return dilations;};
-        std::string getActivation(){return activation;};
+        Activation getActivation(){return activation;};
 
     private:
         int inputs, outputs, layers, channels, kernelWidth;
         bool bias;
-        std::string activation;
+        Activation activation;
         std::vector<float> dilations;
         std::vector<torch::nn::Conv1d> conv;      
         torch::nn::LeakyReLU leakyrelu;

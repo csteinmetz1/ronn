@@ -12,7 +12,7 @@ Model::Model(int nInputs,
              int nChannels, 
              int kWidth, 
              bool useBias, 
-             std::string act,
+             Activation act,
              std::vector<float> cDilations) {
 
         inputs = nInputs;
@@ -74,32 +74,22 @@ torch::Tensor Model::forward(torch::Tensor x) {
     // we iterate over the convolutions
     for (auto i = 0; i < getLayers(); i++) {
         if (i + 1 < getLayers()) {
-            if (activation.compare("ReLU") == 0)
-                x = torch::relu(conv[i](x));
-            else if (activation.compare("LeakyReLU") == 0)
-                x = leakyrelu(conv[i](x));
-            else if (activation.compare("Tanh") == 0)
-                x = torch::tanh(conv[i](x));
-            else if (activation.compare("Sigmoid") == 0)
-                x = torch::sigmoid(conv[i](x));
-            else if (activation.compare("ELU") == 0)
-                x = torch::elu(conv[i](x));
-            else if (activation.compare("SELU") == 0)
-                x = torch::selu(conv[i](x));
-            else if (activation.compare("GELU") == 0)
-                x = torch::gelu(conv[i](x));
-            else if (activation.compare("RReLU") == 0)
-                x = torch::rrelu(conv[i](x));
-            else if (activation.compare("Softplus") == 0)
-                x = torch::softplus(conv[i](x));
-            else if (activation.compare("Softshrink") == 0)
-                x = torch::softshrink(conv[i](x));
-            else
-                x = conv[i](x);
+            switch (getActivation()) {
+                case LeakyReLU:     x = leakyrelu         (conv[i](x)); break;
+                case Tanh:          x = torch::tanh       (conv[i](x)); break;
+                case Sigmoid:       x = torch::sigmoid    (conv[i](x)); break;
+                case ReLU:          x = torch::relu       (conv[i](x)); break;
+                case ELU:           x = torch::elu        (conv[i](x)); break;
+                case SELU:          x = torch::selu       (conv[i](x)); break;
+                case GELU:          x = torch::gelu       (conv[i](x)); break;
+                case RReLU:         x = torch::rrelu      (conv[i](x)); break;
+                case Softplus:      x = torch::softplus   (conv[i](x)); break;
+                case Softshrink:    x = torch::softshrink (conv[i](x)); break;
+                default:            x =                   (conv[i](x)); break;
+            }
         }
-        else {
+        else
             x = conv[i](x);
-        }
     }
     return x;
 }

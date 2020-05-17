@@ -26,29 +26,32 @@ RonnAudioProcessor::RonnAudioProcessor()
 #endif
     parameters (*this, nullptr, Identifier ("ronn"),
     {
-        std::make_unique<AudioParameterFloat> ("gain", "Gain", 0.0f, 1.0f, 0.5f),
-        std::make_unique<AudioParameterBool>  ("invertPhase", "Invert Phase", false),
-        std::make_unique<AudioParameterInt>   ("layers", "Layers", 1, 12, 6)     
+        std::make_unique<AudioParameterInt>   ("layers", "Layers", 1, 12, 6),
+        std::make_unique<AudioParameterInt>   ("kernel", "Kernel Width", 1, 32, 3),
+        std::make_unique<AudioParameterInt>   ("channels", "Channels", 1, 64, 8),
+        std::make_unique<AudioParameterBool>  ("useBias", "Use Bias", false),
     })
 {
 
-    phaseParameter  = parameters.getRawParameterValue ("invertPhase");
-    gainParameter   = parameters.getRawParameterValue ("gain");
-    layersParameter = parameters.getRawParameterValue ("layers");
+    layersParameter   = parameters.getRawParameterValue ("layers");
+    kernelParameter   = parameters.getRawParameterValue ("kernel");
+    channelsParameter = parameters.getRawParameterValue ("channels");
+    useBiasParameter  = parameters.getRawParameterValue ("useBias");
 
     // neural network model
     model = std::make_shared<Model>(nInputs, 
                                    nOutputs, 
                                    *layersParameter, 
-                                   nChannels, 
-                                   kWidth, 
-                                   useBias, 
+                                   *channelsParameter, 
+                                   *kernelParameter, 
+                                   *useBiasParameter, 
                                    act,
                                    dilations);
 }
 
 RonnAudioProcessor::~RonnAudioProcessor()
 {
+    // we may need to delete the model here
 }
 
 //==============================================================================
@@ -221,9 +224,9 @@ void RonnAudioProcessor::buildModel()
     model.reset(new Model(nInputs, 
                         nOutputs, 
                         *layersParameter, 
-                        nChannels, 
-                        kWidth, 
-                        useBias, 
+                        *channelsParameter, 
+                        *kernelParameter, 
+                        *useBiasParameter, 
                         act,
                         dilations));
 }

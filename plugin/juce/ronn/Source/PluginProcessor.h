@@ -69,7 +69,7 @@ public:
     int nChannels   = 8;
     int kWidth      = 3;
     bool useBias    = false;
-    std::string act = "ReLU";
+    Model::Activation act = Model::Activation::ReLU;
     std::vector<float> dilations {1,2,4,8,16,32,64,128,256,512,1024,2048};
     std::shared_ptr<Model> model;
 
@@ -84,6 +84,9 @@ private:
     std::atomic<float>* gainParameter     = nullptr;
     std::atomic<float>* layersParameter   = nullptr;
     std::atomic<float>* channelsParameter = nullptr;
+    std::atomic<float>* kernelParameter   = nullptr;
+    std::atomic<float>* useBiasParameter  = nullptr;
+    std::atomic<Model::Activation>* actParameter = nullptr;
 
 
 };
