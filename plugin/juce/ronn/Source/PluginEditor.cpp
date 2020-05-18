@@ -57,12 +57,18 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     getLookAndFeel().setColour (Slider::backgroundColourId, Colours::lightgrey);    
     getLookAndFeel().setColour (Slider::textBoxBackgroundColourId, Colours::white);
     getLookAndFeel().setColour (Slider::textBoxTextColourId, Colours::darkgrey);
+    getLookAndFeel().setColour (Slider::textBoxHighlightColourId, Colours::darkgrey);
     getLookAndFeel().setColour (Slider::textBoxOutlineColourId, Colours::darkgrey);
 
     getLookAndFeel().setColour (ComboBox::backgroundColourId, Colours::white);
     getLookAndFeel().setColour (ComboBox::textColourId, Colours::darkgrey);
     getLookAndFeel().setColour (ComboBox::outlineColourId, Colours::darkgrey);
     getLookAndFeel().setColour (ComboBox::arrowColourId, Colours::darkgrey);
+
+    getLookAndFeel().setColour (PopupMenu::backgroundColourId, Colours::white);
+    getLookAndFeel().setColour (PopupMenu::textColourId, Colours::darkgrey);
+    getLookAndFeel().setColour (PopupMenu::highlightedBackgroundColourId, Colours::lightgrey);
+    getLookAndFeel().setColour (PopupMenu::highlightedTextColourId, Colours::darkgrey);
 
     setSize (800, 280);
 }
@@ -81,7 +87,7 @@ void RonnAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::black);
  
     // set the font size and draw text to the screen
-    g.setFont (15.0f);
+    //g.setFont (15.0f);
  
     //g.drawFittedText ("ronn", 0, 0, getWidth(), 30, Justification::centred, 1);
 }
