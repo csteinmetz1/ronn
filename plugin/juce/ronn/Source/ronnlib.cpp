@@ -96,18 +96,15 @@ torch::Tensor Model::forward(torch::Tensor x) {
 
 void Model::init(std::string initType){
     for (auto i = 0; i < getLayers(); i++) {
-        if (initType.compare("normal"))
-            torch::nn::init::normal_(conv[i]->weight);
-        else if (initType.compare("uniform"))
-            torch::nn::init::normal_(conv[i]->weight, -0.25, 0.25);
-        else if (initType.compare("xavier_normal"))
-            torch::nn::init::xavier_normal_(conv[i]->weight);
-        else if (initType.compare("xavier_uniform"))
-            torch::nn::init::xavier_uniform_(conv[i]->weight);
-        else if (initType.compare("kaiming_normal"))
-            torch::nn::init::kaiming_normal_(conv[i]->weight);
-        else if (initType.compare("kamming_uniform"))
-            torch::nn::init::kaiming_uniform_(conv[i]->weight);            
+        switch(getInitType())
+        {
+            case normal:            torch::nn::init::normal_            (conv[i]->weight);
+            case uniform:           torch::nn::init::uniform_           (conv[i]->weight, -0.25, 0.25);
+            case xavier_normal:     torch::nn::init::xavier_normal_     (conv[i]->weight);
+            case xavier_uniform:    torch::nn::init::xavier_uniform_    (conv[i]->weight);
+            case kaiming_normal:    torch::nn::init::kaiming_normal_    (conv[i]->weight);
+            case kamming_uniform:   torch::nn::init::kaiming_uniform_   (conv[i]->weight);
+        }
     }
 }
 

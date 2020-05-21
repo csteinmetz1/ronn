@@ -8,6 +8,7 @@ struct Model : public torch::nn::Module {
     public:
 
         enum Activation {LeakyReLU, Tanh, Sigmoid, ReLU, ELU, SELU, GELU, RReLU, Softplus, Softshrink};
+        enum InitType   {normal, uniform, xavier_normal, xavier_uniform, kaiming_normal, kamming_uniform};
 
         Model(int nInputs, 
               int nOutputs, 
@@ -29,6 +30,7 @@ struct Model : public torch::nn::Module {
         void setOutputs(int newOutputs){outputs = newOutputs;};
         void setChannels(int newChannels){channels = newChannels;};
         void setActivation(Activation newActivation){activation = newActivation;};
+        void setInitType(InitType newInitType){initType = newInitType;};
         void setDilations(std::vector<float> newDilations){dilations = newDilations;};
         void setKernelWidth(int newKernelWidth){kernelWidth = newKernelWidth;};
 
@@ -40,11 +42,13 @@ struct Model : public torch::nn::Module {
         int getKernelWidth(){return kernelWidth;};
         std::vector<float> getDilations(){return dilations;};
         Activation getActivation(){return activation;};
+        InitType getInitType(){return initType;}
 
     private:
         int inputs, outputs, layers, channels, kernelWidth;
         bool bias;
         Activation activation;
+        InitType initType;
         std::vector<float> dilations;
         std::vector<torch::nn::Conv1d> conv;      
         torch::nn::LeakyReLU leakyrelu;

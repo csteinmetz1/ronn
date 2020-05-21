@@ -70,6 +70,7 @@ public:
     int kWidth      = 3;
     bool useBias    = false;
     Model::Activation act = Model::Activation::ReLU;
+    Model::InitType initType = Model::InitType::normal;
     std::vector<float> dilations {1,2,4,8,16,32,64,128,256,512,1024,2048};
     std::shared_ptr<Model> model;
 
@@ -87,6 +88,5 @@ private:
     std::atomic<float>* kernelParameter   = nullptr;
     std::atomic<float>* useBiasParameter  = nullptr;
     std::atomic<Model::Activation>* actParameter = nullptr;
-
 
 };
