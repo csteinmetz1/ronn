@@ -83,11 +83,20 @@ void RonnAudioProcessorEditor::paint (Graphics& g)
     // fill the whole window white
     g.fillAll (Colours::white);
 
-    // set the current drawing colour to black
-    g.setColour (Colours::black);
- 
     // set the font size and draw text to the screen
-    //g.setFont (15.0f);
+    g.setFont (15.0f);
+
+    // fill the right panel with grey
+    {
+      int x = 600, y = 0, width = 300, height = 280;
+      String text (TRANS("ronn"));
+      Colour fillColour = Colour (0xffececec);
+      g.setColour (fillColour);
+      g.fillRect (x, y, width, height);
+      g.setFont (Font ("Source Sans Variable", 24.10f, Font::plain).withTypefaceStyle ("Light").withExtraKerningFactor (0.147f));
+      g.setColour (Colours::grey);
+      g.drawText (text, 600 + 100, 24, width, height, Justification::centred, true);
+    }
  
     //g.drawFittedText ("ronn", 0, 0, getWidth(), 30, Justification::centred, 1);
 }
@@ -98,11 +107,17 @@ void RonnAudioProcessorEditor::resized()
 
     auto marginTop          = 32;
     auto contentPadding     = 12;
+    auto sectionPadding     = 18;
     auto contentItemHeight  = 24;
     auto scopeWidth         = 280;
+    auto sidePanelWidth     = 200;
 
     area.removeFromTop(marginTop);
-    area.removeFromRight(scopeWidth);
+
+    area.removeFromLeft(scopeWidth);
+    area.removeFromLeft(sectionPadding);
+    area.removeFromRight(sidePanelWidth);
+    area.removeFromRight(sectionPadding);
 
     layersSlider.setBounds        (area.removeFromTop (contentItemHeight));
     area.removeFromTop(contentPadding);
