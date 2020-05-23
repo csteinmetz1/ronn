@@ -65,7 +65,7 @@ public:
 
     // define the model config
     int nInputs     = 1;
-    int nOutputs    = 1;
+    int nOutputs    = 2;
     int nChannels   = 8;
     int kWidth      = 3;
     bool useBias    = false;

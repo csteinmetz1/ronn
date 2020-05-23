@@ -161,8 +161,8 @@ bool RonnAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) con
 void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
+    auto inChannels  = getTotalNumInputChannels();
+    auto outChannels = getTotalNumOutputChannels();
 
     if (modelChange == true) {
         buildModel();
@@ -171,29 +171,49 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     }
 
     int outputSize, padSize, frameSize;
-    torch::Tensor input;
-    torch::Tensor output;
 
     frameSize = buffer.getNumSamples();
     outputSize = model->getOutputSize(frameSize);
     padSize = frameSize - outputSize;
 
     // clear
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+    //for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+    //    buffer.clear (i, 0, buffer.getNumSamples());
 
-    // process the audio
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        //auto* channelData = buffer.getWritePointer (channel);
+    auto* channelData = buffer.getWritePointer(0);
 
-        input = torch::rand({1,1,frameSize + padSize});     // generate a dummy input 
-        input = torch::mul(input, inputGainParameter->load());      // apply input gain 
-        output = model->forward(input);                     // process audio through network
-        output = torch::mul(output, outputGainParameter->load());  // apply the output gain
-        auto outputData = output.data_ptr<float>();         // get pointer to the output data
-        buffer.copyFrom(channel,0,outputData,frameSize);    // copy output data to buffer
-     }
+    std::vector<int64_t> sizes = {frameSize};
+    at::Tensor tensorFrame = torch::from_blob(channelData, sizes);
+    tensorFrame = torch::mul(tensorFrame, inputGainParameter->load());
+
+    //std::cout << tensorFrame << std::endl;
+    //tensorFrame = tensorFrame.toType(at::kFloat);
+    tensorFrame = torch::reshape(tensorFrame, {1,1,frameSize});
+    //std::vector<int64_t> pad = {0, padSize}; // pad last dim by 1 on one side
+    auto paddedFrame =  torch::nn::ConstantPad1d(
+                            torch::nn::ConstantPad1dOptions
+                            ({padSize, 0}, 0.0))
+                            (tensorFrame);
+
+    //std::cout << paddedFrame << std::endl;
+
+    auto outputFrame = model->forward(paddedFrame);                      // process audio through network
+
+    // now load the output channels back into the buffer
+    for (int channel = 0; channel < outChannels; ++channel) {
+        auto outputData = outputFrame.index({0,channel,torch::indexing::Slice()});   // index the proper output channel
+        auto outputDataPtr = outputData.data_ptr<float>();      // get pointer to the output data
+        buffer.copyFrom(channel,0,outputDataPtr,frameSize);        // copy output data to buffer
+    }
+
+    //for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    //{
+    //    input = torch::mul(input, inputGainParameter->load());      // apply input gain 
+    //    auto output = model->forward(paddedFrame);                     
+    //    output = torch::mul(output, outputGainParameter->load());  // apply the output gain
+    //    auto outputData = output.data_ptr<float>();         
+    //    buffer.copyFrom(channel,0,outputData,frameSize);    // copy output data to buffer
+    // }
 }
 
 //==============================================================================

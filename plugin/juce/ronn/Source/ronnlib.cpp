@@ -59,7 +59,7 @@ void Model::buildModel() {
         conv.push_back(torch::nn::Conv1d(
             torch::nn::Conv1dOptions(inChannels,outChannels,getKernelWidth())
             .stride(1)
-            .dilation(1) //getDilations()[i]
+            .dilation(getDilations()[i])
             .bias(getBias())));
     }
 
