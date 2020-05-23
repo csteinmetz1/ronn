@@ -48,6 +48,7 @@ private:
     //==============================================================================
 
     Slider layersSlider, kernelSlider, channelsSlider;
+    Label layersLabel, kernelLabel, channelsLabel;
     std::unique_ptr<SliderAttachment> layersAttachment, kernelAttachment, channelsAttachment;
  
     ToggleButton useBiasButton; 
@@ -55,6 +56,7 @@ private:
 
     ComboBox dilationsComboBox, activationsComboBox;
     std::unique_ptr<ComboBoxAttachment> dilationsAttachment, activationsAttachment;
+
 
     // Side panel controls
     //==============================================================================

@@ -15,6 +15,29 @@
 RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, AudioProcessorValueTreeState& vts)
     : AudioProcessorEditor (&p), processor (p), valueTreeState (vts)
 {
+
+    getLookAndFeel().setColour (Slider::thumbColourId, Colours::grey);
+    getLookAndFeel().setColour (Slider::trackColourId, Colours::lightgrey);
+    getLookAndFeel().setColour (Slider::backgroundColourId, Colours::lightgrey);    
+    getLookAndFeel().setColour (Slider::textBoxBackgroundColourId, Colours::white);
+    getLookAndFeel().setColour (Slider::textBoxTextColourId, Colours::darkgrey);
+    getLookAndFeel().setColour (Slider::textBoxHighlightColourId, Colours::darkgrey);
+    getLookAndFeel().setColour (Slider::textBoxOutlineColourId, Colours::white);
+    getLookAndFeel().setColour (Slider::rotarySliderFillColourId, Colours::lightgrey);
+    getLookAndFeel().setColour (Slider::rotarySliderOutlineColourId, Colours::lightgrey);
+
+    getLookAndFeel().setColour (ComboBox::backgroundColourId, Colours::white);
+    getLookAndFeel().setColour (ComboBox::textColourId, Colours::darkgrey);
+    getLookAndFeel().setColour (ComboBox::outlineColourId, Colours::white);
+    getLookAndFeel().setColour (ComboBox::arrowColourId, Colours::darkgrey);
+
+    getLookAndFeel().setColour (Label::textColourId, Colours::darkgrey);
+
+    getLookAndFeel().setColour (PopupMenu::backgroundColourId, Colours::white);
+    getLookAndFeel().setColour (PopupMenu::textColourId, Colours::darkgrey);
+    getLookAndFeel().setColour (PopupMenu::highlightedBackgroundColourId, Colours::lightgrey);
+    getLookAndFeel().setColour (PopupMenu::highlightedTextColourId, Colours::darkgrey);
+
     useBiasButton.setButtonText ("Bias");
 
     inputGainSlider.setSliderStyle (Slider::Rotary);
@@ -22,10 +45,9 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     outputGainSlider.setSliderStyle (Slider::Rotary);
     outputGainSlider.setTextBoxStyle (Slider::NoTextBox, false, 0, 0);
 
-    layersSlider.setTextBoxStyle (Slider::TextBoxLeft, false, 30, 24);
-    kernelSlider.setTextBoxStyle (Slider::TextBoxLeft, false, 30, 24);
-    channelsSlider.setTextBoxStyle (Slider::TextBoxLeft, false, 30, 24);
-
+    layersSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);
+    kernelSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);
+    channelsSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);
 
     addAndMakeVisible (layersSlider);
     addAndMakeVisible (kernelSlider);
@@ -35,6 +57,17 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     addAndMakeVisible (dilationsComboBox);
     addAndMakeVisible (activationsComboBox);
     addAndMakeVisible (useBiasButton);
+
+    // attach labels
+    addAndMakeVisible (layersLabel);
+    layersLabel.setText ("layers", dontSendNotification);
+    layersLabel.attachToComponent (&layersSlider, true); 
+    addAndMakeVisible (kernelLabel);
+    kernelLabel.setText ("kernel", dontSendNotification);
+    kernelLabel.attachToComponent (&kernelSlider, true); 
+    addAndMakeVisible (channelsLabel);
+    channelsLabel.setText ("channels", dontSendNotification);
+    channelsLabel.attachToComponent (&channelsSlider, true); 
 
     // add options to comboboxes
     dilationsComboBox.addItem ("Plain", 1);
@@ -67,26 +100,6 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     activationsComboBox.onChange = [this] { processor.modelChange = true; };
     useBiasButton.onStateChange  = [this] { processor.modelChange = true; };
 
-    getLookAndFeel().setColour (Slider::thumbColourId, Colours::grey);
-    getLookAndFeel().setColour (Slider::trackColourId, Colours::lightgrey);
-    getLookAndFeel().setColour (Slider::backgroundColourId, Colours::lightgrey);    
-    getLookAndFeel().setColour (Slider::textBoxBackgroundColourId, Colours::white);
-    getLookAndFeel().setColour (Slider::textBoxTextColourId, Colours::darkgrey);
-    getLookAndFeel().setColour (Slider::textBoxHighlightColourId, Colours::darkgrey);
-    getLookAndFeel().setColour (Slider::textBoxOutlineColourId, Colours::white);
-    getLookAndFeel().setColour (Slider::rotarySliderFillColourId, Colours::lightgrey);
-    getLookAndFeel().setColour (Slider::rotarySliderOutlineColourId, Colours::lightgrey);
-
-    getLookAndFeel().setColour (ComboBox::backgroundColourId, Colours::white);
-    getLookAndFeel().setColour (ComboBox::textColourId, Colours::darkgrey);
-    getLookAndFeel().setColour (ComboBox::outlineColourId, Colours::darkgrey);
-    getLookAndFeel().setColour (ComboBox::arrowColourId, Colours::darkgrey);
-
-    getLookAndFeel().setColour (PopupMenu::backgroundColourId, Colours::white);
-    getLookAndFeel().setColour (PopupMenu::textColourId, Colours::darkgrey);
-    getLookAndFeel().setColour (PopupMenu::highlightedBackgroundColourId, Colours::lightgrey);
-    getLookAndFeel().setColour (PopupMenu::highlightedTextColourId, Colours::darkgrey);
-
     setSize (800, 280);
 }
 
@@ -114,8 +127,8 @@ void RonnAudioProcessorEditor::paint (Graphics& g)
       g.setFont (Font ("Source Sans Variable", 32.0f, Font::plain).withTypefaceStyle ("Light")); //.withExtraKerningFactor (0.147f));
       g.drawText ("ronn", 550, 0, width, 70, Justification::centred, true);
       g.setFont (Font ("Source Sans Variable", 10.0f, Font::plain).withTypefaceStyle ("Light")); //.withExtraKerningFactor (0.147f));
-      g.drawText ("randomised overdrive", 550, 0, width, 100, Justification::centred, true);
-      g.drawText ("neural network", 550, 0, width, 115, Justification::centred, true);
+      g.drawText ("randomised overdrive", 550, 0, width, 105, Justification::centred, true);
+      g.drawText ("neural network", 550, 0, width, 120, Justification::centred, true);
 
     }
 }
