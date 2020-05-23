@@ -44,6 +44,9 @@ private:
     RonnAudioProcessor& processor;
     AudioProcessorValueTreeState& valueTreeState;
 
+    // Main panel controls
+    //==============================================================================
+
     Slider layersSlider, kernelSlider, channelsSlider;
     std::unique_ptr<SliderAttachment> layersAttachment, kernelAttachment, channelsAttachment;
  
@@ -52,6 +55,11 @@ private:
 
     ComboBox dilationsComboBox, activationsComboBox;
     std::unique_ptr<ComboBoxAttachment> dilationsAttachment, activationsAttachment;
+
+    // Side panel controls
+    //==============================================================================
+    Slider inputGainSlider, outputGainSlider;
+    std::unique_ptr<SliderAttachment> inputGainAttachment, outputGainAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RonnAudioProcessorEditor)
 };

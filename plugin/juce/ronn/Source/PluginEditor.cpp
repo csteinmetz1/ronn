@@ -17,9 +17,21 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
 {
     useBiasButton.setButtonText ("Bias");
 
+    inputGainSlider.setSliderStyle (Slider::Rotary);
+    inputGainSlider.setTextBoxStyle (Slider::NoTextBox, false, 0, 0);
+    outputGainSlider.setSliderStyle (Slider::Rotary);
+    outputGainSlider.setTextBoxStyle (Slider::NoTextBox, false, 0, 0);
+
+    layersSlider.setTextBoxStyle (Slider::TextBoxLeft, false, 30, 24);
+    kernelSlider.setTextBoxStyle (Slider::TextBoxLeft, false, 30, 24);
+    channelsSlider.setTextBoxStyle (Slider::TextBoxLeft, false, 30, 24);
+
+
     addAndMakeVisible (layersSlider);
     addAndMakeVisible (kernelSlider);
     addAndMakeVisible (channelsSlider);
+    addAndMakeVisible (inputGainSlider);
+    addAndMakeVisible (outputGainSlider);
     addAndMakeVisible (dilationsComboBox);
     addAndMakeVisible (activationsComboBox);
     addAndMakeVisible (useBiasButton);
@@ -40,6 +52,9 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     layersAttachment.reset      (new SliderAttachment   (valueTreeState, "layers", layersSlider));
     kernelAttachment.reset      (new SliderAttachment   (valueTreeState, "kernel", kernelSlider));
     channelsAttachment.reset    (new SliderAttachment   (valueTreeState, "channels", channelsSlider));
+    inputGainAttachment.reset   (new SliderAttachment   (valueTreeState, "inputGain", inputGainSlider));
+    outputGainAttachment.reset  (new SliderAttachment   (valueTreeState, "outputGain", outputGainSlider));
+
     dilationsAttachment.reset   (new ComboBoxAttachment (valueTreeState, "dilations", dilationsComboBox));
     activationsAttachment.reset (new ComboBoxAttachment (valueTreeState, "activations", activationsComboBox));
     useBiasAttachment.reset     (new ButtonAttachment   (valueTreeState, "useBias", useBiasButton));
@@ -58,7 +73,9 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     getLookAndFeel().setColour (Slider::textBoxBackgroundColourId, Colours::white);
     getLookAndFeel().setColour (Slider::textBoxTextColourId, Colours::darkgrey);
     getLookAndFeel().setColour (Slider::textBoxHighlightColourId, Colours::darkgrey);
-    getLookAndFeel().setColour (Slider::textBoxOutlineColourId, Colours::darkgrey);
+    getLookAndFeel().setColour (Slider::textBoxOutlineColourId, Colours::white);
+    getLookAndFeel().setColour (Slider::rotarySliderFillColourId, Colours::lightgrey);
+    getLookAndFeel().setColour (Slider::rotarySliderOutlineColourId, Colours::lightgrey);
 
     getLookAndFeel().setColour (ComboBox::backgroundColourId, Colours::white);
     getLookAndFeel().setColour (ComboBox::textColourId, Colours::darkgrey);
@@ -89,31 +106,48 @@ void RonnAudioProcessorEditor::paint (Graphics& g)
     // fill the right panel with grey
     {
       int x = 600, y = 0, width = 300, height = 280;
-      String text (TRANS("ronn"));
       Colour fillColour = Colour (0xffececec);
       g.setColour (fillColour);
       g.fillRect (x, y, width, height);
-      g.setFont (Font ("Source Sans Variable", 24.10f, Font::plain).withTypefaceStyle ("Light").withExtraKerningFactor (0.147f));
+
       g.setColour (Colours::grey);
-      g.drawText (text, 600 + 100, 24, width, height, Justification::centred, true);
+      g.setFont (Font ("Source Sans Variable", 32.0f, Font::plain).withTypefaceStyle ("Light")); //.withExtraKerningFactor (0.147f));
+      g.drawText ("ronn", 550, 0, width, 70, Justification::centred, true);
+      g.setFont (Font ("Source Sans Variable", 10.0f, Font::plain).withTypefaceStyle ("Light")); //.withExtraKerningFactor (0.147f));
+      g.drawText ("randomised overdrive", 550, 0, width, 100, Justification::centred, true);
+      g.drawText ("neural network", 550, 0, width, 115, Justification::centred, true);
+
     }
- 
-    //g.drawFittedText ("ronn", 0, 0, getWidth(), 30, Justification::centred, 1);
 }
 
 void RonnAudioProcessorEditor::resized()
 {
-    auto area = getLocalBounds();
 
     auto marginTop          = 32;
     auto contentPadding     = 12;
     auto sectionPadding     = 18;
     auto contentItemHeight  = 24;
+    auto rotaryItemHeight   = 55;
     auto scopeWidth         = 280;
     auto sidePanelWidth     = 200;
 
-    area.removeFromTop(marginTop);
+    // side panel
+    auto area = getLocalBounds();
 
+    area.removeFromTop(marginTop + 40);
+    area.removeFromLeft(800 - sidePanelWidth);
+    area.removeFromLeft(sectionPadding);
+    area.removeFromRight(sectionPadding);
+
+    inputGainSlider.setBounds  (area.removeFromTop (rotaryItemHeight));
+    area.removeFromTop(6);
+    outputGainSlider.setBounds (area.removeFromTop (rotaryItemHeight));
+    area.removeFromTop(6);
+
+    // center panel
+    area = getLocalBounds();
+
+    area.removeFromTop(marginTop);
     area.removeFromLeft(scopeWidth);
     area.removeFromLeft(sectionPadding);
     area.removeFromRight(sidePanelWidth);

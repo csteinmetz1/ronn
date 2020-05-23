@@ -81,12 +81,12 @@ private:
     //==============================================================================
     AudioProcessorValueTreeState parameters;
 
-    std::atomic<float>* phaseParameter    = nullptr;
-    std::atomic<float>* gainParameter     = nullptr;
-    std::atomic<float>* layersParameter   = nullptr;
-    std::atomic<float>* channelsParameter = nullptr;
-    std::atomic<float>* kernelParameter   = nullptr;
-    std::atomic<float>* useBiasParameter  = nullptr;
+    std::atomic<float>* inputGainParameter  = nullptr;
+    std::atomic<float>* outputGainParameter = nullptr;
+    std::atomic<float>* layersParameter     = nullptr;
+    std::atomic<float>* channelsParameter   = nullptr;
+    std::atomic<float>* kernelParameter     = nullptr;
+    std::atomic<float>* useBiasParameter    = nullptr;
     std::atomic<Model::Activation>* actParameter = nullptr;
 
 };

@@ -29,14 +29,18 @@ RonnAudioProcessor::RonnAudioProcessor()
         std::make_unique<AudioParameterInt>   ("layers", "Layers", 1, 12, 6),
         std::make_unique<AudioParameterInt>   ("kernel", "Kernel Width", 1, 32, 3),
         std::make_unique<AudioParameterInt>   ("channels", "Channels", 1, 64, 8),
+        std::make_unique<AudioParameterFloat> ("inputGain", "Input Gain", 0.0f, 2.0f, 1.0f),   
+        std::make_unique<AudioParameterFloat> ("outputGain", "OutputGain", 0.0f, 2.0f, 1.0f),
         std::make_unique<AudioParameterBool>  ("useBias", "Use Bias", false),
     })
 {
 
-    layersParameter   = parameters.getRawParameterValue ("layers");
-    kernelParameter   = parameters.getRawParameterValue ("kernel");
-    channelsParameter = parameters.getRawParameterValue ("channels");
-    useBiasParameter  = parameters.getRawParameterValue ("useBias");
+    layersParameter     = parameters.getRawParameterValue ("layers");
+    kernelParameter     = parameters.getRawParameterValue ("kernel");
+    channelsParameter   = parameters.getRawParameterValue ("channels");
+    inputGainParameter  = parameters.getRawParameterValue ("inputGain");
+    outputGainParameter = parameters.getRawParameterValue ("outputGain");
+    useBiasParameter    = parameters.getRawParameterValue ("useBias");
 
     // neural network model
     model = std::make_shared<Model>(nInputs, 
@@ -182,11 +186,14 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         //auto* channelData = buffer.getWritePointer (channel);
-        input = torch::rand({1,1,frameSize + padSize});
-        output = model->forward(input);
-        auto outputData = output.data_ptr<float>();
-        buffer.copyFrom(channel,0,outputData,frameSize);
-    }
+
+        input = torch::rand({1,1,frameSize + padSize});     // generate a dummy input 
+        input = torch::mul(input, inputGainParameter->load());      // apply input gain 
+        output = model->forward(input);                     // process audio through network
+        output = torch::mul(output, outputGainParameter->load());  // apply the output gain
+        auto outputData = output.data_ptr<float>();         // get pointer to the output data
+        buffer.copyFrom(channel,0,outputData,frameSize);    // copy output data to buffer
+     }
 }
 
 //==============================================================================
