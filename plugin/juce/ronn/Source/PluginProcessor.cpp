@@ -30,7 +30,8 @@ RonnAudioProcessor::RonnAudioProcessor()
         std::make_unique<AudioParameterInt>   ("kernel", "Kernel Width", 1, 32, 3),
         std::make_unique<AudioParameterInt>   ("channels", "Channels", 1, 64, 8),
         std::make_unique<AudioParameterFloat> ("inputGain", "Input Gain", 0.0f, 2.0f, 1.0f),   
-        std::make_unique<AudioParameterFloat> ("outputGain", "OutputGain", 0.0f, 2.0f, 1.0f),
+        std::make_unique<AudioParameterFloat> ("outputGain", "Output Gain", 0.0f, 2.0f, 1.0f),
+        //std::make_unique<AudioParameterFloat> ("dilation", "Dilation", 1, 2, 256),
         std::make_unique<AudioParameterBool>  ("useBias", "Use Bias", false),
     })
 {
@@ -121,10 +122,10 @@ void RonnAudioProcessor::changeProgramName (int index, const String& newName)
 }
 
 //==============================================================================
-void RonnAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void RonnAudioProcessor::prepareToPlay (double sampleRate_, int samplesPerBlock)
 {
     // define the model itself
-
+    sampleRate = sampleRate_;
 
 }
 
@@ -157,6 +158,20 @@ bool RonnAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) con
   #endif
 }
 #endif
+
+void RonnAudioProcessor::calculateReceptiveField()
+{
+    int k = *kernelParameter;
+    int d = 1; // *dilationParameter;
+    int l = *layersParameter;
+    double rf =  k * d;
+
+    for (int layer = 0; layer < l; ++layer) {
+        rf = rf + ((k-1) * d);
+    }
+
+    receptiveField = (rf / sampleRate) * 1000; // convert to ms
+}
 
 void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {

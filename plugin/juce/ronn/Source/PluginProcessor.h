@@ -57,6 +57,9 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     //==============================================================================
+    void calculateReceptiveField ();
+
+    //==============================================================================
     AudioParameterInt* layers;
 
     //==============================================================================
@@ -73,6 +76,9 @@ public:
     Model::InitType initType = Model::InitType::normal;
     std::vector<float> dilations {1,2,4,8,16,32,64,128,256,512,1024,2048};
     std::shared_ptr<Model> model;
+
+    double receptiveField = 0; // in ms
+    double sampleRate = 0; // in Hz
 
 private:
     //==============================================================================

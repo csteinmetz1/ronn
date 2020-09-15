@@ -37,6 +37,7 @@ public:
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
+    void updateModelState();
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -57,9 +58,13 @@ private:
     ComboBox dilationsComboBox, activationsComboBox;
     std::unique_ptr<ComboBoxAttachment> dilationsAttachment, activationsAttachment;
 
+    TextEditor receptiveFieldTextEditor;
+    Label receptiveFieldLabel;
+    String receptiveFieldString;
 
     // Side panel controls
     //==============================================================================
+    Label inputGainLabel, outputGainLabel;
     Slider inputGainSlider, outputGainSlider;
     std::unique_ptr<SliderAttachment> inputGainAttachment, outputGainAttachment;
 

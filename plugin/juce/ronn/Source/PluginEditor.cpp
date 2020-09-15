@@ -41,9 +41,11 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     useBiasButton.setButtonText ("Bias");
 
     inputGainSlider.setSliderStyle (Slider::Rotary);
-    inputGainSlider.setTextBoxStyle (Slider::NoTextBox, false, 0, 0);
+    inputGainSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);//(Slider::NoTextBox, false, 0, 0);
+    inputGainLabel.setText ("in gain", dontSendNotification);
     outputGainSlider.setSliderStyle (Slider::Rotary);
-    outputGainSlider.setTextBoxStyle (Slider::NoTextBox, false, 0, 0);
+    outputGainSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);//(Slider::NoTextBox, false, 0, 0);
+    outputGainLabel.setText ("out gain", dontSendNotification);
 
     layersSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);
     kernelSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);
@@ -82,6 +84,11 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     activationsComboBox.addItem("Softplus", 9);
     activationsComboBox.addItem("Softshrink", 10); 
 
+    addAndMakeVisible(receptiveFieldTextEditor);
+    receptiveFieldTextEditor.setReadOnly(true);
+    receptiveFieldTextEditor.setFont(Font (15.0f));
+    receptiveFieldTextEditor.setText("0 ms", false);
+
     layersAttachment.reset      (new SliderAttachment   (valueTreeState, "layers", layersSlider));
     kernelAttachment.reset      (new SliderAttachment   (valueTreeState, "kernel", kernelSlider));
     channelsAttachment.reset    (new SliderAttachment   (valueTreeState, "channels", channelsSlider));
@@ -93,8 +100,8 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     useBiasAttachment.reset     (new ButtonAttachment   (valueTreeState, "useBias", useBiasButton));
 
     // callbacks
-    layersSlider.onValueChange   = [this] { processor.modelChange = true; };
-    kernelSlider.onValueChange   = [this] { processor.modelChange = true; };
+    layersSlider.onValueChange   = [this] { updateModelState(); };
+    kernelSlider.onValueChange   = [this] { updateModelState(); };
     channelsSlider.onValueChange = [this] { processor.modelChange = true; };
     dilationsComboBox.onChange   = [this] { processor.modelChange = true; };
     activationsComboBox.onChange = [this] { processor.modelChange = true; };
@@ -106,6 +113,14 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
 RonnAudioProcessorEditor::~RonnAudioProcessorEditor()
 {
 }
+
+//==============================================================================
+void RonnAudioProcessorEditor::updateModelState(){
+  processor.modelChange = true;
+  processor.calculateReceptiveField();
+  receptiveFieldTextEditor.setText(String(processor.receptiveField).paddedLeft(' ', 12));
+}
+
 
 //==============================================================================
 void RonnAudioProcessorEditor::paint (Graphics& g)
@@ -155,6 +170,8 @@ void RonnAudioProcessorEditor::resized()
     inputGainSlider.setBounds  (area.removeFromTop (rotaryItemHeight));
     area.removeFromTop(6);
     outputGainSlider.setBounds (area.removeFromTop (rotaryItemHeight));
+    area.removeFromTop(6);
+    receptiveFieldTextEditor.setBounds (area.removeFromTop (rotaryItemHeight));
     area.removeFromTop(6);
 
     // center panel
