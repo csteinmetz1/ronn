@@ -10,10 +10,10 @@ Model::Model(int nInputs,
              int nOutputs, 
              int nLayers, 
              int nChannels, 
-             int kWidth, 
+             int kWidth,
+             int dFactor, 
              bool useBias, 
-             Activation act,
-             std::vector<float> cDilations) {
+             int act) {
 
         inputs = nInputs;
         outputs = nOutputs;
@@ -21,8 +21,8 @@ Model::Model(int nInputs,
         channels = nChannels;
         kernelWidth = kWidth;
         bias = useBias;
-        activation = act;
-        dilations = cDilations;
+        activation = static_cast<Activation>(int(act));
+        dilationFactor = dFactor;
 
         buildModel();
 
@@ -35,8 +35,6 @@ Model::Model(int nInputs,
 void Model::buildModel() {
 
     int inChannels, outChannels;
-
-    //const float* convDilations = getDilations();
 
     // construct the convolutional layers
     for (int i = 0; i < getLayers(); i++) {
@@ -59,7 +57,7 @@ void Model::buildModel() {
         conv.push_back(torch::nn::Conv1d(
             torch::nn::Conv1dOptions(inChannels,outChannels,getKernelWidth())
             .stride(1)
-            .dilation(getDilations()[i])
+            .dilation(pow(getDilationFactor(),i))
             .bias(getBias())));
     }
 
@@ -111,7 +109,7 @@ void Model::init(std::string initType){
 int Model::getOutputSize(int frameSize){
     int outputSize = frameSize;
     for (auto i = 0; i < getLayers(); i++) {
-        outputSize = outputSize - ((getKernelWidth()-1) * getDilations()[i]);
+        outputSize = outputSize - ((getKernelWidth()-1) * pow(getDilationFactor(), i));
     }
     return outputSize;
 }

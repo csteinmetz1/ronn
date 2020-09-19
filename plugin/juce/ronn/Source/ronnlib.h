@@ -15,9 +15,9 @@ struct Model : public torch::nn::Module {
               int nLayers, 
               int nChannels, 
               int kWidth, 
+              int dilationFactor,
               bool useBias, 
-              Activation act,
-              std::vector<float> dilations);
+              int act);
 
         torch::Tensor forward(torch::Tensor);
         void init(std::string initType);
@@ -31,8 +31,8 @@ struct Model : public torch::nn::Module {
         void setChannels(int newChannels){channels = newChannels;};
         void setActivation(Activation newActivation){activation = newActivation;};
         void setInitType(InitType newInitType){initType = newInitType;};
-        void setDilations(std::vector<float> newDilations){dilations = newDilations;};
         void setKernelWidth(int newKernelWidth){kernelWidth = newKernelWidth;};
+        void setDilationFactor(int newDilationFactor){dilationFactor = newDilationFactor;};
 
         bool getBias(){return bias;};
         int getInputs(){return inputs;};
@@ -40,16 +40,15 @@ struct Model : public torch::nn::Module {
         int getOutputs(){return outputs;};
         int getChannels(){return channels;};
         int getKernelWidth(){return kernelWidth;};
-        std::vector<float> getDilations(){return dilations;};
+        int getDilationFactor(){return dilationFactor;};
         Activation getActivation(){return activation;};
         InitType getInitType(){return initType;}
 
     private:
-        int inputs, outputs, layers, channels, kernelWidth;
+        int inputs, outputs, layers, channels, kernelWidth, dilationFactor;
         bool bias;
         Activation activation;
         InitType initType;
-        std::vector<float> dilations;
         std::vector<torch::nn::Conv1d> conv;      
         torch::nn::LeakyReLU leakyrelu;
 };

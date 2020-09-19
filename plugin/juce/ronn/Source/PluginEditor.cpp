@@ -72,7 +72,11 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     channelsLabel.attachToComponent (&channelsSlider, true); 
 
     // add options to comboboxes
-    dilationsComboBox.addItem ("Plain", 1);
+    dilationsComboBox.addItem ("1^n", 1);
+    dilationsComboBox.addItem ("2^n", 2);
+    dilationsComboBox.addItem ("3^n", 3);
+    dilationsComboBox.addItem ("4^n", 4);
+
     activationsComboBox.addItem("LeakyReLU", 1);
     activationsComboBox.addItem("Tanh", 2);
     activationsComboBox.addItem("Sigmoid", 3);
@@ -94,18 +98,17 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     channelsAttachment.reset    (new SliderAttachment   (valueTreeState, "channels", channelsSlider));
     inputGainAttachment.reset   (new SliderAttachment   (valueTreeState, "inputGain", inputGainSlider));
     outputGainAttachment.reset  (new SliderAttachment   (valueTreeState, "outputGain", outputGainSlider));
-
-    dilationsAttachment.reset   (new ComboBoxAttachment (valueTreeState, "dilations", dilationsComboBox));
-    activationsAttachment.reset (new ComboBoxAttachment (valueTreeState, "activations", activationsComboBox));
+    dilationsAttachment.reset   (new ComboBoxAttachment (valueTreeState, "dilation", dilationsComboBox));
+    activationsAttachment.reset (new ComboBoxAttachment (valueTreeState, "activation", activationsComboBox));
     useBiasAttachment.reset     (new ButtonAttachment   (valueTreeState, "useBias", useBiasButton));
 
     // callbacks
     layersSlider.onValueChange   = [this] { updateModelState(); };
     kernelSlider.onValueChange   = [this] { updateModelState(); };
-    channelsSlider.onValueChange = [this] { processor.modelChange = true; };
-    dilationsComboBox.onChange   = [this] { processor.modelChange = true; };
-    activationsComboBox.onChange = [this] { processor.modelChange = true; };
-    useBiasButton.onStateChange  = [this] { processor.modelChange = true; };
+    channelsSlider.onValueChange = [this] { updateModelState(); };
+    dilationsComboBox.onChange   = [this] { updateModelState(); };
+    activationsComboBox.onChange = [this] { updateModelState(); };
+    useBiasButton.onStateChange  = [this] { updateModelState(); };
 
     setSize (800, 280);
 }
@@ -118,7 +121,8 @@ RonnAudioProcessorEditor::~RonnAudioProcessorEditor()
 void RonnAudioProcessorEditor::updateModelState(){
   processor.modelChange = true;
   processor.calculateReceptiveField();
-  receptiveFieldTextEditor.setText(String(processor.receptiveField).paddedLeft(' ', 12));
+  float rfms = (processor.receptiveFieldSamples / processor.sampleRate) * 1000;
+  receptiveFieldTextEditor.setText(String(rfms));
 }
 
 

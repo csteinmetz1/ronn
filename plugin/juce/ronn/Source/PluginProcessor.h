@@ -57,7 +57,8 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     //==============================================================================
-    void calculateReceptiveField ();
+    void calculateReceptiveField();
+    void setupBuffers();
 
     //==============================================================================
     AudioParameterInt* layers;
@@ -71,13 +72,14 @@ public:
     int nOutputs    = 2;
     int nChannels   = 8;
     int kWidth      = 3;
+    int dFactor     = 1;
     bool useBias    = false;
     Model::Activation act = Model::Activation::ReLU;
     Model::InitType initType = Model::InitType::normal;
-    std::vector<float> dilations {1,2,4,8,16,32,64,128,256,512,1024,2048};
     std::shared_ptr<Model> model;
 
-    double receptiveField = 0; // in ms
+    int receptiveFieldSamples = 0; // in samples
+    int blockSamples = 0; // in/out samples
     double sampleRate = 0; // in Hz
 
 private:
@@ -87,12 +89,19 @@ private:
     //==============================================================================
     AudioProcessorValueTreeState parameters;
 
+    // is this not dangerous to use floats for values that are actually ints?
     std::atomic<float>* inputGainParameter  = nullptr;
     std::atomic<float>* outputGainParameter = nullptr;
     std::atomic<float>* layersParameter     = nullptr;
     std::atomic<float>* channelsParameter   = nullptr;
     std::atomic<float>* kernelParameter     = nullptr;
     std::atomic<float>* useBiasParameter    = nullptr;
-    std::atomic<Model::Activation>* actParameter = nullptr;
+    std::atomic<float>* dilationParameter   = nullptr;
+    std::atomic<float>* activationParameter = nullptr;
+
+    AudioSampleBuffer mBuffer; // circular buffer to store input data
+    AudioSampleBuffer iBuffer; // non-circular buffer that reads data from mBuffer to pass to model
+    int mBufferLength, iBufferLength;
+    int mBufferReadIdx, mBufferWriteIdx;
 
 };
