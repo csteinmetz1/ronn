@@ -58,6 +58,7 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     addAndMakeVisible (outputGainSlider);
     addAndMakeVisible (dilationsComboBox);
     addAndMakeVisible (activationsComboBox);
+    addAndMakeVisible (initTypeComboBox);
     addAndMakeVisible (useBiasButton);
 
     // attach labels
@@ -88,10 +89,17 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     activationsComboBox.addItem("Softplus", 9);
     activationsComboBox.addItem("Softshrink", 10); 
 
+    initTypeComboBox.addItem("Normal", 1);
+    initTypeComboBox.addItem("Uniform", 2);
+    initTypeComboBox.addItem("Xavier (Normal)", 3);
+    initTypeComboBox.addItem("Xavier (Uniform)", 4);
+    initTypeComboBox.addItem("Kaiming (Normal)", 5);
+    initTypeComboBox.addItem("Kaiming (Uniform)", 6);
+
     addAndMakeVisible(receptiveFieldTextEditor);
     receptiveFieldTextEditor.setReadOnly(true);
     receptiveFieldTextEditor.setFont(Font (15.0f));
-    receptiveFieldTextEditor.setText("0 ms", false);
+    receptiveFieldTextEditor.setText("0", false);
 
     layersAttachment.reset      (new SliderAttachment   (valueTreeState, "layers", layersSlider));
     kernelAttachment.reset      (new SliderAttachment   (valueTreeState, "kernel", kernelSlider));
@@ -100,6 +108,7 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     outputGainAttachment.reset  (new SliderAttachment   (valueTreeState, "outputGain", outputGainSlider));
     dilationsAttachment.reset   (new ComboBoxAttachment (valueTreeState, "dilation", dilationsComboBox));
     activationsAttachment.reset (new ComboBoxAttachment (valueTreeState, "activation", activationsComboBox));
+    initTypeAttachment.reset    (new ComboBoxAttachment (valueTreeState, "initType", initTypeComboBox));
     useBiasAttachment.reset     (new ButtonAttachment   (valueTreeState, "useBias", useBiasButton));
 
     // callbacks
@@ -108,6 +117,7 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     channelsSlider.onValueChange = [this] { updateModelState(); };
     dilationsComboBox.onChange   = [this] { updateModelState(); };
     activationsComboBox.onChange = [this] { updateModelState(); };
+    initTypeComboBox.onChange    = [this] { updateModelState(); };
     useBiasButton.onStateChange  = [this] { updateModelState(); };
 
     setSize (800, 280);
@@ -122,9 +132,8 @@ void RonnAudioProcessorEditor::updateModelState(){
   processor.modelChange = true;
   processor.calculateReceptiveField();
   float rfms = (processor.receptiveFieldSamples / processor.sampleRate) * 1000;
-  receptiveFieldTextEditor.setText(String(rfms));
+  receptiveFieldTextEditor.setText(String(rfms).operator+=(' ms'));
 }
-
 
 //==============================================================================
 void RonnAudioProcessorEditor::paint (Graphics& g)
@@ -148,7 +157,6 @@ void RonnAudioProcessorEditor::paint (Graphics& g)
       g.setFont (Font ("Source Sans Variable", 10.0f, Font::plain).withTypefaceStyle ("Light")); //.withExtraKerningFactor (0.147f));
       g.drawText ("randomised overdrive", 550, 0, width, 105, Justification::centred, true);
       g.drawText ("neural network", 550, 0, width, 120, Justification::centred, true);
-
     }
 }
 
@@ -196,6 +204,8 @@ void RonnAudioProcessorEditor::resized()
     dilationsComboBox.setBounds   (area.removeFromTop (contentItemHeight));
     area.removeFromTop(contentPadding);
     activationsComboBox.setBounds (area.removeFromTop (contentItemHeight));
+    area.removeFromTop(contentPadding);
+    initTypeComboBox.setBounds    (area.removeFromTop (contentItemHeight));
     area.removeFromTop(contentPadding);
     useBiasButton.setBounds       (area.removeFromTop (contentItemHeight));
     area.removeFromTop(contentPadding);

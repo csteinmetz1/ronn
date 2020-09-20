@@ -34,6 +34,7 @@ RonnAudioProcessor::RonnAudioProcessor()
         std::make_unique<AudioParameterBool>  ("useBias", "Use Bias", false),
         std::make_unique<AudioParameterInt>   ("activation", "Activation", 1, 10, 1),
         std::make_unique<AudioParameterInt>   ("dilation", "Dilation Factor", 1, 4, 1),
+        std::make_unique<AudioParameterInt>   ("initType", "Init Type", 1, 6, 1)
     })
 {
  
@@ -45,6 +46,8 @@ RonnAudioProcessor::RonnAudioProcessor()
     useBiasParameter    = parameters.getRawParameterValue ("useBias");
     activationParameter = parameters.getRawParameterValue ("activation");
     dilationParameter   = parameters.getRawParameterValue ("dilation");
+    initTypeParameter   = parameters.getRawParameterValue ("initType");
+
 
     // neural network model
     model = std::make_shared<Model>(nInputs, 
@@ -52,9 +55,10 @@ RonnAudioProcessor::RonnAudioProcessor()
                                    *layersParameter, 
                                    *channelsParameter, 
                                    *kernelParameter, 
-                                   *activationParameter,
+                                   *dilationParameter,
                                    *useBiasParameter, 
-                                   *dilationParameter);
+                                   *activationParameter,
+                                   *initTypeParameter);
 }
 
 RonnAudioProcessor::~RonnAudioProcessor()
@@ -239,7 +243,7 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     at::Tensor tensorFrame = torch::from_blob(iBufferData, sizes);
     tensorFrame = torch::mul(tensorFrame, inputGainParameter->load());
     tensorFrame = torch::reshape(tensorFrame, {1,1,iBufferLength});
-    std::cout << "buffer" << tensorFrame.sizes() << std::endl;
+    //std::cout << "buffer" << tensorFrame.sizes() << std::endl;
 
     //auto paddedFrame = torch::nn::ConstantPad1d(
     //                                torch::nn::ConstantPad1dOptions
@@ -248,7 +252,7 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
 
     auto outputFrame = model->forward(tensorFrame);     // process audio through network
 
-    std::cout << "output" << outputFrame.sizes() << std::endl;
+    //std::cout << "output" << outputFrame.sizes() << std::endl;
 
     // now load the output channels back into the buffer
     for (int channel = 0; channel < outChannels; ++channel) {
@@ -307,7 +311,8 @@ void RonnAudioProcessor::buildModel()
                         *kernelParameter, 
                         *dilationParameter,
                         *useBiasParameter,
-                        *activationParameter));
+                        *activationParameter,
+                        *initTypeParameter));
 }
 
 //==============================================================================

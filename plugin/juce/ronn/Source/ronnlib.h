@@ -17,10 +17,11 @@ struct Model : public torch::nn::Module {
               int kWidth, 
               int dilationFactor,
               bool useBias, 
-              int act);
+              int act,
+              int init);
 
         torch::Tensor forward(torch::Tensor);
-        void init(std::string initType);
+        void initModel();
         void buildModel();
         int getOutputSize(int frameSize);
 

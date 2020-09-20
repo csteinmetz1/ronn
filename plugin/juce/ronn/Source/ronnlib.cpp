@@ -13,7 +13,8 @@ Model::Model(int nInputs,
              int kWidth,
              int dFactor, 
              bool useBias, 
-             int act) {
+             int act,
+             int init) {
 
         inputs = nInputs;
         outputs = nOutputs;
@@ -22,6 +23,7 @@ Model::Model(int nInputs,
         kernelWidth = kWidth;
         bias = useBias;
         activation = static_cast<Activation>(int(act));
+        initType = static_cast<InitType>(int(init));
         dilationFactor = dFactor;
 
         buildModel();
@@ -65,6 +67,7 @@ void Model::buildModel() {
     for (auto i = 0; i < getLayers(); i++) {
         register_module("conv"+std::to_string(i), conv[i]);
     }
+    initModel();
 }
 
 // the forward operation
@@ -92,7 +95,7 @@ torch::Tensor Model::forward(torch::Tensor x) {
     return x;
 }
 
-void Model::init(std::string initType){
+void Model::initModel(){
     for (auto i = 0; i < getLayers(); i++) {
         switch(getInitType())
         {

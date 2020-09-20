@@ -55,8 +55,8 @@ private:
     ToggleButton useBiasButton; 
     std::unique_ptr<ButtonAttachment> useBiasAttachment;
 
-    ComboBox dilationsComboBox, activationsComboBox;
-    std::unique_ptr<ComboBoxAttachment> dilationsAttachment, activationsAttachment;
+    ComboBox dilationsComboBox, activationsComboBox, initTypeComboBox;
+    std::unique_ptr<ComboBoxAttachment> dilationsAttachment, activationsAttachment, initTypeAttachment;
 
     TextEditor receptiveFieldTextEditor;
     Label receptiveFieldLabel;

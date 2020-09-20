@@ -98,7 +98,8 @@ private:
     std::atomic<float>* useBiasParameter    = nullptr;
     std::atomic<float>* dilationParameter   = nullptr;
     std::atomic<float>* activationParameter = nullptr;
-
+    std::atomic<float>* initTypeParameter   = nullptr;
+  
     AudioSampleBuffer mBuffer; // circular buffer to store input data
     AudioSampleBuffer iBuffer; // non-circular buffer that reads data from mBuffer to pass to model
     int mBufferLength, iBufferLength;
