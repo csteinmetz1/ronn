@@ -181,7 +181,6 @@ void RonnAudioProcessor::calculateReceptiveField()
     }
 
     receptiveFieldSamples = rf; // store in attribute
-    //std::cout << receptiveFieldSamples << std::endl;
 }
 
 void RonnAudioProcessor::setupBuffers()
@@ -190,15 +189,17 @@ void RonnAudioProcessor::setupBuffers()
     mBufferLength = (int)(receptiveFieldSamples + blockSamples - 1);
     iBufferLength = (int)(receptiveFieldSamples + blockSamples - 1);
 
-    // Initialize the to 2 channels (stereo)
+    // Initialize the to n channels
+    nInputs = getTotalNumInputChannels();
+
     // and mBufferLength samples per channel
-    mBuffer.setSize(1, mBufferLength);
+    mBuffer.setSize(nInputs, mBufferLength);
     mBuffer.clear();
     mBufferReadIdx = 0;
     mBufferWriteIdx = 0;
 
     // this buffer stories copy of data in mBuffer (always read from index 0)
-    iBuffer.setSize(1, iBufferLength);
+    iBuffer.setSize(nInputs, iBufferLength);
     iBuffer.clear();
 }
 
@@ -215,44 +216,66 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
         modelChange = false;
     }
 
-    // get pointer to the input data
-    auto* channelData = buffer.getWritePointer(0);
+    int twp, trp; // temporary write/read pointer counters
 
-    // first we copy the input to circular buffer
-    for (int n = 0; n < blockSamples; n++) {
-        mBuffer.setSample(0, mBufferWriteIdx, buffer.getSample(0, n));
-        mBufferWriteIdx = mBufferWriteIdx + 1;
-        if (mBufferWriteIdx > (mBufferLength-1)){
-            mBufferWriteIdx = 0;
+    for (int channel = 0; channel < nInputs; ++channel) {
+
+        // to process each channel reset the pointers to global state
+        twp = mBufferWriteIdx; 
+        trp = mBufferReadIdx;  
+
+        // first we copy the input to circular buffer
+        for (int n = 0; n < blockSamples; n++) {
+            mBuffer.setSample(channel, twp, buffer.getSample(channel, n));
+            twp = twp + 1;
+            if (twp > (mBufferLength-1)){
+                twp = 0;
+            }
+        }
+
+        trp = twp;  // start reading from where we finished writing
+
+        // now we read these data into new time-aligned buffer
+        for (int n = 0; n < mBufferLength; n++) {
+            iBuffer.setSample(channel, n, mBuffer.getSample(channel, trp));
+            trp = trp + 1; 
+            if (trp > (mBufferLength-1)){
+                trp = 0;
+            }
         }
     }
 
-    // start reading from right after where we finished writing
-    mBufferReadIdx = mBufferWriteIdx; 
+    // now update the read and writer pointer/indices for global state
+    mBufferWriteIdx = twp;
+    mBufferReadIdx  = trp;
 
-    // now we read these data into new time-aligned buffer
-    for (int n = 0; n < mBufferLength; n++) {
-        iBuffer.setSample(0, n, mBuffer.getSample(0, mBufferReadIdx));
-        mBufferReadIdx = mBufferReadIdx + 1; 
-        if (mBufferReadIdx > (mBufferLength-1)){
-            mBufferReadIdx = 0;
-        }
-    }
-
-    std::vector<int64_t> sizes = {iBufferLength};
-    auto* iBufferData = iBuffer.getWritePointer(0);                     // get pointer of first channel 
+    std::vector<int64_t> sizes = {iBufferLength};                       // size of the buffer data
+    auto* iBufferData = iBuffer.getWritePointer(0);                     // get pointer of the first channel 
     at::Tensor tensorFrame = torch::from_blob(iBufferData, sizes);      // load data from buffer into tensor type
     tensorFrame = torch::mul(tensorFrame, inputGainParameter->load());  // apply the input gain first
-    tensorFrame = torch::reshape(tensorFrame, {1,1,iBufferLength});     // reshape tensor for [Batch, Channel, Samples]
-    auto outputFrame = model->forward(tensorFrame);                     // process audio through network
+
+    if (nInputs > 1){
+        auto* iBufferData = iBuffer.getWritePointer(1);                         // get pointer of the second channel 
+        at::Tensor tensorFrameR = torch::from_blob(iBufferData, sizes);         // load data from buffer into tensor type
+        tensorFrameR = torch::mul(tensorFrameR, inputGainParameter->load());    // apply the input gain first
+        tensorFrame = at::stack({tensorFrame, tensorFrameR});    // stack the two channels to form the stereo tensor
+        //std::cout << "input" << tensorFrame.sizes() << std::endl;
+    }
+
+    tensorFrame = torch::reshape(tensorFrame, {1,nInputs,iBufferLength});
+    //std::cout << "input reshape" << tensorFrame.sizes() << std::endl;
+
+    auto outputFrame = model->forward(tensorFrame);                             // process audio through network
+    //std::cout << "output" << outputFrame.sizes() << std::endl;
 
     // now load the output channels back into the buffer
     for (int channel = 0; channel < outChannels; ++channel) {
         auto outputData = outputFrame.index({0,channel,torch::indexing::Slice()});      // index the proper output channel
         auto outputDataPtr = outputData.data_ptr<float>();                              // get pointer to the output data
         buffer.copyFrom(channel,0,outputDataPtr,blockSamples);                          // copy output data to buffer
-        buffer.applyGain(outputGainParameter->load());                                  // apply the output gain
     }
+    buffer.applyGain(outputGainParameter->load());                                  // apply the output gain
+
 }
 
 //==============================================================================

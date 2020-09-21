@@ -65,7 +65,7 @@ public:
 
     //==============================================================================
     void buildModel();
-    bool modelChange = false;
+    bool modelChange = true;
 
     // define the model config
     int nInputs     = 1;
@@ -102,7 +102,7 @@ private:
   
     AudioSampleBuffer mBuffer; // circular buffer to store input data
     AudioSampleBuffer iBuffer; // non-circular buffer that reads data from mBuffer to pass to model
-    int mBufferLength, iBufferLength;
+    int mBufferLength, iBufferLength, nBufferChannels;
     int mBufferReadIdx, mBufferWriteIdx;
 
 };
