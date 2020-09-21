@@ -29,8 +29,8 @@ RonnAudioProcessor::RonnAudioProcessor()
         std::make_unique<AudioParameterInt>   ("layers", "Layers", 1, 12, 6),
         std::make_unique<AudioParameterInt>   ("kernel", "Kernel Width", 1, 32, 3),
         std::make_unique<AudioParameterInt>   ("channels", "Channels", 1, 64, 8),
-        std::make_unique<AudioParameterFloat> ("inputGain", "Input Gain", 0.0f, 2.0f, 1.0f),   
-        std::make_unique<AudioParameterFloat> ("outputGain", "Output Gain", 0.0f, 2.0f, 1.0f),
+        std::make_unique<AudioParameterFloat> ("inputGain", "Input Gain", 0.0f, 8.0f, 1.0f),   
+        std::make_unique<AudioParameterFloat> ("outputGain", "Output Gain", 0.0f, 8.0f, 1.0f),
         std::make_unique<AudioParameterBool>  ("useBias", "Use Bias", false),
         std::make_unique<AudioParameterInt>   ("activation", "Activation", 1, 10, 1),
         std::make_unique<AudioParameterInt>   ("dilation", "Dilation Factor", 1, 4, 1),
@@ -227,7 +227,8 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
         }
     }
 
-    mBufferReadIdx = mBufferWriteIdx; // start reading from right after where we finished writing
+    // start reading from right after where we finished writing
+    mBufferReadIdx = mBufferWriteIdx; 
 
     // now we read these data into new time-aligned buffer
     for (int n = 0; n < mBufferLength; n++) {
@@ -239,37 +240,19 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     }
 
     std::vector<int64_t> sizes = {iBufferLength};
-    auto* iBufferData = iBuffer.getWritePointer(0);
-    at::Tensor tensorFrame = torch::from_blob(iBufferData, sizes);
-    tensorFrame = torch::mul(tensorFrame, inputGainParameter->load());
-    tensorFrame = torch::reshape(tensorFrame, {1,1,iBufferLength});
-    //std::cout << "buffer" << tensorFrame.sizes() << std::endl;
-
-    //auto paddedFrame = torch::nn::ConstantPad1d(
-    //                                torch::nn::ConstantPad1dOptions
-    //                                ({padSize, 0}, 0.0))
-    //                                (tensorFrame);
-
-    auto outputFrame = model->forward(tensorFrame);     // process audio through network
-
-    //std::cout << "output" << outputFrame.sizes() << std::endl;
+    auto* iBufferData = iBuffer.getWritePointer(0);                     // get pointer of first channel 
+    at::Tensor tensorFrame = torch::from_blob(iBufferData, sizes);      // load data from buffer into tensor type
+    tensorFrame = torch::mul(tensorFrame, inputGainParameter->load());  // apply the input gain first
+    tensorFrame = torch::reshape(tensorFrame, {1,1,iBufferLength});     // reshape tensor for [Batch, Channel, Samples]
+    auto outputFrame = model->forward(tensorFrame);                     // process audio through network
 
     // now load the output channels back into the buffer
     for (int channel = 0; channel < outChannels; ++channel) {
         auto outputData = outputFrame.index({0,channel,torch::indexing::Slice()});      // index the proper output channel
-        //outputData = outputData * (outputGainParameter->load());                      // apply the output gain
         auto outputDataPtr = outputData.data_ptr<float>();                              // get pointer to the output data
         buffer.copyFrom(channel,0,outputDataPtr,blockSamples);                          // copy output data to buffer
+        buffer.applyGain(outputGainParameter->load());                                  // apply the output gain
     }
-
-    //for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    //{
-    //    input = torch::mul(input, inputGainParameter->load());      // apply input gain 
-    //    auto output = model->forward(paddedFrame);                     
-    //    output = torch::mul(output, outputGainParameter->load());  // apply the output gain
-    //    auto outputData = output.data_ptr<float>();         
-    //    buffer.copyFrom(channel,0,outputData,frameSize);    // copy output data to buffer
-    // }
 }
 
 //==============================================================================
