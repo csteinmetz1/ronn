@@ -105,10 +105,14 @@ private:
     std::atomic<float>* activationParameter = nullptr;
     std::atomic<float>* initTypeParameter   = nullptr;
     std::atomic<float>* seedParameter       = nullptr;
+    std::atomic<float>* depthwiseParameter  = nullptr;
+
 
     AudioSampleBuffer mBuffer; // circular buffer to store input data
     AudioSampleBuffer iBuffer; // non-circular buffer that reads data from mBuffer to pass to model
     int mBufferLength, iBufferLength, nBufferChannels;
     int mBufferReadIdx, mBufferWriteIdx;
+
+    std::vector<IIRFilter> highPassFilters; // high pass filters for the left and right channels
 
 };

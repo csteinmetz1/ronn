@@ -38,6 +38,7 @@ public:
     void paint (Graphics&) override;
     void resized() override;
     void updateModelState();
+    void updateGains(bool inputGain);
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -52,8 +53,8 @@ private:
     Label layersLabel, kernelLabel, channelsLabel;
     std::unique_ptr<SliderAttachment> layersAttachment, kernelAttachment, channelsAttachment;
  
-    ToggleButton useBiasButton; 
-    std::unique_ptr<ButtonAttachment> useBiasAttachment;
+    ToggleButton useBiasButton, linkGainButton, depthwiseButton; 
+    std::unique_ptr<ButtonAttachment> useBiasAttachment, linkGainAttachment, depthwiseAttachment;
 
     ComboBox dilationsComboBox, activationsComboBox, initTypeComboBox;
     Label dilationsLabel, activationsLabel, initTypeLabel;

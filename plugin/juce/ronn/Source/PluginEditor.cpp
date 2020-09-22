@@ -43,13 +43,15 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     getLookAndFeel().setColour (PopupMenu::highlightedTextColourId, Colours::darkgrey);
 
     useBiasButton.setButtonText ("Bias");
+    linkGainButton.setButtonText ("Link");
+    depthwiseButton.setButtonText ("Depthwise");
 
     Colour fillColour = Colour (0xffececec); // side panel color
 
     inputGainSlider.setRange(-24, 24);
     inputGainSlider.setSliderStyle (Slider::Rotary);
     inputGainSlider.setTextBoxStyle (Slider::TextBoxRight, false, 50, 24);//(Slider::NoTextBox, false, 0, 0);
-    inputGainSlider.onValueChange = [this] {processor.inputGainLn = juce::Decibels::decibelsToGain((float) inputGainSlider.getValue());};
+    inputGainSlider.onValueChange = [this] {updateGains(true);};
     inputGainSlider.setValue (juce::Decibels::gainToDecibels(processor.inputGainLn));
     inputGainSlider.setColour (Slider::textBoxBackgroundColourId, fillColour);
     inputGainSlider.setColour (Slider::textBoxOutlineColourId, fillColour);
@@ -59,7 +61,7 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     outputGainSlider.setRange(-24, 24);
     outputGainSlider.setSliderStyle (Slider::Rotary);
     outputGainSlider.setTextBoxStyle (Slider::TextBoxRight, false, 50, 24);//(Slider::NoTextBox, false, 0, 0);
-    outputGainSlider.onValueChange = [this] {processor.outputGainLn = juce::Decibels::decibelsToGain((float) inputGainSlider.getValue());};
+    outputGainSlider.onValueChange = [this] {updateGains(false);};
     outputGainSlider.setValue (juce::Decibels::gainToDecibels(processor.outputGainLn));
     outputGainSlider.setColour (Slider::textBoxBackgroundColourId, fillColour);
     outputGainSlider.setColour (Slider::textBoxOutlineColourId, fillColour);
@@ -79,6 +81,8 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     addAndMakeVisible (activationsComboBox);
     addAndMakeVisible (initTypeComboBox);
     addAndMakeVisible (useBiasButton);
+    addAndMakeVisible (linkGainButton);
+    addAndMakeVisible (depthwiseButton);
     addAndMakeVisible (inputGainLabel);
     addAndMakeVisible (outputGainLabel);
 
@@ -160,9 +164,11 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     activationsAttachment.reset (new ComboBoxAttachment (valueTreeState, "activation", activationsComboBox));
     initTypeAttachment.reset    (new ComboBoxAttachment (valueTreeState, "initType", initTypeComboBox));
     useBiasAttachment.reset     (new ButtonAttachment   (valueTreeState, "useBias", useBiasButton));
+    linkGainAttachment.reset    (new ButtonAttachment   (valueTreeState, "linkGain", linkGainButton));
+    depthwiseAttachment.reset   (new ButtonAttachment   (valueTreeState, "depthwise", depthwiseButton));
     //seedAttachment.reset        (new TextBoxAttachment  (valueTreeState, "seed", seedTextEditor));
 
-    // callbacks
+    // callbacks for updating the model (not all parameters)
     layersSlider.onValueChange   = [this] { updateModelState(); };
     kernelSlider.onValueChange   = [this] { updateModelState(); };
     channelsSlider.onValueChange = [this] { updateModelState(); };
@@ -170,8 +176,9 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     activationsComboBox.onChange = [this] { updateModelState(); };
     initTypeComboBox.onChange    = [this] { updateModelState(); };
     useBiasButton.onStateChange  = [this] { updateModelState(); };
+    depthwiseButton.onStateChange = [this] { updateModelState(); };
 
-    setSize (600, 280);
+    setSize (600, 300);
 }
 
 RonnAudioProcessorEditor::~RonnAudioProcessorEditor()
@@ -179,7 +186,31 @@ RonnAudioProcessorEditor::~RonnAudioProcessorEditor()
 }
 
 //==============================================================================
-void RonnAudioProcessorEditor::updateModelState(){
+void RonnAudioProcessorEditor::updateGains(bool inputGain)
+{
+  if (inputGain == true){
+    processor.inputGainLn = juce::Decibels::decibelsToGain((float) inputGainSlider.getValue());
+    inputGainSlider.setValue (juce::Decibels::gainToDecibels(processor.inputGainLn));
+    if (linkGainButton.getToggleState()) {
+      float outputGaindB = -1 * inputGainSlider.getValue();
+      processor.outputGainLn = juce::Decibels::decibelsToGain((float) outputGaindB);
+      outputGainSlider.setValue (juce::Decibels::gainToDecibels(processor.outputGainLn));
+    }
+  }
+  else {
+    processor.outputGainLn = juce::Decibels::decibelsToGain((float) outputGainSlider.getValue());
+    outputGainSlider.setValue (juce::Decibels::gainToDecibels(processor.outputGainLn));
+    if (linkGainButton.getToggleState()) {
+      float inputGaindB = -1 * outputGainSlider.getValue();
+      processor.inputGainLn = juce::Decibels::decibelsToGain((float) inputGaindB);
+      inputGainSlider.setValue (juce::Decibels::gainToDecibels(processor.inputGainLn));
+    }
+  }
+}
+
+//==============================================================================
+void RonnAudioProcessorEditor::updateModelState()
+{
   processor.modelChange = true;
   processor.calculateReceptiveField();
   float rfms = (processor.receptiveFieldSamples / processor.sampleRate) * 1000;
@@ -199,8 +230,8 @@ void RonnAudioProcessorEditor::paint (Graphics& g)
     {
       Colour fillColour = Colour (0xffececec);
       g.setColour (fillColour);
-      g.fillRect (400, 0, 300, 280); // draw side bar on the right
-      g.fillRect (0, 0, 30, 280);    // draw strip on the left
+      g.fillRect (400, 0, 300, 300); // draw side bar on the right
+      g.fillRect (0, 0, 30, 300);    // draw strip on the left
 
       g.setColour (Colours::grey);
       g.setFont (Font ("Source Sans Variable", 32.0f, Font::plain).withTypefaceStyle ("Light")); //.withExtraKerningFactor (0.147f));
@@ -213,7 +244,6 @@ void RonnAudioProcessorEditor::paint (Graphics& g)
 
 void RonnAudioProcessorEditor::resized()
 {
-
     auto marginTop          = 32;
     auto contentPadding     = 12;
     auto sectionPadding     = 18;
@@ -234,8 +264,8 @@ void RonnAudioProcessorEditor::resized()
     inputGainSlider.setBounds  (area.removeFromTop (rotaryItemHeight));
     area.removeFromTop(6);
     outputGainSlider.setBounds (area.removeFromTop (rotaryItemHeight));
-    area.removeFromTop(6);
-
+    
+    area.removeFromTop(12);
     area.removeFromLeft(65); // slide over the textboxes
     //area.removeFromRight(); // slide over the textboxes
     receptiveFieldTextEditor.setBounds(area.removeFromTop (contentItemHeight));
@@ -264,8 +294,10 @@ void RonnAudioProcessorEditor::resized()
     area.removeFromTop(contentPadding);
     initTypeComboBox.setBounds    (area.removeFromTop (contentItemHeight));
     area.removeFromTop(contentPadding);
-    useBiasButton.setBounds       (area.removeFromTop (contentItemHeight));
-    area.removeFromTop(contentPadding);
 
+    auto toggleArea = area.removeFromTop (contentItemHeight);
+    useBiasButton.setBounds       (toggleArea);
+    linkGainButton.setBounds      (toggleArea.removeFromRight(60));
+    depthwiseButton.setBounds     (toggleArea.removeFromRight(100));
 }
 
