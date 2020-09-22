@@ -56,6 +56,7 @@ private:
     std::unique_ptr<ButtonAttachment> useBiasAttachment;
 
     ComboBox dilationsComboBox, activationsComboBox, initTypeComboBox;
+    Label dilationsLabel, activationsLabel, initTypeLabel;
     std::unique_ptr<ComboBoxAttachment> dilationsAttachment, activationsAttachment, initTypeAttachment;
 
     // Side panel controls
