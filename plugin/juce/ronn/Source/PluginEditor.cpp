@@ -40,12 +40,27 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
 
     useBiasButton.setButtonText ("Bias");
 
+    Colour fillColour = Colour (0xffececec); // side panel color
+
+    inputGainSlider.setRange(-24, 24);
     inputGainSlider.setSliderStyle (Slider::Rotary);
-    inputGainSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);//(Slider::NoTextBox, false, 0, 0);
-    inputGainLabel.setText ("in gain", dontSendNotification);
+    inputGainSlider.setTextBoxStyle (Slider::TextBoxRight, false, 50, 24);//(Slider::NoTextBox, false, 0, 0);
+    inputGainSlider.onValueChange = [this] {processor.inputGainLn = juce::Decibels::decibelsToGain((float) inputGainSlider.getValue());};
+    inputGainSlider.setValue (juce::Decibels::gainToDecibels(processor.inputGainLn));
+    inputGainSlider.setColour (Slider::textBoxBackgroundColourId, fillColour);
+    inputGainSlider.setColour (Slider::textBoxOutlineColourId, fillColour);
+    inputGainLabel.setText ("in", dontSendNotification);
+    inputGainLabel.attachToComponent (&inputGainSlider, true); 
+    
+    outputGainSlider.setRange(-24, 24);
     outputGainSlider.setSliderStyle (Slider::Rotary);
-    outputGainSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);//(Slider::NoTextBox, false, 0, 0);
-    outputGainLabel.setText ("out gain", dontSendNotification);
+    outputGainSlider.setTextBoxStyle (Slider::TextBoxRight, false, 50, 24);//(Slider::NoTextBox, false, 0, 0);
+    outputGainSlider.onValueChange = [this] {processor.outputGainLn = juce::Decibels::decibelsToGain((float) inputGainSlider.getValue());};
+    outputGainSlider.setValue (juce::Decibels::gainToDecibels(processor.outputGainLn));
+    outputGainSlider.setColour (Slider::textBoxBackgroundColourId, fillColour);
+    outputGainSlider.setColour (Slider::textBoxOutlineColourId, fillColour);
+    outputGainLabel.setText ("out", dontSendNotification);
+    outputGainLabel.attachToComponent (&outputGainSlider, true); 
 
     layersSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);
     kernelSlider.setTextBoxStyle (Slider::TextBoxRight, false, 30, 24);
@@ -60,6 +75,8 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     addAndMakeVisible (activationsComboBox);
     addAndMakeVisible (initTypeComboBox);
     addAndMakeVisible (useBiasButton);
+    addAndMakeVisible (inputGainLabel);
+    addAndMakeVisible (outputGainLabel);
 
     // attach labels
     addAndMakeVisible (layersLabel);
@@ -96,10 +113,23 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     initTypeComboBox.addItem("Kaiming (Normal)", 5);
     initTypeComboBox.addItem("Kaiming (Uniform)", 6);
 
-    addAndMakeVisible(receptiveFieldTextEditor);
+    receptiveFieldTextEditor.setColour (TextEditor::backgroundColourId, fillColour);
+    receptiveFieldTextEditor.setColour (TextEditor::outlineColourId, fillColour);
+    receptiveFieldTextEditor.setColour (TextEditor::textColourId, Colours::darkgrey);
+    receptiveFieldTextEditor.setColour (TextEditor::highlightColourId, Colours::darkgrey);
     receptiveFieldTextEditor.setReadOnly(true);
     receptiveFieldTextEditor.setFont(Font (15.0f));
     receptiveFieldTextEditor.setText("0", false);
+    addAndMakeVisible(receptiveFieldTextEditor);
+
+    seedTextEditor.setColour (TextEditor::backgroundColourId, fillColour);
+    seedTextEditor.setColour (TextEditor::outlineColourId, fillColour);
+    seedTextEditor.setColour (TextEditor::textColourId, Colours::darkgrey);
+    seedTextEditor.setColour (TextEditor::highlightColourId, Colours::darkgrey);
+    seedTextEditor.setReadOnly(false);
+    seedTextEditor.setFont(Font (15.0f));
+    seedTextEditor.setText("0", false);
+    addAndMakeVisible(seedTextEditor);
 
     layersAttachment.reset      (new SliderAttachment   (valueTreeState, "layers", layersSlider));
     kernelAttachment.reset      (new SliderAttachment   (valueTreeState, "kernel", kernelSlider));
@@ -110,6 +140,7 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     activationsAttachment.reset (new ComboBoxAttachment (valueTreeState, "activation", activationsComboBox));
     initTypeAttachment.reset    (new ComboBoxAttachment (valueTreeState, "initType", initTypeComboBox));
     useBiasAttachment.reset     (new ButtonAttachment   (valueTreeState, "useBias", useBiasButton));
+    //seedAttachment.reset        (new TextBoxAttachment  (valueTreeState, "seed", seedTextEditor));
 
     // callbacks
     layersSlider.onValueChange   = [this] { updateModelState(); };
@@ -132,7 +163,7 @@ void RonnAudioProcessorEditor::updateModelState(){
   processor.modelChange = true;
   processor.calculateReceptiveField();
   float rfms = (processor.receptiveFieldSamples / processor.sampleRate) * 1000;
-  receptiveFieldTextEditor.setText(String(rfms).operator+=(' ms'));
+  receptiveFieldTextEditor.setText(String(rfms));
 }
 
 //==============================================================================
@@ -176,15 +207,17 @@ void RonnAudioProcessorEditor::resized()
 
     area.removeFromTop(marginTop + 40);
     area.removeFromLeft(800 - sidePanelWidth);
-    area.removeFromLeft(sectionPadding);
-    area.removeFromRight(sectionPadding);
+    area.removeFromLeft(sectionPadding+10);
+    area.removeFromRight(sectionPadding+10);
 
     inputGainSlider.setBounds  (area.removeFromTop (rotaryItemHeight));
     area.removeFromTop(6);
     outputGainSlider.setBounds (area.removeFromTop (rotaryItemHeight));
     area.removeFromTop(6);
-    receptiveFieldTextEditor.setBounds (area.removeFromTop (rotaryItemHeight));
-    area.removeFromTop(6);
+    receptiveFieldTextEditor.setBounds (area.removeFromTop (contentItemHeight));
+    area.removeFromTop(3);
+    seedTextEditor.setBounds (area.removeFromTop (contentItemHeight));
+    area.removeFromTop(3);
 
     // center panel
     area = getLocalBounds();

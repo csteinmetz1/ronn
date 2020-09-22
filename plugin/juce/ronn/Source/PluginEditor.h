@@ -58,15 +58,15 @@ private:
     ComboBox dilationsComboBox, activationsComboBox, initTypeComboBox;
     std::unique_ptr<ComboBoxAttachment> dilationsAttachment, activationsAttachment, initTypeAttachment;
 
-    TextEditor receptiveFieldTextEditor;
-    Label receptiveFieldLabel;
-    String receptiveFieldString;
-
     // Side panel controls
     //==============================================================================
     Label inputGainLabel, outputGainLabel;
     Slider inputGainSlider, outputGainSlider;
     std::unique_ptr<SliderAttachment> inputGainAttachment, outputGainAttachment;
+
+    TextEditor receptiveFieldTextEditor, seedTextEditor;
+    Label receptiveFieldLabel, seedLabel;
+    String receptiveFieldString, seedString;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RonnAudioProcessorEditor)
 };

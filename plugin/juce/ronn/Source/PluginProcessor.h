@@ -78,9 +78,14 @@ public:
     Model::InitType initType = Model::InitType::normal;
     std::shared_ptr<Model> model;
 
+    int seed = 42;
     int receptiveFieldSamples = 0; // in samples
     int blockSamples = 0; // in/out samples
     double sampleRate = 0; // in Hz
+
+    // holder for the linear gain values
+    // (don't want to convert dB -> linear on audio thread)
+    float inputGainLn, outputGainLn;
 
 private:
     //==============================================================================
@@ -99,7 +104,8 @@ private:
     std::atomic<float>* dilationParameter   = nullptr;
     std::atomic<float>* activationParameter = nullptr;
     std::atomic<float>* initTypeParameter   = nullptr;
-  
+    std::atomic<float>* seedParameter       = nullptr;
+
     AudioSampleBuffer mBuffer; // circular buffer to store input data
     AudioSampleBuffer iBuffer; // non-circular buffer that reads data from mBuffer to pass to model
     int mBufferLength, iBufferLength, nBufferChannels;

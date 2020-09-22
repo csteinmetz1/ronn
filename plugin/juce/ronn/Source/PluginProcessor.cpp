@@ -29,12 +29,13 @@ RonnAudioProcessor::RonnAudioProcessor()
         std::make_unique<AudioParameterInt>   ("layers", "Layers", 1, 12, 6),
         std::make_unique<AudioParameterInt>   ("kernel", "Kernel Width", 1, 32, 3),
         std::make_unique<AudioParameterInt>   ("channels", "Channels", 1, 64, 8),
-        std::make_unique<AudioParameterFloat> ("inputGain", "Input Gain", 0.0f, 8.0f, 1.0f),   
-        std::make_unique<AudioParameterFloat> ("outputGain", "Output Gain", 0.0f, 8.0f, 1.0f),
+        std::make_unique<AudioParameterFloat> ("inputGain", "Input Gain", -24.0f, 24.0f, 0.0f),   
+        std::make_unique<AudioParameterFloat> ("outputGain", "Output Gain", -24.0f, 24.0f, 0.0f),
         std::make_unique<AudioParameterBool>  ("useBias", "Use Bias", false),
         std::make_unique<AudioParameterInt>   ("activation", "Activation", 1, 10, 1),
         std::make_unique<AudioParameterInt>   ("dilation", "Dilation Factor", 1, 4, 1),
-        std::make_unique<AudioParameterInt>   ("initType", "Init Type", 1, 6, 1)
+        std::make_unique<AudioParameterInt>   ("initType", "Init Type", 1, 6, 1),
+        std::make_unique<AudioParameterInt>   ("seed", "Seed", 0, 1024, 42)
     })
 {
  
@@ -47,7 +48,7 @@ RonnAudioProcessor::RonnAudioProcessor()
     activationParameter = parameters.getRawParameterValue ("activation");
     dilationParameter   = parameters.getRawParameterValue ("dilation");
     initTypeParameter   = parameters.getRawParameterValue ("initType");
-
+    seedParameter       = parameters.getRawParameterValue ("seed");
 
     // neural network model
     model = std::make_shared<Model>(nInputs, 
@@ -58,7 +59,8 @@ RonnAudioProcessor::RonnAudioProcessor()
                                    *dilationParameter,
                                    *useBiasParameter, 
                                    *activationParameter,
-                                   *initTypeParameter);
+                                   *initTypeParameter,
+                                   *seedParameter);
 }
 
 RonnAudioProcessor::~RonnAudioProcessor()
@@ -252,12 +254,12 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     std::vector<int64_t> sizes = {iBufferLength};                       // size of the buffer data
     auto* iBufferData = iBuffer.getWritePointer(0);                     // get pointer of the first channel 
     at::Tensor tensorFrame = torch::from_blob(iBufferData, sizes);      // load data from buffer into tensor type
-    tensorFrame = torch::mul(tensorFrame, inputGainParameter->load());  // apply the input gain first
+    tensorFrame = torch::mul(tensorFrame, inputGainLn);  // apply the input gain first
 
     if (nInputs > 1){
         auto* iBufferData = iBuffer.getWritePointer(1);                         // get pointer of the second channel 
         at::Tensor tensorFrameR = torch::from_blob(iBufferData, sizes);         // load data from buffer into tensor type
-        tensorFrameR = torch::mul(tensorFrameR, inputGainParameter->load());    // apply the input gain first
+        tensorFrameR = torch::mul(tensorFrameR, inputGainLn);    // apply the input gain first
         tensorFrame = at::stack({tensorFrame, tensorFrameR});    // stack the two channels to form the stereo tensor
         //std::cout << "input" << tensorFrame.sizes() << std::endl;
     }
@@ -274,7 +276,7 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
         auto outputDataPtr = outputData.data_ptr<float>();                              // get pointer to the output data
         buffer.copyFrom(channel,0,outputDataPtr,blockSamples);                          // copy output data to buffer
     }
-    buffer.applyGain(outputGainParameter->load());                                  // apply the output gain
+    buffer.applyGain(outputGainLn);                                  // apply the output gain
 
 }
 
@@ -318,7 +320,8 @@ void RonnAudioProcessor::buildModel()
                         *dilationParameter,
                         *useBiasParameter,
                         *activationParameter,
-                        *initTypeParameter));
+                        *initTypeParameter,
+                        *seedParameter));
 }
 
 //==============================================================================

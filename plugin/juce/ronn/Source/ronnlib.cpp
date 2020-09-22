@@ -14,7 +14,8 @@ Model::Model(int nInputs,
              int dFactor, 
              bool useBias, 
              int act,
-             int init) {
+             int init,
+             int gseed) {
 
         inputs = nInputs;
         outputs = nOutputs;
@@ -25,6 +26,7 @@ Model::Model(int nInputs,
         activation = static_cast<Activation>(int(act));
         initType = static_cast<InitType>(int(init));
         dilationFactor = dFactor;
+        seed = gseed;
 
         buildModel();
 
@@ -96,6 +98,7 @@ torch::Tensor Model::forward(torch::Tensor x) {
 }
 
 void Model::initModel(){
+    torch::manual_seed(seed); // always reset the seed before init
     for (auto i = 0; i < getLayers(); i++) {
         switch(getInitType())
         {
