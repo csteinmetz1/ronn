@@ -116,6 +116,7 @@ torch::Tensor Model::forward(torch::Tensor x) {
     // we iterate over the convolutions
     for (auto i = 0; i < getLayers(); i++) {
         if (i + 1 < getLayers()) {
+            //setActivation(static_cast<Activation>(rand() % Sine));
             switch (getActivation()) {
                 case Linear:        x =                   (conv[i](x)); break;
                 case LeakyReLU:     x = leakyrelu         (conv[i](x)); break;
@@ -159,4 +160,18 @@ int Model::getOutputSize(int frameSize){
         outputSize = outputSize - ((getKernelWidth()-1) * pow(getDilationFactor(), i));
     }
     return outputSize;
+}
+
+int Model::getNumParameters(){
+    int n = 0;
+    for (const auto& p : parameters()) {
+        auto sizes = p.sizes();
+        int s = 1;
+        for (auto dim : sizes) {
+            std::cout << dim << std::endl;
+            s = s * dim;
+        }
+        n = n + s;
+    }
+    return n;
 }

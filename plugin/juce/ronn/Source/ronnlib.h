@@ -26,6 +26,7 @@ struct Model : public torch::nn::Module {
         void initModel();
         void buildModel();
         int getOutputSize(int frameSize);
+        int getNumParameters();
 
         void setBias(bool newBias){bias = newBias;};
         void setInputs(int newInputs){inputs = newInputs;};

@@ -66,8 +66,8 @@ private:
     Slider inputGainSlider, outputGainSlider;
     std::unique_ptr<SliderAttachment> inputGainAttachment, outputGainAttachment;
 
-    TextEditor receptiveFieldTextEditor, seedTextEditor;
-    Label receptiveFieldLabel, seedLabel;
+    TextEditor receptiveFieldTextEditor, seedTextEditor, parametersTextEditor;
+    Label receptiveFieldLabel, seedLabel, parametersLabel;
     String receptiveFieldString, seedString;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RonnAudioProcessorEditor)

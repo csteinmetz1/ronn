@@ -145,6 +145,18 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     addAndMakeVisible(receptiveFieldTextEditor);
     addAndMakeVisible(receptiveFieldLabel);
 
+    parametersTextEditor.setColour (TextEditor::backgroundColourId, fillColour);
+    parametersTextEditor.setColour (TextEditor::outlineColourId, fillColour);
+    parametersTextEditor.setColour (TextEditor::textColourId, Colours::darkgrey);
+    parametersTextEditor.setColour (TextEditor::highlightColourId, Colours::darkgrey);
+    parametersTextEditor.setReadOnly(true);
+    parametersTextEditor.setFont(Font (15.0f));
+    parametersTextEditor.setText("0", false);
+    parametersLabel.setText ("parameters", dontSendNotification);
+    parametersLabel.attachToComponent (&parametersTextEditor, true); 
+    addAndMakeVisible(parametersTextEditor);
+    addAndMakeVisible(parametersLabel);
+
     seedTextEditor.setColour (TextEditor::backgroundColourId, fillColour);
     seedTextEditor.setColour (TextEditor::outlineColourId, fillColour);
     seedTextEditor.setColour (TextEditor::textColourId, Colours::darkgrey);
@@ -217,6 +229,8 @@ void RonnAudioProcessorEditor::updateModelState()
   processor.calculateReceptiveField();
   float rfms = (processor.receptiveFieldSamples / processor.sampleRate) * 1000;
   receptiveFieldTextEditor.setText(String(rfms, 1));
+  int parameters = processor.model->getNumParameters();
+  parametersTextEditor.setText(String(parameters));
 }
 
 //==============================================================================
@@ -271,9 +285,11 @@ void RonnAudioProcessorEditor::resized()
     area.removeFromLeft(65); // slide over the textboxes
     //area.removeFromRight(); // slide over the textboxes
     receptiveFieldTextEditor.setBounds(area.removeFromTop (contentItemHeight));
-    area.removeFromTop(3);
+    area.removeFromTop(2);
+    parametersTextEditor.setBounds(area.removeFromTop (contentItemHeight));
+    area.removeFromTop(2);
     seedTextEditor.setBounds (area.removeFromTop (contentItemHeight));
-    area.removeFromTop(3);
+    area.removeFromTop(2);
 
     // center panel
     area = getLocalBounds();
