@@ -1,0 +1,55 @@
+\begin{thebibliography}{1}
+
+\bibitem{covert2013rnn}
+J.~{Covert} and D.~L. {Livingston}.
+\newblock A vacuum-tube guitar amplifier model using a recurrent neural
+  network.
+\newblock In {\em 2013 Proceedings of IEEE Southeastcon}, pages 1--5, April
+  2013.
+
+\bibitem{damskagg2019distortion}
+Eero-Pekka Damsk{\"a}gg, Lauri Juvela, Vesa V{\"a}lim{\"a}ki, et~al.
+\newblock {Real-Time Modeling of Audio Distortion Circuits with Deep Learning}.
+\newblock In {\em 16th Sound and Music Computing Conference (SMC2019)}, May
+  2019.
+
+\bibitem{deman2014adaptive}
+Brecht De~Man and Joshua~D Reiss.
+\newblock Adaptive control of amplitude distortion effects.
+\newblock In {\em Audio Engineering Society Conference: 53rd International
+  Conference: Semantic Audio}. Audio Engineering Society, 2014.
+
+\bibitem{martinez2019nonlinear}
+Marco~A Mart{\'\i}nez~Ram{\'\i}rez and Joshua~D Reiss.
+\newblock Modeling nonlinear audio effects with end-to-end deep neural
+  networks.
+\newblock In {\em ICASSP 2019 - 2019 IEEE International Conference on
+  Acoustics, Speech and Signal Processing (ICASSP)}, pages 171--175, May 2019.
+
+\bibitem{schmidhuber2015deep}
+J{\"u}rgen Schmidhuber.
+\newblock Deep learning in neural networks: An overview.
+\newblock {\em Neural networks}, 61:85--117, 2015.
+
+\bibitem{schmitz2018nonlinear}
+Thomas Schmitz and Jean-Jacques Embrechts.
+\newblock Nonlinear real-time emulation of a tube amplifier with a long short
+  time memory neural-network.
+\newblock In {\em Audio Engineering Society Convention 144}. Audio Engineering
+  Society, 2018.
+
+\bibitem{shepherd2003distortion}
+John Shepherd.
+\newblock {\em Continuum Encyclopedia of Popular Music of the World:
+  Performance and production. Volume II}, page 286.
+\newblock Continuum Encyclopedia of Popular Music of the World: Volume 1:
+  Media, Industry and Society. Bloomsbury Academic, 2003.
+
+\bibitem{zhang2018lstm}
+Zhichen Zhang, Edward Olbrych, Joseph Bruchalski, Thomas~J. McCormick, and
+  David~L. Livingston.
+\newblock A vacuum-tube guitar amplifier model using long/short-term memory
+  networks.
+\newblock {\em SoutheastCon 2018}, pages 1--5, 2018.
+
+\end{thebibliography}

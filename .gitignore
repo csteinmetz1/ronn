@@ -1,5 +1,6 @@
 # OS junk
 .DS_Store
+.vscode
 
 # Python
 env/
@@ -8,3 +9,11 @@ samples/
 
 # libs
 libtorch/
+
+# LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.out
