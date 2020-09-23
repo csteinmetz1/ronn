@@ -103,16 +103,18 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     dilationsComboBox.addItem ("3^n", 3);
     dilationsComboBox.addItem ("4^n", 4);
 
-    activationsComboBox.addItem("LeakyReLU", 1);
-    activationsComboBox.addItem("Tanh", 2);
-    activationsComboBox.addItem("Sigmoid", 3);
-    activationsComboBox.addItem("ReLU", 4);
-    activationsComboBox.addItem("ELU", 5);
-    activationsComboBox.addItem("SELU", 6);
-    activationsComboBox.addItem("GELU", 7);
-    activationsComboBox.addItem("RReLU", 8);
-    activationsComboBox.addItem("Softplus", 9);
-    activationsComboBox.addItem("Softshrink", 10); 
+    activationsComboBox.addItem("Linear",     1);
+    activationsComboBox.addItem("LeakyReLU",  2);
+    activationsComboBox.addItem("Tanh",       3);
+    activationsComboBox.addItem("Sigmoid",    4);
+    activationsComboBox.addItem("ReLU",       5);
+    activationsComboBox.addItem("ELU",        6);
+    activationsComboBox.addItem("SELU",       7);
+    activationsComboBox.addItem("GELU",       8);
+    activationsComboBox.addItem("RReLU",      9);
+    activationsComboBox.addItem("Softplus",  10);
+    activationsComboBox.addItem("Softshrink",11); 
+    activationsComboBox.addItem("Sine",      12); 
 
     initTypeComboBox.addItem("Normal", 1);
     initTypeComboBox.addItem("Uniform", 2);

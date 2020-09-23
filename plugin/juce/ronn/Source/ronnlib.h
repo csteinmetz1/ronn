@@ -7,7 +7,7 @@ struct Model : public torch::nn::Module {
 
     public:
 
-        enum Activation {LeakyReLU, Tanh, Sigmoid, ReLU, ELU, SELU, GELU, RReLU, Softplus, Softshrink};
+        enum Activation {Linear, LeakyReLU, Tanh, Sigmoid, ReLU, ELU, SELU, GELU, RReLU, Softplus, Softshrink, Sine};
         enum InitType   {normal, uniform, xavier_normal, xavier_uniform, kaiming_normal, kamming_uniform};
 
         Model(int nInputs, 
@@ -19,7 +19,8 @@ struct Model : public torch::nn::Module {
               bool useBias, 
               int act,
               int init,
-              int gseed);
+              int gseed,
+              bool dwise);
 
         torch::Tensor forward(torch::Tensor);
         void initModel();
@@ -48,7 +49,7 @@ struct Model : public torch::nn::Module {
 
     private:
         int inputs, outputs, layers, channels, kernelWidth, dilationFactor, seed;
-        bool bias;
+        bool bias, depthwise;
         Activation activation;
         InitType initType;
         std::vector<torch::nn::Conv1d> conv;      

@@ -15,7 +15,8 @@ Model::Model(int nInputs,
              bool useBias, 
              int act,
              int init,
-             int gseed) {
+             int gseed,
+             bool dwise) {
 
         inputs = nInputs;
         outputs = nOutputs;
@@ -27,6 +28,7 @@ Model::Model(int nInputs,
         initType = static_cast<InitType>(int(init));
         dilationFactor = dFactor;
         seed = gseed;
+        depthwise = dwise;
 
         buildModel();
 
@@ -41,28 +43,65 @@ void Model::buildModel() {
     int inChannels, outChannels;
 
     // construct the convolutional layers
-    for (int i = 0; i < getLayers(); i++) {
-        if (i == 0 && getLayers() > 1) {
+    for (int i = 0; i < getLayers(); i++) 
+    {
+        if (i == 0 && getLayers() > 1) 
+        {
             inChannels = getInputs();
             outChannels = getChannels();
         }
-        else if (i == 0) {
+        else if (i == 0) 
+        {
             inChannels = getInputs();
             outChannels = getOutputs(); 
         }
-        else if (i + 1 == getLayers()) {
+        else if (i + 1 == getLayers()) 
+        {
             inChannels = getChannels();
             outChannels = getOutputs();
         }
-        else {
+        else 
+        {
             inChannels = getChannels();
             outChannels = getChannels();
         }
-        conv.push_back(torch::nn::Conv1d(
-            torch::nn::Conv1dOptions(inChannels,outChannels,getKernelWidth())
-            .stride(1)
-            .dilation(pow(getDilationFactor(),i))
-            .bias(getBias())));
+        if (!depthwise) 
+        {
+            conv.push_back(torch::nn::Conv1d(
+                torch::nn::Conv1dOptions(inChannels,outChannels,getKernelWidth())
+                .stride(1)
+                .dilation(pow(getDilationFactor(),i))
+                .bias(getBias())));
+        }
+        else 
+        {   // first depthwise conv
+            int groups;
+            if (i+1 == getLayers())
+            {
+                groups = 1;
+            }
+            else if (i == 0) 
+            {
+                groups = 1;
+            }
+            else 
+            {
+                groups = inChannels;
+            }
+            std::cout << i << " " << inChannels << " " << outChannels << " " << groups << std::endl;
+            conv.push_back(torch::nn::Conv1d(
+                torch::nn::Conv1dOptions(inChannels,outChannels,getKernelWidth())
+                .stride(1)
+                .groups(groups)
+                .dilation(pow(getDilationFactor(),i))
+                .bias(getBias())));
+
+            // followed by pointwise conv
+            //conv.push_back(torch::nn::Conv1d(
+            //    torch::nn::Conv1dOptions(outChannels,outChannels,1)
+            //    .stride(1)
+            //    .bias(getBias())));
+        }
     }
 
     // now register each convolutional layer
@@ -78,6 +117,7 @@ torch::Tensor Model::forward(torch::Tensor x) {
     for (auto i = 0; i < getLayers(); i++) {
         if (i + 1 < getLayers()) {
             switch (getActivation()) {
+                case Linear:        x =                   (conv[i](x)); break;
                 case LeakyReLU:     x = leakyrelu         (conv[i](x)); break;
                 case Tanh:          x = torch::tanh       (conv[i](x)); break;
                 case Sigmoid:       x = torch::sigmoid    (conv[i](x)); break;
@@ -88,6 +128,7 @@ torch::Tensor Model::forward(torch::Tensor x) {
                 case RReLU:         x = torch::rrelu      (conv[i](x)); break;
                 case Softplus:      x = torch::softplus   (conv[i](x)); break;
                 case Softshrink:    x = torch::softshrink (conv[i](x)); break;
+                case Sine:          x = torch::sin        (conv[i](x)); break;
                 default:            x =                   (conv[i](x)); break;
             }
         }

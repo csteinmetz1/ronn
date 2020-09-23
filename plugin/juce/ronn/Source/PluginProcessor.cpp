@@ -63,7 +63,8 @@ RonnAudioProcessor::RonnAudioProcessor()
                                    *useBiasParameter, 
                                    *activationParameter,
                                    *initTypeParameter,
-                                   *seedParameter);
+                                   *seedParameter,
+                                   *depthwiseParameter);
 }
 
 RonnAudioProcessor::~RonnAudioProcessor()
@@ -334,7 +335,8 @@ void RonnAudioProcessor::buildModel()
                         *useBiasParameter,
                         *activationParameter,
                         *initTypeParameter,
-                        *seedParameter));
+                        *seedParameter,
+                        *depthwiseParameter));
 }
 
 //==============================================================================
