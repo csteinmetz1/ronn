@@ -1,5 +1,153 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="Randomized Overdrive Neural Networks">
+    <meta name="author" content="Christian Steinmetz,
+                                Joshua D. Reiss">
 
-<h1>landing</h1>
+    <title>Randomized Overdrive Neural Networks</title>
+    <!-- Bootstrap core CSS -->
+    <!--link href="bootstrap.min.css" rel="stylesheet"-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+</head>
+
+<body>
+<div class="jumbotron jumbotron-fluid text-center">
+    <div class="container"></div>
+    <h1>Randomized Overdrive Neural Networks</h1>
+    <hr>
+    <p class="authors">
+        <a href="http://www.christiansteinmetz.com"> Christian Steinmetz</a> and
+        <a href="http://www.eecs.qmul.ac.uk/~josh/"> Joshua D. Reiss</a>
+    </p>
+
+    <div class="btn-group center" role="group" aria-label="Top menu">
+        <a class="btn btn-primary" href="">Paper</a>
+        <a class="btn btn-primary" href="">Code</a>
+        <a class="btn btn-primary" href="">Data</a>
+    </div>
+</div>
+
+<div class="container" style="max-width: 950px; margin-left: auto; margin-right: auto;">
+    <div class="container">
+        <div class="section">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe 
+                width="560" 
+                height="315" 
+                src="https://www.youtube.com/embed/s1p_CvwDEB8" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen></iframe>
+            </div>
+            <hr>
+            <p>
+                Abstract goes here... 
+            </p>
+        </div>
+    
+        <div class="section">
+            <h2>Plugin</h2>
+            <hr>
+            <p>
+                Section text
+            </p>
+            <img src='neurips/figs/ronn-vst-ui.png' class='img-fluid'>
+        </div>
+    
+        <div class="section">
+            <h2>Related Projects</h2>
+            <hr>
+            <p>
+                Check out our related projects on using neural networks in audio effects! <br>
+            </p>
+            <div class='row vspace-top'>
+                <div class="col-sm-3">
+                    <img src='https://csteinmetz1.github.io/NeuralReverberator/slides/static/img/nr-rir.gif' class='img-fluid'>
+                </div>
+    
+                <div class="col">
+                    <div class='paper-title'>
+                        <a href="https://www.christiansteinmetz.com/projects-blog/neuralreverberator">NeuralReverberator</a>
+                    </div>
+                    <div>
+                        Adding reverberation to musical sources is an essential part of creating an engaging listening experience. 
+                        NeuralReverberator is a convolutional reverb synthesizer that uses a spectral autoencoder as a generative model. 
+                        We implement the model as a real-time plugin that allows audio engineers to traverse the latent space of the autoencoder,
+                        and generate novel reverberation effect with varying timbre and duration. 
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class='row vspace-top'>
+                <div class="col-sm-3">
+                    <img src='https://floweq.ml/img/tf.gif' class='img-fluid'>
+                </div>
+    
+                <div class="col">
+                    <div class='paper-title'>
+                        <a href="http://floweq.ml">flowEQ</a>
+                    </div>
+                    <div>
+                        We use a disentangled variational autoencoder (β-VAE) in order to provide a new modality for modifying the timbre of recordings via a parametric equalizer. 
+                        By traversing the learned latent space of the trained decoder network in the real-time plugin, 
+                        the user can more quickly search through the configurations of a five band parametric equalizer. 
+                        This methodology promotes using one’s ears to determine the proper EQ settings over looking at transfer functions or specific frequency controls.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    
+        <div class="section">
+            <h2>Paper</h2>
+            <hr>
+            <div>
+                <div class="list-group">
+                    <a href=""
+                       class="list-group-item">
+                        <img src="img/paper_thumbnail.png" style="width:100%; margin-right:-20px; margin-top:-10px;">
+                    </a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="section">
+            <h2>Bibtex</h2>
+            <hr>
+           <pre><code>
+                @misc{ Nobody06,
+                    author = "Nobody Jr",
+                    title = "My Article",
+                    year = "2006" }
+            </code></pre>
+        </div>
+    
+        <hr>
+    
+        <footer>
+            <p>*Submitted to the NeurIPS 2020 Workshop on Machine Learning for Creativity and Design</p>
+            <p>Send feedback and questions to <a href="http://christiansteinmetz.com">Christian Steinmetz</a>.</p>
+        </footer>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+</body>
 </html>
