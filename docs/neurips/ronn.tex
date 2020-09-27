@@ -29,7 +29,7 @@
 \usepackage{graphicx}
 \graphicspath{ {./figs/} }
 
-\title{Randomized overdrive neural networks}
+\title{Randomized Overdrive Neural Networks}
 
 % The \author macro works with any number of authors. There are two commands
 % used to separate the names and addresses of multiple authors: \And and \AND.
@@ -40,7 +40,7 @@
 % \AND instead of \And before the third author name.
 
 \author{%
-  Christian ~Steinmetz \\
+  Christian J. ~Steinmetz \\
   Queen Mary University of London\\
   \texttt{c.j.steinmetz@qmul.ac.uk} \\
   \And
@@ -55,37 +55,50 @@
 
 \begin{abstract}
 
+By processing audio signals in the time-domain with randomly weighted temporal convolutional networks (TCNs),
+we uncover a wide range of novel, yet controllable distortion and overdrive effects. 
+We find that architectural aspects, such as the depth of the network, 
+the kernel size, the number of channels, the activation function, as well as the weight initialization scheme, 
+have a clear impact on the sonic character of the resultant effect, without the need for training. 
+In practice, these effects range from relatively conventional overdrive effects,
+to more extreme effects as the receptive field grows, akin to a fusion of distortion, equalization, delay, and reverb.  
+To enable use by musicians and producers, we provide a real-time plugin implementation.
+This allows users to dynamically design networks, listening to the to the results in real-time.
+We provide a demo, along with builds at \url{https://ronn.ml}.
+
 \end{abstract} 
- 
+
+% The TCN architecture can be viewed as a nonlinear waveshaper with memory
+% equal to receptive field of the causal convolutional network. 
+
 \section{Introduction}
 
 Throughout the history of audio technology, engineers, circuit designers, 
-and guitarists have searched for novel sonic effects as a result of clipping or distorting audio signals. 
+and particularly guitarists, have searched for novel sonic effects as a result of clipping or distorting audio signals. 
 These distortion effects were first discovered by pushing early guitar amplifiers beyond their operating range, 
 or in some cases even from the accidental damage amplifiers or speakers \cite{shepherd2003distortion}. 
 These pursuits are a clear example of creators taking advantage of the limitations of their tools for creative effect.
-
 Today, distortion effects have permeated most genres like blues, jazz, rock, metal, 
 and these effects also play a central roll in modern pop and hip-hop styles.
 Whether it be vacuum tubes, diodes, transistors, op-amps, integrated circuits, or broken speaker drivers performing the distortion, 
 it appears as if nearly all the methods of generating this sought after effect have been exhausted. 
 But maybe there is a relatively under-explored in the task of generating distortion, and thats the realm of neural networks.
 
-Neural networks are far from new,
-and in fact they came into existence in the same era that blues guitarists began their experiments with distortion \cite{schmidhuber2015deep}.
-Now with the emergence of modern deep learning approaches, 
+Neural networks are far from new, and in fact they arose in the same era that blues guitarists began their experiments with distortion \cite{schmidhuber2015deep}.
+With the emergence of modern deep learning approaches, which have demonstrated the ability to tackle many modeling tasks in the audio domain,
 these methods have already applied to the task of trying to mimic the characteristic distortion of famous amplifiers and distortion effects 
 \cite{covert2013rnn, schmitz2018nonlinear, zhang2018lstm, damskagg2019distortion, martinez2019nonlinear}.
-The aim of this work deviates from these modeling approaches, and very much in the spirit of the original distortion pioneers, 
-our work aims to take advantage of neural networks 
-in a way that departs from their intended design, . 
+However, the aim of this work deviates from these modeling approaches.
+Very much in the spirit of the original distortion pioneers, 
+our work aims to take advantage of neural networks in a way that departs from their intended design, 
+with the goal of. 
 
 \cite{deman2014adaptive}
  
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.7\textwidth]{ronn-vst-ui.png}
-\end{figure}
+%\begin{figure}[h]
+%  \centering
+%  \includegraphics[width=0.7\textwidth]{ronn-vst-ui.png}
+%\end{figure}
 
 \section{Method}
 
