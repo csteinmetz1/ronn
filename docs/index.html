@@ -21,16 +21,18 @@
 <div class="jumbotron jumbotron-fluid text-center">
     <div class="container"></div>
     <h1>Randomized Overdrive Neural Networks</h1>
-    <hr>
-    <p class="authors">
-        <a href="http://www.christiansteinmetz.com"> Christian Steinmetz</a> and
+    <p style="margin-bottom: 0;">
+        <a href="http://www.christiansteinmetz.com"> Christian J. Steinmetz</a> and
         <a href="http://www.eecs.qmul.ac.uk/~josh/"> Joshua D. Reiss</a>
+    </p>
+    <p style="margin-top: 0;">
+        Queen Mary University of London
     </p>
 
     <div class="btn-group center" role="group" aria-label="Top menu">
-        <a class="btn btn-primary" href="">Paper</a>
-        <a class="btn btn-primary" href="">Code</a>
-        <a class="btn btn-primary" href="">Data</a>
+        <a class="btn btn-secondary" href="">Paper</a>
+        <a class="btn btn-secondary" href="https://github.com/csteinmetz1/ronn">Code</a>
+        <a class="btn btn-secondary" href="">VST/AU</a>
     </div>
 </div>
 
@@ -48,15 +50,29 @@
             </div>
             <hr>
             <p>
-                Abstract goes here... 
+                By processing audio signals in the time-domain with randomly weighted temporal convolutional networks (TCNs),
+                we uncover a wide range of novel, yet controllable distortion and overdrive effects. 
+                We find that architectural aspects, such as the depth of the network, 
+                the kernel size, the number of channels, the activation function, as well as the weight initialization scheme, 
+                have a clear impact on the sonic character of the resultant effect, without the need for training. 
+                In practice, these effects range from relatively conventional overdrive effects,
+                to more extreme effects as the receptive field grows, akin to a fusion of distortion, equalization, delay, and reverb.  
+                To enable use by musicians and producers, we provide a real-time plugin implementation.
+                This allows users to dynamically design networks, listening to the to the results in real-time.
             </p>
         </div>
     
         <div class="section">
+            <h2>History</h2>
+            <hr>
+            <p>
+            </p>
+        </div>
+
+        <div class="section">
             <h2>Plugin</h2>
             <hr>
             <p>
-                Section text
             </p>
             <img src='neurips/figs/ronn-vst-ui.png' class='img-fluid'>
         </div>
@@ -121,12 +137,16 @@
         <div class="section">
             <h2>Bibtex</h2>
             <hr>
-           <pre><code>
-                @misc{ Nobody06,
-                    author = "Nobody Jr",
-                    title = "My Article",
-                    year = "2006" }
-            </code></pre>
+            <div style="background-color: #e9ecef;">
+                <pre>
+                <code>
+    @article{steinmetz2020overdrive,
+            title={Randomized Overdrive Neural Networks},
+            author={Steinmetz, Christian J. and Reiss, Joshua D.},
+            journal={arXiv preprint arXiv:},
+            year={2020}}</code>
+                </pre>
+            </div>
         </div>
     
         <hr>
