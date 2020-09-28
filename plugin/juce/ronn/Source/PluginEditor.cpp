@@ -253,8 +253,8 @@ void RonnAudioProcessorEditor::paint (Graphics& g)
       g.setFont (Font ("Source Sans Variable", 32.0f, Font::plain).withTypefaceStyle ("Light")); //.withExtraKerningFactor (0.147f));
       g.drawText ("ronn", 350, 0, 300, 70, Justification::centred, true);
       g.setFont (Font ("Source Sans Variable", 10.0f, Font::plain).withTypefaceStyle ("Light")); //.withExtraKerningFactor (0.147f));
-      g.drawText ("randomised overdrive", 350, 0, 300, 105, Justification::centred, true);
-      g.drawText ("neural network", 350, 0, 300, 125, Justification::centred, true);
+      g.drawText ("randomized overdrive", 350, 0, 300, 105, Justification::centred, true);
+      g.drawText ("neural networks", 350, 0, 300, 125, Justification::centred, true);
     }
 }
 
@@ -285,11 +285,11 @@ void RonnAudioProcessorEditor::resized()
     area.removeFromLeft(65); // slide over the textboxes
     //area.removeFromRight(); // slide over the textboxes
     receptiveFieldTextEditor.setBounds(area.removeFromTop (contentItemHeight));
-    area.removeFromTop(2);
+    area.removeFromTop(1);
     parametersTextEditor.setBounds(area.removeFromTop (contentItemHeight));
-    area.removeFromTop(2);
+    area.removeFromTop(1);
     seedTextEditor.setBounds (area.removeFromTop (contentItemHeight));
-    area.removeFromTop(2);
+    area.removeFromTop(1);
 
     // center panel
     area = getLocalBounds();
@@ -316,6 +316,6 @@ void RonnAudioProcessorEditor::resized()
     auto toggleArea = area.removeFromTop (contentItemHeight);
     useBiasButton.setBounds       (toggleArea);
     linkGainButton.setBounds      (toggleArea.removeFromRight(60));
-    depthwiseButton.setBounds     (toggleArea.removeFromRight(100));
+    depthwiseButton.setBounds     (toggleArea.removeFromRight(120));
 }
 
