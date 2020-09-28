@@ -130,6 +130,7 @@ torch::Tensor Model::forward(torch::Tensor x) {
                 case Softplus:      x = torch::softplus   (conv[i](x)); break;
                 case Softshrink:    x = torch::softshrink (conv[i](x)); break;
                 case Sine:          x = torch::sin        (conv[i](x)); break;
+                case Sine30:        x = torch::sin        (30 * conv[i](x)); break;
                 default:            x =                   (conv[i](x)); break;
             }
         }
@@ -145,7 +146,8 @@ void Model::initModel(){
         switch(getInitType())
         {
             case normal:            torch::nn::init::normal_            (conv[i]->weight);
-            case uniform:           torch::nn::init::uniform_           (conv[i]->weight, -0.25, 0.25);
+            case uniform1:          torch::nn::init::uniform_           (conv[i]->weight, -0.25, 0.25);
+            case uniform2:          torch::nn::init::uniform_           (conv[i]->weight, -1.00, 1.00);
             case xavier_normal:     torch::nn::init::xavier_normal_     (conv[i]->weight);
             case xavier_uniform:    torch::nn::init::xavier_uniform_    (conv[i]->weight);
             case kaiming_normal:    torch::nn::init::kaiming_normal_    (conv[i]->weight);

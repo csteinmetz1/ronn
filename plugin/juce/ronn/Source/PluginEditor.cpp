@@ -115,13 +115,15 @@ RonnAudioProcessorEditor::RonnAudioProcessorEditor (RonnAudioProcessor& p, Audio
     activationsComboBox.addItem("Softplus",  10);
     activationsComboBox.addItem("Softshrink",11); 
     activationsComboBox.addItem("Sine",      12); 
+    activationsComboBox.addItem("Sine x 30", 13); 
 
     initTypeComboBox.addItem("Normal", 1);
-    initTypeComboBox.addItem("Uniform", 2);
-    initTypeComboBox.addItem("Xavier (Normal)", 3);
-    initTypeComboBox.addItem("Xavier (Uniform)", 4);
-    initTypeComboBox.addItem("Kaiming (Normal)", 5);
-    initTypeComboBox.addItem("Kaiming (Uniform)", 6);
+    initTypeComboBox.addItem("Uniform (-0.25, 0.25)", 2);
+    initTypeComboBox.addItem("Uniform (-1.00, 1.00)", 3);
+    initTypeComboBox.addItem("Xavier (Normal)", 4);
+    initTypeComboBox.addItem("Xavier (Uniform)", 5);
+    initTypeComboBox.addItem("Kaiming (Normal)", 6);
+    initTypeComboBox.addItem("Kaiming (Uniform)", 7);
 
     addAndMakeVisible (dilationsLabel);
     dilationsLabel.setText ("dilation", dontSendNotification);

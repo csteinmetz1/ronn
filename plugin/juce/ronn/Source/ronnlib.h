@@ -7,8 +7,8 @@ struct Model : public torch::nn::Module {
 
     public:
 
-        enum Activation {Linear, LeakyReLU, Tanh, Sigmoid, ReLU, ELU, SELU, GELU, RReLU, Softplus, Softshrink, Sine};
-        enum InitType   {normal, uniform, xavier_normal, xavier_uniform, kaiming_normal, kamming_uniform};
+        enum Activation {Linear, LeakyReLU, Tanh, Sigmoid, ReLU, ELU, SELU, GELU, RReLU, Softplus, Softshrink, Sine, Sine30};
+        enum InitType   {normal, uniform1, uniform2, xavier_normal, xavier_uniform, kaiming_normal, kamming_uniform};
 
         Model(int nInputs, 
               int nOutputs, 
