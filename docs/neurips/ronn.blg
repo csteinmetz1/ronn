@@ -3,44 +3,46 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: ronn.aux
 The style file: plain.bst
 Database file #1: references.bib
-You've used 8 entries,
+Warning--I didn't find a database entry for ""
+You've used 12 entries,
             2118 wiz_defined-function locations,
-            543 strings with 5613 characters,
-and the built_in function-call counts, 2769 in all, are:
-= -- 265
-> -- 117
-< -- 4
-+ -- 48
-- -- 38
-* -- 160
-:= -- 444
-add.period$ -- 27
-call.type$ -- 8
-change.case$ -- 41
+            564 strings with 7015 characters,
+and the built_in function-call counts, 5348 in all, are:
+= -- 484
+> -- 359
+< -- 6
++ -- 143
+- -- 128
+* -- 390
+:= -- 891
+add.period$ -- 39
+call.type$ -- 12
+change.case$ -- 95
 chr.to.int$ -- 0
-cite$ -- 8
-duplicate$ -- 131
-empty$ -- 241
-format.name$ -- 38
-if$ -- 617
+cite$ -- 12
+duplicate$ -- 198
+empty$ -- 353
+format.name$ -- 128
+if$ -- 1119
 int.to.chr$ -- 0
-int.to.str$ -- 8
-missing$ -- 9
-newline$ -- 43
-num.names$ -- 16
-pop$ -- 62
+int.to.str$ -- 12
+missing$ -- 13
+newline$ -- 63
+num.names$ -- 26
+pop$ -- 118
 preamble$ -- 1
-purify$ -- 34
+purify$ -- 84
 quote$ -- 0
-skip$ -- 90
+skip$ -- 148
 stack$ -- 0
-substring$ -- 122
-swap$ -- 39
-text.length$ -- 4
+substring$ -- 223
+swap$ -- 65
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 30
+type$ -- 46
 warning$ -- 0
-while$ -- 25
-width$ -- 9
-write$ -- 90
+while$ -- 40
+width$ -- 14
+write$ -- 132
+(There was 1 warning)
