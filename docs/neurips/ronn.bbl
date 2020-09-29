@@ -6,18 +6,17 @@ Shaojie Bai, J.~Zico Kolter, and Vladlen Koltun.
   networks for sequence modeling.
 \newblock {\em arXiv:1803.01271}, 2018.
 
-\bibitem{covert2013rnn}
-J.~{Covert} and D.~L. {Livingston}.
-\newblock A vacuum-tube guitar amplifier model using a recurrent neural
-  network.
-\newblock In {\em 2013 Proceedings of IEEE Southeastcon}, pages 1--5, April
-  2013.
-
 \bibitem{damskagg2019distortion}
 Eero-Pekka Damsk{\"a}gg, Lauri Juvela, Vesa V{\"a}lim{\"a}ki, et~al.
 \newblock {Real-Time Modeling of Audio Distortion Circuits with Deep Learning}.
 \newblock In {\em 16th Sound and Music Computing Conference (SMC2019)}, May
   2019.
+
+\bibitem{he2016deep}
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+\newblock Deep residual learning for image recognition.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 770--778, 2016.
 
 \bibitem{howard2017mobilenets}
 Andrew~G Howard, Menglong Zhu, Bo~Chen, Dmitry Kalenichenko, Weijun Wang,
@@ -56,6 +55,13 @@ Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory
   Alch\'{e}-Buc, E.~Fox, and R.~Garnett, editors, {\em Advances in Neural
   Information Processing Systems 32}, pages 8024--8035. Curran Associates,
   Inc., 2019.
+
+\bibitem{purwins2019deep}
+Hendrik Purwins, Bo~Li, Tuomas Virtanen, Jan Schl{\"u}ter, Shuo-Yiin Chang, and
+  Tara Sainath.
+\newblock Deep learning for audio signal processing.
+\newblock {\em IEEE Journal of Selected Topics in Signal Processing},
+  13(2):206--219, 2019.
 
 \bibitem{schmidhuber2015deep}
 J{\"u}rgen Schmidhuber.
