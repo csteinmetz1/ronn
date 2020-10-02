@@ -19,7 +19,7 @@ Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
   pattern recognition}, pages 770--778, 2016.
 
 \bibitem{howard2017mobilenets}
-Andrew~G Howard, Menglong Zhu, Bo~Chen, , et~al.
+Andrew~G Howard, Menglong Zhu, Bo~Chen, et~al.
 \newblock Mobilenets: Efficient convolutional neural networks for mobile vision
   applications.
 \newblock {\em arXiv preprint arXiv:1704.04861}, 2017.
@@ -36,6 +36,11 @@ Marco~A Mart{\'\i}nez~Ram{\'\i}rez and Joshua~D Reiss.
   networks.
 \newblock In {\em ICASSP 2019 - 2019 IEEE International Conference on
   Acoustics, Speech and Signal Processing (ICASSP)}, pages 171--175, May 2019.
+
+\bibitem{nair2010rectified}
+Vinod Nair and Geoffrey~E Hinton.
+\newblock Rectified linear units improve restricted boltzmann machines.
+\newblock In {\em ICML}, 2010.
 
 \bibitem{oord2016wavenet}
 Aaron van~den Oord, Sander Dieleman, Heiga Zen, et~al.
