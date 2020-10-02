@@ -19,8 +19,7 @@ Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
   pattern recognition}, pages 770--778, 2016.
 
 \bibitem{howard2017mobilenets}
-Andrew~G Howard, Menglong Zhu, Bo~Chen, Dmitry Kalenichenko, Weijun Wang,
-  Tobias Weyand, Marco Andreetto, and Hartwig Adam.
+Andrew~G Howard, Menglong Zhu, Bo~Chen, , et~al.
 \newblock Mobilenets: Efficient convolutional neural networks for mobile vision
   applications.
 \newblock {\em arXiv preprint arXiv:1704.04861}, 2017.
@@ -39,17 +38,12 @@ Marco~A Mart{\'\i}nez~Ram{\'\i}rez and Joshua~D Reiss.
   Acoustics, Speech and Signal Processing (ICASSP)}, pages 171--175, May 2019.
 
 \bibitem{oord2016wavenet}
-Aaron van~den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals,
-  Alex Graves, Nal Kalchbrenner, Andrew Senior, and Koray Kavukcuoglu.
+Aaron van~den Oord, Sander Dieleman, Heiga Zen, et~al.
 \newblock Wavenet: A generative model for raw audio.
 \newblock {\em arXiv preprint arXiv:1609.03499}, 2016.
 
 \bibitem{pytorch}
-Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory
-  Chanan, Trevor Killeen, Zeming Lin, Natalia Gimelshein, Luca Antiga, Alban
-  Desmaison, Andreas Kopf, Edward Yang, Zachary DeVito, Martin Raison, Alykhan
-  Tejani, Sasank Chilamkurthy, Benoit Steiner, Lu~Fang, Junjie Bai, and Soumith
-  Chintala.
+Adam Paszke, Sam Gross, Francisco Massa, et~al.
 \newblock Pytorch: An imperative style, high-performance deep learning library.
 \newblock In H.~Wallach, H.~Larochelle, A.~Beygelzimer, F.~d\textquotesingle
   Alch\'{e}-Buc, E.~Fox, and R.~Garnett, editors, {\em Advances in Neural
