@@ -15,7 +15,7 @@ Model::Model(int nInputs,
              bool useBias, 
              int act,
              int init,
-             int gseed,
+             int seed,
              bool dwise) {
 
         inputs = nInputs;
@@ -27,10 +27,9 @@ Model::Model(int nInputs,
         activation = static_cast<Activation>(int(act));
         initType = static_cast<InitType>(int(init));
         dilationFactor = dFactor;
-        seed = gseed;
         depthwise = dwise;
 
-        buildModel();
+        buildModel(seed);
 
         // and setup the activation functions
         leakyrelu = torch::nn::LeakyReLU(
@@ -38,7 +37,7 @@ Model::Model(int nInputs,
                         .negative_slope(0.2));
 }
 
-void Model::buildModel() {
+void Model::buildModel(int seed) {
 
     int inChannels, outChannels;
 
@@ -108,7 +107,7 @@ void Model::buildModel() {
     for (auto i = 0; i < getLayers(); i++) {
         register_module("conv"+std::to_string(i), conv[i]);
     }
-    initModel();
+    initModel(seed);
 }
 
 // the forward operation
@@ -140,7 +139,7 @@ torch::Tensor Model::forward(torch::Tensor x) {
     return x;
 }
 
-void Model::initModel(){
+void Model::initModel(int seed){
     torch::manual_seed(seed); // always reset the seed before init
     for (auto i = 0; i < getLayers(); i++) {
         switch(getInitType())

@@ -64,7 +64,7 @@ public:
     AudioParameterInt* layers;
 
     //==============================================================================
-    void buildModel();
+    void buildModel(int seed);
     bool modelChange = true;
 
     // define the model config

@@ -19,12 +19,12 @@ struct Model : public torch::nn::Module {
               bool useBias, 
               int act,
               int init,
-              int gseed,
+              int seed,
               bool dwise);
 
         torch::Tensor forward(torch::Tensor);
-        void initModel();
-        void buildModel();
+        void initModel(int seed);
+        void buildModel(int seed);
         int getOutputSize(int frameSize);
         int getNumParameters();
 
@@ -49,7 +49,7 @@ struct Model : public torch::nn::Module {
         InitType getInitType(){return initType;}
 
     private:
-        int inputs, outputs, layers, channels, kernelWidth, dilationFactor, seed;
+        int inputs, outputs, layers, channels, kernelWidth, dilationFactor;
         bool bias, depthwise;
         Activation activation;
         InitType initType;

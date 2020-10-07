@@ -225,10 +225,14 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     auto outChannels = getTotalNumOutputChannels();
 
     if (modelChange == true) {
-        buildModel();
+        buildModel(*seedParameter);
         calculateReceptiveField();
         setupBuffers();
         modelChange = false;
+    }
+
+    if (true) {
+        model->initModel(std::rand() %  1024);
     }
 
     int twp, trp; // temporary write/read pointer counters
@@ -324,7 +328,7 @@ void RonnAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 
 //==============================================================================
 
-void RonnAudioProcessor::buildModel() 
+void RonnAudioProcessor::buildModel(int seed) 
 {
     model.reset(new Model(nInputs, 
                         nOutputs, 
