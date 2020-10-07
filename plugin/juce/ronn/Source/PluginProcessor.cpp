@@ -231,9 +231,9 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
         modelChange = false;
     }
 
-    if (true) {
-        model->initModel(std::rand() %  1024);
-    }
+    //if (true) {
+    //    model->initModel(std::rand() %  1024);
+    //}
 
     int twp, trp; // temporary write/read pointer counters
 
