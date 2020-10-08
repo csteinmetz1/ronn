@@ -4,12 +4,9 @@
      \PassOptionsToPackage{square,numbers, compress}{natbib}
 % before loading neurips_2020
 
-% ready for submission
-\usepackage[final]{neurips_2020}
-
 % to compile a preprint version, e.g., for submission to arXiv, add add the
 % [preprint] option:
-%     \usepackage[preprint]{neurips_2020}
+  \usepackage[preprint]{neurips_2020}
 
 % to compile a camera-ready version, add the [final] option, e.g.:
 %     \usepackage[final]{neurips_2020}
@@ -17,6 +14,7 @@
 % to avoid loading the natbib package, add option nonatbib:
 %\usepackage[nonatbib]{neurips_2020}
 
+\usepackage[dvipsnames]{xcolor}
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
 \usepackage{hyperref}       % hyperlinks
@@ -28,8 +26,7 @@
  
 %\usepackage[square,numbers]{natbib}
 
-\usepackage{graphicx}
-\graphicspath{ {./figs/} }
+\usepackage[pdftex]{graphicx}
 
 \title{Randomized Overdrive Neural Networks}
 
@@ -69,9 +66,6 @@ This allows users to dynamically design networks, listening to the results in re
 We provide a demonstration and code at \url{https://ronn.ml}.
 \end{abstract} 
 
-
-% The TCN architecture can be viewed as a nonlinear waveshaper with memory
-% equal to receptive field of the causal convolutional network. 
 
 \section{Introduction}
 
@@ -128,7 +122,6 @@ can be used to dynamically construct new networks, all in a paradigm that allows
 
 A challenge arises since these models are fully convolutional,
 yet the plugin requires that all processing occur on a block-by-block basis. 
-%Additionally, we utilize convolutions without padding, so the output is often smaller than the input. 
 To address this, we construct a look-back buffer large enough so that the output sequence matches the length of the input block, 
 as demonstrated in Figure \ref{fig:arch}. 
 In practice, we found this approach produces no perceivable discontinuities at the frame boundaries. 
@@ -147,8 +140,6 @@ Depending on the depth of the network, we found the weight initialization scheme
 Since the TCN can produce any number of output channels, we can generate a stereo output signal, given only a mono input signal.
 This also enables cross-channel interactions for stereo inputs. We found that these configurations often produced interesting spatialized results. 
 Finally, a global seed control enables effect recallability and presets.
-%By parameterizing the TCN architecture itself, we introduce a new method for creators to design audio effects,
-%where model architecture choices are used to explore the space of sonic shaping possibilities.
 
 \section{Discussion}
 
@@ -156,10 +147,8 @@ We propose the use of randomly weighted TCNs as complex, time-domain audio signa
 We find that adjusting various architectural aspects results in the ability to generate a wide range of compelling sonic effects.
 This presents a new paradigm for designing audio effects. 
 Instead of adjusting the controls of traditional processors, users can explore a wider space of effects by adjusting the architecture of a neural network.
-%opening new avenues for exploring creative processing.
 While deep networks pose a challenge for real-time implementation due to significant compute overhead, 
 we overcome this with some careful design choices. 
-%This plugin enables the use of this set of effects within popular DAWs. 
 With a simplified interface, musicians and producers without machine learning experience can easily take advantage of these effects.
 While we have only investigated feedforward architectures, 
 it reasons that we could achieve a wider range of effects with the addition of recurrent pathways.
@@ -174,28 +163,19 @@ Future work could investigate potential biases in different weight initializatio
 
 \bibliographystyle{plain}  
 \bibliography{references}
-
-\newpage
+  
+\newpage 
 \section*{Supplementary materials}
 
 \begin{figure}[h]
   \centering 
-  \includegraphics[width=0.75\textwidth]{ronn-vst-ui.png}  
+  \includegraphics[width=0.75\textwidth]{figs/ronn-vst-ui.pdf}  
   \caption{The real-time plugin user interface featuring a series of sliders and selection boxes, 
   enabling users to dynamically construct various temporal convolutional network (TCN) architectures while listening to the results.
   When the user adjusts any of the on-screen controls, a callback will run, 
   constructing a neural network with the new architectural design. 
   On the bottom right, indicators show the receptive field in milliseconds, 
-  the number of parameters in the network, and the global seed. 
-  %The function of each of the user interface controls are as follows: \\ \\
-  %\texttt{layers} the number convolutional blocks, or depth of the network. \\
-  %\texttt{kernel} the number of taps in all convolutional filters.\\
-  %\texttt{channels} the number of convolutional output channels in each block.\\
-  %\texttt{dilation} the dilation growth factor, where the dilation is a function of the layer index $n$.\\
-  %\texttt{activation} the nonlinear activation function applied at the end of each convolutional block.\\
-  %\texttt{init type} the weight initialization mechanism used for the convolutional kernels.\\
-  %The \texttt{in} and \texttt{out} sliders adjust the input and output gain, which will act a drive control.
-  }
+  the number of parameters in the network, and the global seed.}
   \label{fig:ui}
 \end{figure}
 
@@ -203,7 +183,7 @@ Future work could investigate potential biases in different weight initializatio
 
 \begin{figure}[htb!]
   \centering
-  \includegraphics[width=0.4\textwidth]{plugin-diagram-v2.pdf}  
+  \includegraphics[width=0.4\textwidth]{figs/plugin-diagram-v2.pdf}  
   \caption{Block diagram outlining the block-based processing as well as a 3-layer network in a stereo input-output configuration. 
   Each block within the network consists only of a 1-dimensional convolution followed by an activation function,
   where $c$ is the number of output channels, $k$ is the kernel size, and $d$ is the dilation growth factor.
@@ -216,15 +196,5 @@ Future work could investigate potential biases in different weight initializatio
    may require processing multiple seconds of audio.}
   \label{fig:arch}
 \end{figure} 
-
-%\begin{table*}[h]
-%  \centering
-%   \begin{tabular} {c}
-%    \toprule
-%    
-%    \end{tabular} 
-%    \caption{}
-%    \label{tab:}   
-%\end{table*}
 
 \end{document}

@@ -1,59 +1,57 @@
 \begin{thebibliography}{10}
 
 \bibitem{bai2018tcn}
-Shaojie Bai, J.~Zico Kolter, and Vladlen Koltun.
+Shaojie Bai, J.~Sizo Kolter, and Vladlen Koltun.
 \newblock An empirical evaluation of generic convolutional and recurrent
   networks for sequence modeling.
 \newblock {\em arXiv:1803.01271}, 2018.
 
 \bibitem{damskagg2019distortion}
 Eero-Pekka Damsk{\"a}gg, Lauri Juvela, Vesa V{\"a}lim{\"a}ki, et~al.
-\newblock {Real-Time Modeling of Audio Distortion Circuits with Deep Learning}.
-\newblock In {\em 16th Sound and Music Computing Conference (SMC2019)}, May
-  2019.
+\newblock {Real-time modeling of audio distortion circuits with deep learning}.
+\newblock In {\em Sound and Music Computing Conf. (SMC)}, pages 332--339, 2019.
 
 \bibitem{he2016deep}
 Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
 \newblock Deep residual learning for image recognition.
-\newblock In {\em Proceedings of the IEEE conference on computer vision and
-  pattern recognition}, pages 770--778, 2016.
+\newblock In {\em Proc. of the IEEE Conf. on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 770--778, 2016.
 
 \bibitem{howard2017mobilenets}
-Andrew~G Howard, Menglong Zhu, Bo~Chen, et~al.
+Andrew~G. Howard, Menglong Zhu, Bo~Chen, et~al.
 \newblock Mobilenets: Efficient convolutional neural networks for mobile vision
   applications.
-\newblock {\em arXiv preprint arXiv:1704.04861}, 2017.
+\newblock {\em arXiv:1704.04861}, 2017.
 
 \bibitem{long2015fcn}
 Jonathan Long, Evan Shelhamer, and Trevor Darrell.
 \newblock Fully convolutional networks for semantic segmentation.
-\newblock In {\em Proceedings of the IEEE conference on computer vision and
-  pattern recognition}, pages 3431--3440, 2015.
+\newblock In {\em Proc. of the IEEE Conf. on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 3431--3440, 2015.
 
 \bibitem{martinez2019nonlinear}
-Marco~A Mart{\'\i}nez~Ram{\'\i}rez and Joshua~D Reiss.
+Marco~A. Mart{\'\i}nez~Ram{\'\i}rez and Joshua~D. Reiss.
 \newblock Modeling nonlinear audio effects with end-to-end deep neural
   networks.
-\newblock In {\em ICASSP 2019 - 2019 IEEE International Conference on
-  Acoustics, Speech and Signal Processing (ICASSP)}, pages 171--175, May 2019.
+\newblock In {\em IEEE Int Conf. on Acoustics, Speech and Signal Processing
+  (ICASSP)}, pages 171--175, 2019.
 
 \bibitem{nair2010rectified}
-Vinod Nair and Geoffrey~E Hinton.
+Vinod Nair and Geoffrey~E. Hinton.
 \newblock Rectified linear units improve restricted boltzmann machines.
-\newblock In {\em ICML}, 2010.
+\newblock In {\em Proc. of the Int. Conf. on Machine Learning (ICML)}, pages
+  807--814, 2010.
 
 \bibitem{oord2016wavenet}
 Aaron van~den Oord, Sander Dieleman, Heiga Zen, et~al.
 \newblock Wavenet: A generative model for raw audio.
-\newblock {\em arXiv preprint arXiv:1609.03499}, 2016.
+\newblock {\em arXiv:1609.03499}, 2016.
 
 \bibitem{pytorch}
 Adam Paszke, Sam Gross, Francisco Massa, et~al.
-\newblock Pytorch: An imperative style, high-performance deep learning library.
-\newblock In H.~Wallach, H.~Larochelle, A.~Beygelzimer, F.~d\textquotesingle
-  Alch\'{e}-Buc, E.~Fox, and R.~Garnett, editors, {\em Advances in Neural
-  Information Processing Systems 32}, pages 8024--8035. Curran Associates,
-  Inc., 2019.
+\newblock Pytorch: an imperative style, high-performance deep learning library.
+\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)},
+  volume~32, pages 8024--8035. Curran Associates, Inc., 2019.
 
 \bibitem{purwins2019deep}
 Hendrik Purwins, Bo~Li, Tuomas Virtanen, Jan Schl{\"u}ter, Shuo-Yiin Chang, and
@@ -71,21 +69,21 @@ J{\"u}rgen Schmidhuber.
 Thomas Schmitz and Jean-Jacques Embrechts.
 \newblock Nonlinear real-time emulation of a tube amplifier with a long short
   time memory neural-network.
-\newblock In {\em Audio Engineering Society Convention 144}. Audio Engineering
-  Society, 2018.
+\newblock In {\em 144th Convention of the Audio Engineering Society (AES)},
+  2018.
 
 \bibitem{shepherd2003distortion}
-John Shepherd.
+John Shepherd, David Horn, Dave Laing, Paul Oliver, and Peter Wicke, editors.
 \newblock {\em Continuum Encyclopedia of Popular Music of the World:
-  Performance and production. Volume II}, page 286.
-\newblock Continuum Encyclopedia of Popular Music of the World: Volume 1:
-  Media, Industry and Society. Bloomsbury Academic, 2003.
+  Performance and production. Volume 2}, page 286.
+\newblock Encyclopedia of Popular Music of the World. Bloomsbury Academic,
+  2003.
 
 \bibitem{zhang2018lstm}
 Zhichen Zhang, Edward Olbrych, Joseph Bruchalski, Thomas~J. McCormick, and
   David~L. Livingston.
 \newblock A vacuum-tube guitar amplifier model using long/short-term memory
   networks.
-\newblock {\em SoutheastCon 2018}, pages 1--5, 2018.
+\newblock In {\em Proc. of IEEE Southeastcon}, pages 1--5, 2018.
 
 \end{thebibliography}

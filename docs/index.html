@@ -31,7 +31,7 @@
     </p>
 
     <div class="btn-group center" role="group" aria-label="Top menu">
-        <a class="btn btn-secondary" target="blank_" href="https://arxiv.org">Paper</a>
+        <a class="btn btn-secondary" target="blank_" href="">Paper</a>
         <a class="btn btn-secondary" target="blank_" href="https://github.com/csteinmetz1/ronn">Code</a>
         <a class="btn btn-secondary" target="blank_" href="https://drive.google.com/file/d/15tA3X21N5FhLsDvElGBArUFA9cTogDLL/view?usp=sharing">VST/AU</a>
     </div>
@@ -67,46 +67,114 @@
             <h2>History</h2>
             <hr>
             <p>
-            Distortion was first discovered by guitarists when they found that pushing their guitar amplifiers beyond their operating range produced a warm and fuzzy sound.
-
+                Distortion was first discovered by guitarists when they found that pushing their early vacuum tube guitar amplifiers beyond their operating range produced a warm and fuzzy sound.
+                While distortion is often considered an undesirable artifact, musicians quickly discovered that they could take advantage of these limitations for creative effect. 
+                Distortion went on to invade a number of different genres and ultimately became a defining characteristic of rock music.
+                Even today, when many listeners think of the sound of an electric guitar, its a sound dominated by the overdriven characteristic of tube distortion.  
             </p>
-            <p>
-                <div class="row">
-                    <div class="col-md-6">
-                        <a href="#">
-                            <img class="img-fluid" src="neurips/figs/old-amp-front.jpg" alt="inn_logo">
-                        </a>
-                    </div>
-                    <div class="col-md-6">
-                        <a href="#">
-                            <img class="img-fluid" src="neurips/figs/old-amp-back.jpg" alt="ccs_logo">
-                        </a>
-                    </div>
+            <div class="row  justify-content-center">
+                <div class="col-md-6">
+                    <a href="#">
+                        <img class="img-fluid" src="img/old-amp-front.jpg" alt="inn_logo">
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#">
+                        <img class="img-fluid" src="img/old-amp-back.jpg" alt="ccs_logo">
+                    </a>
                 </div>
                 <blockquote class="blockquote">
                     <footer class="blockquote-footer">1940 National Dobro Corp Model 75 Vintage Tube Guitar Amplifier</footer>
                 </blockquote>
-            </p>
+            </div>
+
             <p>
-                <div class="row">
-                    <div class="col-md-12">
-                        <img class="img-fluid" src='neurips/figs/hard_clipper.png'>
-                        <blockquote class="blockquote">
-                        <footer class="blockquote-footer">Simple diode clipper distortion circuit. Source: <a href=https://www.strymon.net/single-stage-multistage-gain-topologies-sunset-riverside/>strymon.net</a></footer>
-                        </blockquote>
-                    </div>
+                From a technical standpoint, the concept of distorting or clipping and audio signal is quite straightforward.  
+                As shown in the diagram below, on the right, when the amplitude of the input signal (grey) passes a certain threshold, 
+                the amplitude of the output (red) is restricted from increasing further.
+                This seemingly basic process has the effect of introducing additional harmonics to the signal,
+                modifying the timbre and overall characteristic of the original sound. 
+                While this effect is considered undesirable in most contexts, such as the voice of a speaker on a phone call, 
+                musicians have found applications of this effect that result in more energetic, engaging, and emotionally moving sounds.  
+            </p>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <img class="img-fluid" src='img/hard_clipper.png'>
+                    <blockquote class="blockquote">
+                    <footer class="blockquote-footer">Diode clipper distortion circuit. Source: <a href=https://www.strymon.net/single-stage-multistage-gain-topologies-sunset-riverside/>Strymon</a></footer>
+                    </blockquote>
                 </div>
-            </p>         
+
+                <div class="col-md-6">
+                    <img class="img-fluid" src="img/clipping.png" alt="inn_logo">
+                    <blockquote class="blockquote">
+                        <footer class="blockquote-footer">The input signal (grey) is clipped at the maximum and minium voltage afford by the amplifier, which results in a distorted signal (red). 
+                            Source: <a href="https://sound.stackexchange.com/questions/23122/how-to-remove-sound-clipping-in-existing-record">StackExchange</a> </footer>
+                    </blockquote>
+                </div>  
+            </div>
+
+            <p>
+                After the initial discovery of distortion effects, 
+                guitarists and engineers began searching for new methods for purposefully inducing distortion.
+                In some cases, guitarists even intentionally damaged the speakers or circuitry within their amplifiers. 
+                With the introduction of transistors, dedicated distortion devices could be built to fit in small enclosures. 
+                This led to the emergence of the guitar stompbox or pedal, a small enclosure with a dedicated circuit for distorting audio signals. 
+            </p>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <p>
+                        The circuit diagram above shows an example of one of the most simple circuits of this kind, 
+                        where a pair of diodes are used to clip the top and bottom of the waveform. 
+                        Designers found that by using different kinds of circuit components, or varying circuit topologies,
+                        they could achieve a wider range of unique distortion timbres. 
+                        Presently, guitarists and audio engineers are presented with a wide array of digital signal processing devices 
+                        for applying a seemingly endless number of different distortion effects. 
+                        We aim to extend the world of distortion-based effects by proposing the use of neural networks as a new method of generating new kinds of distortion effects. 
+                    </p>
+                </div>
+               
+                <div class="col-md-6">
+                    <img class="img-fluid" src='img/pedals.jpg'>
+                    <blockquote class="blockquote">
+                    <footer class="blockquote-footer">A collection of distortion, overdrive, and boost pedals. Source: <a href="https://www.sweetwater.com/insync/boost-overdrive-distortion-fuzz-pedals-whats-the-difference/">Sweetwater</a></footer>
+                    </blockquote>
+                </div>
+            </div>
         </div>
 
         <div class="section">
             <h2>Architecture</h2>
             <hr>
             <p>
-                The TCN architecture has already been shown to be successful in modeling sequential data across a number of domains, 
-                with WaveNet being one of the early examples in the audio domain (). More recent works 
-            </p>
-            <img width="300px" class="center" src='neurips/figs/plugin-diagram-v2.svg'>
+                In our case, we view a neural network as a kind of circuit that can in fact distort audio signals. 
+                The benefit in this approach is that our circuit offers far greatly complexity in the space of signal processing possibilities than traditional analog circuits.
+                For every neural network architecture, we can randomly set the weights of each layer within the network to produce a different effect. 
+                Additionally, by adjusting aspects of the architecture itself, such as adding more layers, changing the intermediate nonlinear functions, of changing the size of each layer,  
+                This changes the interface we use to search for effects. 
+                Instead of tweaking the type of effect we achieve by modifying potentiometers within a circuit, 
+                or even changing the circuit components, 
+                we provide controls that let users modify elements of the architecture.
+            </p>  
+
+            <div class="row justify-content-center">
+
+                <div class="col-md-4">
+                    <img class="img-fluid" class="center" src='neurips/figs/plugin-diagram-v2.svg'>
+                </div>
+                <div class="col-md-8">
+                    <p>
+                        In this work, we focus on the temporal convolutional network (TCN) architecture. 
+                        This architecture has already been shown to be successful in modeling sequential data across a number of domains, 
+                        with WaveNet being one of the early examples in the audio domain. 
+                        More recent works have applied this architecture to a number of different tasks, such as speech denoising and source separation. 
+                        In addition, they have been applied specifically to the task of emulating the characteristic distortion produced by different amplifiers and distortion circuits. 
+                    </p>
+                </div>
+            </div>
+
         </div>
 
         <div class="section">
@@ -118,17 +186,30 @@
                 This shifts the process of searching for and selecting audio processing effects from the traditional paradigm 
                 where users adjust the controls of traditional DSP devices like equalizers and dynamic range compressors,
                 to one where users adjust the architecture of a neural network in order to search for new effects. 
-                This is true since the TCN can be viewed as a generalized audio effect that can effectively implement a range of transforms
+                The TCN can be viewed as a generalized audio effect that can effectively implement a range of transforms,
                 similar to those traditionally employed by audio engineers (e.g. equalization, dynamic range compression, delay, reverberation). 
             </p>
-            <img width="600px" src='neurips/figs/ronn-vst-ui.png'>
+
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <p>
+                        <a type="button" href="https://drive.google.com/file/d/15tA3X21N5FhLsDvElGBArUFA9cTogDLL/view?usp=sharing" class="btn btn-secondary btn-md">Download</a>
+                        For details on the installation see the <a target="blank_" href="https://github.com/csteinmetz1/ronn">GitHub repository</a>.
+                    </p>
+                    <img class="img-fluid" class="center" src='neurips/figs/ronn-vst-ui.png'>
+                    <blockquote class="blockquote">
+                    <footer class="blockquote-footer">Screenshot of the plugin user-interface.</footer>
+                    </blockquote>
+
+                </div>
+            </div>
         </div>
     
-        <div class="section">
+        <div class="mt-2 section">
             <h2>Related Projects</h2>
             <hr>
             <p>
-                Check out our related projects on using neural networks in audio effects! <br>
+                Check out our related projects on using neural networks for audio effects! <br>
             </p>
             <div class='row vspace-top'>
                 <div class="col-sm-3">
@@ -173,7 +254,7 @@
             <hr>
             <div>
                 <div class="list-group">
-                    <a href="https:/arxiv.org"
+                    <a href=""
                        class="list-group-item">
                         <img src="neurips/figs/paper_thumbnail_sm.jpg" style="width:100%; margin-right:-20px; margin-top:-10px;">
                     </a>
