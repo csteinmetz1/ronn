@@ -31,7 +31,7 @@ touching TensorFlow or PyTorch.
 
 <div  align="center">
 <p>Click the thumbnail below to watch a live demo of the plugin.</p>
-<a href="https://youtu.be/s1p_CvwDEB8" target="blank_"><img width="600px" src="docs/neurips/figs/demo-thumbnail.png"></a> 
+<a href="https://youtu.be/s1p_CvwDEB8" target="blank_"><img width="600px" src="docs/img/demo-thumbnail.png"></a> 
 </div>
 
 ## Setup
