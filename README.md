@@ -7,7 +7,7 @@ Randomized Overdrive Neural Networks
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/1234.56789)
 
-<img width="600px" src="docs/neurips/figs/ronn-vst-ui.png">
+<img width="600px" src="docs/img/ronn-vst-ui.png">
 </div>
 
 ## What is ronn?
