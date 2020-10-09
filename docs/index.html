@@ -67,36 +67,40 @@
             <h2>History</h2>
             <hr>
             <p>
-                Distortion was first discovered by guitarists when they found that pushing their early vacuum tube guitar amplifiers beyond their operating range produced a warm and fuzzy sound.
+                <a href="https://en.wikipedia.org/wiki/Distortion_(music)">Distortion</a> was first discovered by guitarists when they found that pushing their early 
+                <a href="https://en.wikipedia.org/wiki/Valve_amplifier">vacuum tube guitar amplifiers</a> beyond their operating range produced a warm and fuzzy sound.
                 While distortion is often considered an undesirable artifact, musicians quickly discovered that they could take advantage of these limitations for creative effect. 
                 Distortion went on to invade a number of different genres and ultimately became a defining characteristic of rock music.
                 Even today, when many listeners think of the sound of an electric guitar, its a sound dominated by the overdriven characteristic of tube distortion.  
             </p>
+
+
+
             <div class="row  justify-content-center">
                 <div class="col-md-6">
-                    <a href="#">
-                        <img class="img-fluid" src="img/old-amp-front.jpg" alt="inn_logo">
-                    </a>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe 
+                        width="560" 
+                        height="315" 
+                        src="https://www.youtube.com/embed/S1i5coU-0_Q?start=122" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <a href="#">
-                        <img class="img-fluid" src="img/old-amp-back.jpg" alt="ccs_logo">
-                    </a>
+                    <p>
+                        From a technical standpoint, the concept of distorting or clipping an audio signal is quite straightforward.  
+                        As shown in the diagram below, on the right, when the amplitude of the input signal (grey) passes a certain threshold, 
+                        the amplitude of the output (red) is restricted from increasing further.
+                        This seemingly basic process has the effect of introducing additional harmonics to the signal,
+                        modifying the timbre and overall characteristics of the original sound. 
+                        While this effect is considered undesirable in most contexts, such as the voice of a speaker on a phone call, 
+                        musicians have found applications of this effect that result in more energetic, engaging, and emotionally moving sounds.  
+                    </p>
                 </div>
-                <blockquote class="blockquote">
-                    <footer class="blockquote-footer">1940 National Dobro Corp Model 75 Vintage Tube Guitar Amplifier</footer>
-                </blockquote>
-            </div>
 
-            <p>
-                From a technical standpoint, the concept of distorting or clipping and audio signal is quite straightforward.  
-                As shown in the diagram below, on the right, when the amplitude of the input signal (grey) passes a certain threshold, 
-                the amplitude of the output (red) is restricted from increasing further.
-                This seemingly basic process has the effect of introducing additional harmonics to the signal,
-                modifying the timbre and overall characteristic of the original sound. 
-                While this effect is considered undesirable in most contexts, such as the voice of a speaker on a phone call, 
-                musicians have found applications of this effect that result in more energetic, engaging, and emotionally moving sounds.  
-            </p>
+            </div>
 
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -117,22 +121,25 @@
 
             <p>
                 After the initial discovery of distortion effects, 
-                guitarists and engineers began searching for new methods for purposefully inducing distortion.
-                In some cases, guitarists even intentionally damaged the speakers or circuitry within their amplifiers. 
+                guitarists and audio engineers began searching for new methods to purposefully induce distortion.
+                In some cases, guitarists even intentionally damaged the speakers or circuitry within their amplifiers to achieve this effect. 
                 With the introduction of transistors, dedicated distortion devices could be built to fit in small enclosures. 
-                This led to the emergence of the guitar stompbox or pedal, a small enclosure with a dedicated circuit for distorting audio signals. 
+                This led to the emergence of the <a href="https://en.wikipedia.org/wiki/Effects_unit#Stompboxes">guitar stompbox</a> or pedal, 
+                a small enclosure with a dedicated circuit for distorting audio signals. 
+                From here, engineers and guitarists with an interest in electronics began experiment with a wide range circuits designed specifically for distortion.  
             </p>
 
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <p>
-                        The circuit diagram above shows an example of one of the most simple circuits of this kind, 
-                        where a pair of diodes are used to clip the top and bottom of the waveform. 
+                        The circuit diagram above shows an example of a <a href="https://en.wikipedia.org/wiki/Clipper_(electronics)">diode clipper</a>, 
+                        one of the most simple circuits of this kind, where a pair of diodes are used to clip the top and bottom of the waveform. 
                         Designers found that by using different kinds of circuit components, or varying circuit topologies,
                         they could achieve a wider range of unique distortion timbres. 
                         Presently, guitarists and audio engineers are presented with a wide array of digital signal processing devices 
                         for applying a seemingly endless number of different distortion effects. 
-                        We aim to extend the world of distortion-based effects by proposing the use of neural networks as a new method of generating new kinds of distortion effects. 
+                        While it may seem that all methods of generating distortion has been exhausted, 
+                        we aim to extend the world of distortion-based effects by applying randomly weighted neural networks to create new kinds of distortion effects. 
                     </p>
                 </div>
                
@@ -146,17 +153,30 @@
         </div>
 
         <div class="section">
-            <h2>Architecture</h2>
+            <h2>Design</h2>
             <hr>
             <p>
-                In our case, we view a neural network as a kind of circuit that can in fact distort audio signals. 
-                The benefit in this approach is that our circuit offers far greatly complexity in the space of signal processing possibilities than traditional analog circuits.
-                For every neural network architecture, we can randomly set the weights of each layer within the network to produce a different effect. 
-                Additionally, by adjusting aspects of the architecture itself, such as adding more layers, changing the intermediate nonlinear functions, of changing the size of each layer,  
+                In our case, we view a neural network as a kind of "circuit" that can distort audio signals. 
+                The benefit to this approach is that this "circuit" offers greatly complexity in the space of signal processing possibilities than traditional analog circuits or DSP.
+                Recently, there has been success in emulating the sound of classic distortion effects using neural networks 
+                (see <a href="https://ieeexplore.ieee.org/document/6567472">here</a>, 
+                <a href="https://www.mdpi.com/2076-3417/10/3/766/htm">here</a>, 
+                <a href="https://ieeexplore.ieee.org/abstract/document/8683529">here</a>, 
+                and <a href="https://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/">here</a>). 
+                These approaches generally train neural networks using a large collection of audio examples that were processed by the original effect.  
+                Our approach differs from these approaches, since instead of emulating existing effects, we aim to generate <i>new</i> distortion effects. 
+                Interestingly, we found that by randomly setting the weights of different neural networks (without using any data or training at all!) we could achieve interesting effects.  
+            </p>
+            <p>
+                For every neural network architecture (some connection of layers and activation functions), 
+                we can randomly set the weights of each layer within the network to produce a different effect. 
+                Additionally, we found that by adjusting aspects of the architecture itself, such as adding more layers, 
+                changing the intermediate nonlinear functions, of changing the size of each layer,  
+                we achieve an even wider range of interesting effects. 
                 This changes the interface we use to search for effects. 
                 Instead of tweaking the type of effect we achieve by modifying potentiometers within a circuit, 
-                or even changing the circuit components, 
-                we provide controls that let users modify elements of the architecture.
+                or even the design of the distortion circuit or algorithm, 
+                we provide controls that let users modify elements of the neural network architecture.
             </p>  
 
             <div class="row justify-content-center">
@@ -166,15 +186,35 @@
                 </div>
                 <div class="col-md-8">
                     <p>
-                        In this work, we focus on the temporal convolutional network (TCN) architecture. 
+                        In this work, we focus on the <a href="https://arxiv.org/abs/1803.01271">temporal convolutional network</a> (TCN) architecture. 
                         This architecture has already been shown to be successful in modeling sequential data across a number of domains, 
-                        with WaveNet being one of the early examples in the audio domain. 
-                        More recent works have applied this architecture to a number of different tasks, such as speech denoising and source separation. 
-                        In addition, they have been applied specifically to the task of emulating the characteristic distortion produced by different amplifiers and distortion circuits. 
+                        with <a href="https://arxiv.org/abs/1609.03499">WaveNet</a> being one of the early examples in the audio domain. 
+                        More recent works have applied this architecture to a number of different tasks, 
+                        such as <a href="https://arxiv.org/abs/1706.07162">speech denoising</a> and 
+                        <a href="https://arxiv.org/abs/2002.08933">source separation</a>.  
+                        Here we will adapt this model to provide a platform for processing and distorting audio signals.
+                    </p>
+                    <p>
+                        The diagram on the left demonstrates how we employ this network in the real-time plugin. 
+                        Here we shown an example where the network has three layers, 
+                        we can see that each layer is very simple with only a 1-dimensional convolution, 
+                        followed by a nonlinear activation function.
+                        In the plugin users can control the number of layers, as well as the type of activation function. 
+                        In addition, other parameters can be adjusted, like the number of channels c, the size of the kernels k, 
+                        and the dilation growth factor d. 
                     </p>
                 </div>
             </div>
-
+            <p>
+                The plugin contains a look-back buffer of length M+N samples, 
+                where N samples come from the current block, and M samples come from the past inputs. 
+                This M+N sample look-back buffer is then processed by the TCN network (here shown with three layers),
+                to produce an output signal that is N samples, which will be returned to the DAW. 
+                The receptive field of the model of the model is shown in the dashed box, 
+                which defines how many samples in the buffer are used to generate one output sample. 
+                As the receptive field grows (by adding more layers, using larger kernel, or dilations),
+                the look-back buffer will become larger in order to produce an output block of the correct size. 
+            </p>
         </div>
 
         <div class="section">
@@ -188,6 +228,9 @@
                 to one where users adjust the architecture of a neural network in order to search for new effects. 
                 The TCN can be viewed as a generalized audio effect that can effectively implement a range of transforms,
                 similar to those traditionally employed by audio engineers (e.g. equalization, dynamic range compression, delay, reverberation). 
+                In the UI shown below, users have control over a number of architectural aspects of the underlying neural network. 
+                By adjusting any of these parameters, the plugin with rebuild the network, in real-time, 
+                enabling users to listen to the results fo different architectural adjustments. 
             </p>
 
             <div class="row justify-content-center">
@@ -204,7 +247,24 @@
                 </div>
             </div>
         </div>
-    
+
+        <!-- Will add this examples section later....
+
+        <div class="section">
+            <h2>Examples</h2>
+            <hr>
+
+            <div>
+                <h3>Clean </h3>
+                <audio controls>
+                    <source src="horse.ogg" type="audio/ogg">
+                  Your browser does not support the audio element.
+                  </audio>
+            </div>
+
+        </div>
+         -->
+            
         <div class="mt-2 section">
             <h2>Related Projects</h2>
             <hr>
