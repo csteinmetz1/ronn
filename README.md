@@ -5,7 +5,7 @@
 Randomized Overdrive Neural Networks
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/1234.56789)
+[![arXiv](https://img.shields.io/badge/arXiv-2010.04237-b31b1b.svg)](https://arxiv.org/abs/2010.04237)
 
 <img width="600px" src="docs/img/ronn-vst-ui.png">
 </div>
@@ -95,3 +95,12 @@ These effects range from subtle distortion and overdrive, to more extreme drone-
   user will sample from and then use a set of linear layers to project this to gamma and beta coefficients
   for each layers (using linear adaptors), then the user can control the input to this MLP. 
 - What if you randomized the weights in each layer every time you accessed that layer?
+
+## Citation
+```
+@article{steinmetz2020overdrive,
+        title={Randomized Overdrive Neural Networks},
+        author={Steinmetz, Christian J. and Reiss, Joshua D.},
+        journal={arXiv preprint arXiv:2010.04237},
+        year={2020}}
+```
