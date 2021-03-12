@@ -55,8 +55,8 @@ Then you need to install [libtorch](https://pytorch.org/cppdocs/) (PyTorch C++ A
 
 1. Download the `.zip` file containing the source.
 ```
-wget https://download.pytorch.org/libtorch/nightly/cpu/libtorch-shared-with-deps-latest.zip
-unzip libtorch-shared-with-deps-latest.zip
+https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.7.1.zip
+unzip libtorch-macos-1.7.1.zip
 ```    
 
 2. Unzip this and place the `libtorch` directory into the `plugin` directory.  
