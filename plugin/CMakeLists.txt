@@ -3,15 +3,14 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET "10.12" CACHE STRING "Minimum OS X deployment ta
 project(RONN VERSION 0.0.2)
 
 set(CMAKE_CXX_STANDARD 17)
-add_subdirectory(JUCE)        
+add_subdirectory(modules/JUCE)        
 
-include_directories(libtorch)
 find_package(Torch REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 
 
 juce_add_plugin(ronn
-    COMPANY_NAME Christian Steinmetz            # Specify the name of the plugin's author
+    COMPANY_NAME "Christian Steinmetz"          # Specify the name of the plugin's author
     IS_SYNTH FALSE                              # Is this a synth or an effect?
     NEEDS_MIDI_INPUT FALSE                      # Does the plugin need midi input?
     NEEDS_MIDI_OUTPUT FALSE                     # Does the plugin need midi output?
@@ -27,9 +26,9 @@ juce_generate_juce_header(ronn)
 
 target_sources(ronn
     PRIVATE
-        Source/PluginEditor.cpp
-        source/PluginProcessor.cpp
-        source/ronnlib.cpp)
+        src/PluginEditor.cpp
+        src/PluginProcessor.cpp
+        src/ronnlib.cpp)
 
 target_compile_definitions(ronn
     PUBLIC
@@ -52,7 +51,7 @@ target_link_libraries(ronn
 # the DLLs need to be copied to avoid memory errors.
 if (MSVC)
   file(GLOB TORCH_DLLS "${TORCH_INSTALL_PREFIX}/lib/*.dll")
-  add_custom_command(TARGET rtneural_compare_bench
+  add_custom_command(TARGET ronn
                      POST_BUILD
                      COMMAND ${CMAKE_COMMAND} -E copy_if_different
                      ${TORCH_DLLS}

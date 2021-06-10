@@ -56,18 +56,18 @@ cd plugin/
 ```
 2. Download the `.zip` file containing the [libtorch](https://pytorch.org/cppdocs/) (PyTorch C++ API) source.
 ```
-https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.7.1.zip
+wget https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.7.1.zip
 unzip libtorch-macos-1.7.1.zip
 ```    
 4. Run the following cmake commands to build the plugin
 ```
 cmake -Bbuild -GXcode "-DCMAKE_OSX_ARCHITECTURES==i386;x86_64"
-cmake --build build --target ronn_AU ronn_VST3
+cmake --build build --target ronn_AU ronn_VST3 --config Release
 ```
 5. Move the plugins to the system directory (macOS)
 ```
-cp -r build/ronn_artefacts/Debug/AU/ronn.component "/Volumes/Macintosh HD/Library/Audio/Plug-Ins/Components"
-cp -r build/ronn_artefacts/Debug/VST3/ronn.vst3 "/Volumes/Macintosh HD/Library/Audio/Plug-Ins/VST3"
+cp -r build/ronn_artefacts/Release/AU/ronn.component "/Volumes/Macintosh HD/Library/Audio/Plug-Ins/Components"
+cp -r build/ronn_artefacts/Release/VST3/ronn.vst3 "/Volumes/Macintosh HD/Library/Audio/Plug-Ins/VST3"
 ```
 
 ## Details

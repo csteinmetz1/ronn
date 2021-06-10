@@ -1,0 +1,3 @@
+[submodule "plugin/modules/JUCE"]
+	path = plugin/modules/JUCE
+	url = https://github.com/juce-framework/JUCE

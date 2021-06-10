@@ -114,7 +114,7 @@ int RonnAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
-}
+} 
 
 int RonnAudioProcessor::getCurrentProgram()
 {
@@ -226,7 +226,7 @@ void RonnAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
 
     if (modelChange == true) {
         buildModel(*seedParameter);
-        calculateReceptiveField();
+        calculateReceptiveField(); 
         setupBuffers();
         modelChange = false;
     }
