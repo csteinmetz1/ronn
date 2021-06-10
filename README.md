@@ -50,20 +50,25 @@ Currently, we only have macOS builds.
 ### Build
 You can also build from source.
 
-This will require that you have JUCE v5 installed.
-Then you need to install [libtorch](https://pytorch.org/cppdocs/) (PyTorch C++ API).
-
-1. Download the `.zip` file containing the source.
+1. Change to the root of the plugin project.
+```
+cd plugin/
+```
+2. Download the `.zip` file containing the [libtorch](https://pytorch.org/cppdocs/) (PyTorch C++ API) source.
 ```
 wget https://download.pytorch.org/libtorch/nightly/cpu/libtorch-shared-with-deps-latest.zip
 unzip libtorch-shared-with-deps-latest.zip
 ```    
-2. Unzip this and place the `libtorch` directory into the `plugin` directory. 
-3. Change to the root of the plugin project.
+4. Run the following cmake commands to build the plugin
 ```
-cd plugin/juce/ronn
+cmake -Bbuild -GXcode "-DCMAKE_OSX_ARCHITECTURES==i386;x86_64"
+cmake --build build --target ronn_AU ronn_VST3
 ```
-4. Run the `build.sh` script, which will build the plugin. 
+5. Move the plugins to the system directory (macOS)
+```
+cp -r build/ronn_artefacts/Debug/AU/ronn.component "/Volumes/Macintosh HD/Library/Audio/Plug-Ins/Components"
+cp -r build/ronn_artefacts/Debug/VST3/ronn.vst3 "/Volumes/Macintosh HD/Library/Audio/Plug-Ins/VST3"
+```
 
 ## Details
 
