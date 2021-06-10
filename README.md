@@ -103,9 +103,9 @@ These effects range from subtle distortion and overdrive, to more extreme drone-
 
 ## Citation
 ```
-@article{steinmetz2020overdrive,
-        title={Randomized Overdrive Neural Networks},
-        author={Steinmetz, Christian J. and Reiss, Joshua D.},
-        journal={arXiv preprint arXiv:2010.04237},
-        year={2020}}
+@inproceedings{steinmetz2020overdrive,
+          title={Randomized Overdrive Neural Networks},
+          author={Steinmetz, Christian J. and Reiss, Joshua D.},
+          booktitle={4th Workshop on Machine Learning for Creativity and Design at NeurIPS 2020},
+          year={2020}}
 ```
