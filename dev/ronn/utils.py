@@ -1,24 +1,26 @@
 import torch
 
+
 def center_crop(x, size):
-    """ Given a tensor x, crop the center most portion along the last dim
-        such as to match the provdied size. 
+    """Given a tensor x, crop the center most portion along the last dim
+        such as to match the provdied size.
 
     Args:
         x (tensor): tensor to crop.
         size (int): desired output size of the last dimension.
 
-    Returns 
+    Returns
         x (tensor): cropped tensor.
     """
 
-    s = (x.shape[-1] - size)//2
+    s = (x.shape[-1] - size) // 2
     e = s + size
-    
-    return x[...,s:e]
+
+    return x[..., s:e]
+
 
 def calculate_receptive_field(kernel_size, n_layers, stride, dilations=[]):
-    """ Given model parameters, calcualte the receptive field. 
+    """Given model parameters, calcualte the receptive field.
 
     Args:
         model (obj): model object.
@@ -31,18 +33,19 @@ def calculate_receptive_field(kernel_size, n_layers, stride, dilations=[]):
     receptive_field = kernel_size
 
     for n in range(n_layers):
-        receptive_field += ((kernel_size-1)*stride)*dilations[n]
+        receptive_field += ((kernel_size - 1) * stride) * dilations[n]
 
     return receptive_field
 
+
 def get_activation(activation_type):
-    """ Give a string defining the activation and return the function itself.
+    """Give a string defining the activation and return the function itself.
 
     Args:
         activation_type (str): valid string defining an activation function.
 
     Returns:
-        activation_func (obj): PyTorch activation function. 
+        activation_func (obj): PyTorch activation function.
 
     Experimental results
     ----------------------
@@ -58,7 +61,7 @@ def get_activation(activation_type):
     - Softshrink: super distant sounding and somewhat roomy
     """
 
-    if activation_type ==  "ReLU": 
+    if activation_type == "ReLU":
         activation_func = torch.nn.ReLU()
     elif activation_type == "LeakyReLU":
         activation_func = torch.nn.LeakyReLU()

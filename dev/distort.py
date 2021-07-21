@@ -3,49 +3,54 @@ import sys
 import time
 import torch
 import torchaudio
-import torchsummary
+import numpy as np
 
-from ronn.ronn import ronn
+from ronn.model import ronnModel
 from ronn.utils import calculate_receptive_field
 
 sample_rate = 44100
 
+params = {
+    "n_inputs": 2,
+    "n_outputs": 2,
+    "n_layers": 7,
+    "n_channels": 4,
+    "kernel_size": 3,
+    "activation": "ReLU",
+    "dilation_growth": 3,
+    "init": "xavier_normal",
+    "film_dim": 2,
+    "seed": 4,
+}
+
 # construct the model with our desired parameters
-processor = ronn(n_inputs=1,
-                 n_outputs=2,
-                 n_layers=30, 
-                 n_channels=32,
-                 kernel_size=3, 
-                 stride=1, 
-                 activation="ReLU", 
-                 dilations=[1,2,4,8,16,32,64,128,256,512,1,2,4,8,16,32,64,128,256,512,1,2,4,8,16,32,64,128,256,512],
-                 residual=False,
-                 init=None, 
-                 film_dim=2)
+processor = ronnModel(**params)
 
-rf = calculate_receptive_field(15, 18, 1, [1,2,4,8,16,32,64,128,256,1,2,4,8,16,32,64,128,256])
+rf = calculate_receptive_field(
+    params["kernel_size"],
+    params["n_layers"],
+    1,
+    params["dilation_growth"] ** np.arange(params["n_layers"]),
+)
 print(f"{rf} samples or {(rf/sample_rate)*1000:0.2f} ms")
-
-# take a look at the model
-input_size = (1, 44100)
-torchsummary.summary(processor.model, input_size)
 
 # load some audio
 x, sr = torchaudio.load("samples/clean/clean_guitar.wav")
-x = x[0,:44100*4].view(1,-1) # take just the left channel since it is stereo
-#y = torch.rand(1,2)
+c, s = x.size()
+x = x[:, : 44100 * 4]
+x_pad = torch.nn.functional.pad(x, (rf, 0))
+x_pad = x_pad.view(1, c, -1)
 y = None
 
 # process that audio
-y = processor.process(x, y=y)
+out = processor(x_pad, y=y)
 
-# normalize 
-y /= (torch.max(torch.abs(y)))
-print(y.shape)
+# normalize
+out /= out.abs().max()
 
-y -= torch.mean(y,dim=-1).view(2,1)
-print(torch.mean(y,dim=-1))
+# remove DC
+out -= torch.mean(out, dim=-1).view(c, 1)
 
 # save the processed audio to disk
-torchaudio.save("samples/processed/p_clean_guitar.wav", y, sr)
-torchaudio.save("samples/processed/c_clean_guitar.wav", x, sr)
+torchaudio.save("samples/processed/p_clean_guitar.wav", out.view(c, -1), sr)
+torchaudio.save("samples/processed/c_clean_guitar.wav", x.view(c, -1), sr)
