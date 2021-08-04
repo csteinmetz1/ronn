@@ -9,7 +9,7 @@ DESCRIPTION = "Randomized overdrive neural networks"
 URL = "https://github.com/csteinmetz1/fxspace"
 EMAIL = "c.j.steinmetz@qmul.ac.uk"
 AUTHOR = "Christian Steinmetz"
-REQUIRES_PYTHON = ">=3.8.0" 
+REQUIRES_PYTHON = ">=3.7.11" 
 VERSION = "0.1.0"
 
 HERE = Path(__file__).parent
