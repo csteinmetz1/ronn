@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 NAME = "ronn"
 DESCRIPTION = "Randomized overdrive neural networks"
-URL = "https://github.com/csteinmetz1/fxspace"
+URL = "https://github.com/csteinmetz1/ronn"
 EMAIL = "c.j.steinmetz@qmul.ac.uk"
 AUTHOR = "Christian Steinmetz"
 REQUIRES_PYTHON = ">=3.7.11" 
