@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,275 +13,324 @@
     <!-- Bootstrap core CSS -->
     <!--link href="bootstrap.min.css" rel="stylesheet"-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 </head>
 
 <body>
-<bibtex src="neurips/references.bib"></bibtex>
-<div class="jumbotron jumbotron-fluid text-center">
-    <div class="container"></div>
-    <h1>Randomized Overdrive Neural Networks</h1>
-    <p style="margin-bottom: 0;">
-        <a href="http://www.christiansteinmetz.com"> Christian J. Steinmetz</a> and
-        <a href="http://www.eecs.qmul.ac.uk/~josh/"> Joshua D. Reiss</a>
-    </p>
-    <p style="margin-top: 0;">
-        Queen Mary University of London
-    </p>
+    <bibtex src="neurips/references.bib"></bibtex>
+    <div class="jumbotron jumbotron-fluid text-center">
+        <div class="container"></div>
+        <h1>Randomized Overdrive Neural Networks</h1>
+        <p style="margin-bottom: 0;">
+            <a href="http://www.christiansteinmetz.com"> Christian J. Steinmetz</a> and
+            <a href="http://www.eecs.qmul.ac.uk/~josh/"> Joshua D. Reiss</a>
+        </p>
+        <p style="margin-top: 0;">
+            Queen Mary University of London
+        </p>
 
-    <div class="btn-group center" role="group" aria-label="Top menu">
-        <a class="btn btn-secondary" target="blank_" href="https://arxiv.org/abs/2010.04237">Paper</a>
-        <a class="btn btn-secondary" target="blank_" href="https://github.com/csteinmetz1/ronn">Code</a>
-        <a class="btn btn-secondary" target="blank_" href="https://drive.google.com/file/d/15tA3X21N5FhLsDvElGBArUFA9cTogDLL/view?usp=sharing">VST/AU</a>
+        <div class="btn-group center" role="group" aria-label="Top menu">
+            <a class="btn btn-secondary" target="blank_" href="https://arxiv.org/abs/2010.04237">Paper</a>
+            <a class="btn btn-secondary" target="blank_" href="https://github.com/csteinmetz1/ronn">Code</a>
+            <a class="btn btn-secondary" target="blank_"
+                href="https://drive.google.com/file/d/15tA3X21N5FhLsDvElGBArUFA9cTogDLL/view?usp=sharing">VST/AU</a>
+            <a class="btn btn-secondary" target="blank_"
+                href="        https://colab.research.google.com/github/csteinmetz1/ronn/blob/master/ronn.ipynb">Colab</a>
+        </div>
     </div>
-</div>
 
-<div class="container" style="max-width: 950px; margin-left: auto; margin-right: auto;">
-    <div class="container">
-        <div class="section">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe 
-                width="560" 
-                height="315" 
-                src="https://www.youtube.com/embed/s1p_CvwDEB8" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen></iframe>
-            </div>
-            <hr>
-            <p>
-                By processing audio signals in the time-domain with randomly weighted temporal convolutional networks (TCNs),
-                we uncover a wide range of novel, yet controllable overdrive effects.
-                We discover that architectural aspects, such as the depth of the network, 
-                the kernel size, the number of channels, the activation function, as well as the weight initialization, 
-                all have a clear impact on the sonic character of the resultant effect, without the need for training. 
-                In practice, these effects range from conventional overdrive and distortion,
-                to more extreme effects, as the receptive field grows, similar to a fusion of distortion, equalization, delay, and reverb.  
-                To enable use by musicians and producers, we provide a real-time plugin implementation.
-                This allows users to dynamically design networks, listening to the results in real-time.
-            </p>
-
-        </div>
-
-        <div class="section">
-            <h2>Examples</h2>
-            <hr>
-
-            <p>
-                We created a few examples to demonstrate the versatility of the plugin. 
-                Each song was created using only the <b>ronn</b> plugin, and no others in Reaper. 
-                During these example songs we switch on and off the plugin so you can hear what it's doing. 
-            </p>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h4>Indie Rock </h4>
-                    <p>This song was made using <i>only</i> the <b>ronn</b> plugin 
-                        and an electric guitar recorded directly into the interface.</p>
-                    <audio controls>
-                        <source src="audio/eguitar.mp3" type="audio/mp3">
-                    Your browser does not support the audio element.
-                    </audio> 
-                </div>
-                <div class="col-md-6">
-                    <h4>Ambient piano </h4>
-                    <p>This song was made using <i>only</i> the <b>ronn</b> plugin 
-                        and a stereo piano recording.</p>
-                    <audio controls>
-                        <source src="audio/piano.mp3" type="audio/mp3">
-                    Your browser does not support the audio element.
-                    </audio> 
-                </div>
-            </div>
-        </div>
-    
-        <div class="section mt-4">
-            <h2>History</h2>
-            <hr>
-            <p>
-                <a href="https://en.wikipedia.org/wiki/Distortion_(music)">Distortion</a> was first discovered by guitarists when they found that pushing their early 
-                <a href="https://en.wikipedia.org/wiki/Valve_amplifier">vacuum tube guitar amplifiers</a> beyond their operating range produced a warm and fuzzy sound.
-                While distortion is often considered an undesirable artifact, musicians quickly discovered that they could take advantage of these limitations for creative effect. 
-                Distortion went on to invade a number of different genres and ultimately became a defining characteristic of rock music.
-                Even today, when many listeners think of the sound of an electric guitar, its a sound dominated by the overdriven characteristic of tube distortion.  
-            </p>
-
-
-
-            <div class="row  justify-content-center">
-                <div class="col-md-6">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe 
-                        width="560" 
-                        height="315" 
-                        src="https://www.youtube.com/embed/S1i5coU-0_Q?start=122" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    <div class="container" style="max-width: 950px; margin-left: auto; margin-right: auto;">
+        <div class="container">
+            <div class="section">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/s1p_CvwDEB8" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen></iframe>
+                </div>
+                <hr>
+                <p>
+                    By processing audio signals in the time-domain with randomly weighted temporal convolutional
+                    networks (TCNs),
+                    we uncover a wide range of novel, yet controllable overdrive effects.
+                    We discover that architectural aspects, such as the depth of the network,
+                    the kernel size, the number of channels, the activation function, as well as the weight
+                    initialization,
+                    all have a clear impact on the sonic character of the resultant effect, without the need for
+                    training.
+                    In practice, these effects range from conventional overdrive and distortion,
+                    to more extreme effects, as the receptive field grows, similar to a fusion of distortion,
+                    equalization, delay, and reverb.
+                    To enable use by musicians and producers, we provide a real-time plugin implementation.
+                    This allows users to dynamically design networks, listening to the results in real-time.
+                </p>
+
+            </div>
+
+            <div class="section">
+                <h2>Examples</h2>
+                <hr>
+
+                <p>
+                    We created a few examples to demonstrate the versatility of the plugin.
+                    Each song was created using only the <b>ronn</b> plugin, and no others in Reaper.
+                    During these example songs we switch on and off the plugin so you can hear what it's doing.
+                </p>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Indie Rock </h4>
+                        <p>This song was made using <i>only</i> the <b>ronn</b> plugin
+                            and an electric guitar recorded directly into the interface.</p>
+                        <audio controls>
+                            <source src="audio/eguitar.mp3" type="audio/mp3">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Ambient piano </h4>
+                        <p>This song was made using <i>only</i> the <b>ronn</b> plugin
+                            and a stereo piano recording.</p>
+                        <audio controls>
+                            <source src="audio/piano.mp3" type="audio/mp3">
+                            Your browser does not support the audio element.
+                        </audio>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <p>
-                        From a technical standpoint, the concept of distorting or clipping an audio signal is quite straightforward.  
-                        As shown in the diagram below, on the right, when the amplitude of the input signal (grey) passes a certain threshold, 
-                        the amplitude of the output (red) is restricted from increasing further.
-                        This seemingly basic process has the effect of introducing additional harmonics to the signal,
-                        modifying the timbre and overall characteristics of the original sound. 
-                        While this effect is considered undesirable in most contexts, such as the voice of a speaker on a phone call, 
-                        musicians have found applications of this effect that result in more energetic, engaging, and emotionally moving sounds.  
-                    </p>
-                </div>
-
             </div>
 
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <img class="img-fluid" src='img/hard_clipper.png'>
-                    <blockquote class="blockquote">
-                    <footer class="blockquote-footer">Diode clipper distortion circuit. Source: <a href=https://www.strymon.net/single-stage-multistage-gain-topologies-sunset-riverside/>Strymon</a></footer>
-                    </blockquote>
+            <div class="section mt-4">
+                <h2>History</h2>
+                <hr>
+                <p>
+                    <a href="https://en.wikipedia.org/wiki/Distortion_(music)">Distortion</a> was first discovered by
+                    guitarists when they found that pushing their early
+                    <a href="https://en.wikipedia.org/wiki/Valve_amplifier">vacuum tube guitar amplifiers</a> beyond
+                    their operating range produced a warm and fuzzy sound.
+                    While distortion is often considered an undesirable artifact, musicians quickly discovered that they
+                    could take advantage of these limitations for creative effect.
+                    Distortion went on to invade a number of different genres and ultimately became a defining
+                    characteristic of rock music.
+                    Even today, when many listeners think of the sound of an electric guitar, its a sound dominated by
+                    the overdriven characteristic of tube distortion.
+                </p>
+
+
+
+                <div class="row  justify-content-center">
+                    <div class="col-md-6">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/S1i5coU-0_Q?start=122"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            From a technical standpoint, the concept of distorting or clipping an audio signal is quite
+                            straightforward.
+                            As shown in the diagram below, on the right, when the amplitude of the input signal (grey)
+                            passes a certain threshold,
+                            the amplitude of the output (red) is restricted from increasing further.
+                            This seemingly basic process has the effect of introducing additional harmonics to the
+                            signal,
+                            modifying the timbre and overall characteristics of the original sound.
+                            While this effect is considered undesirable in most contexts, such as the voice of a speaker
+                            on a phone call,
+                            musicians have found applications of this effect that result in more energetic, engaging,
+                            and emotionally moving sounds.
+                        </p>
+                    </div>
+
                 </div>
 
-                <div class="col-md-6">
-                    <img class="img-fluid" src="img/clipping.png" alt="inn_logo">
-                    <blockquote class="blockquote">
-                        <footer class="blockquote-footer">The input signal (grey) is clipped at the maximum and minium voltage afford by the amplifier, which results in a distorted signal (red). 
-                            Source: <a href="https://sound.stackexchange.com/questions/23122/how-to-remove-sound-clipping-in-existing-record">StackExchange</a> </footer>
-                    </blockquote>
-                </div>  
-            </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <img class="img-fluid" src='img/hard_clipper.png'>
+                        <blockquote class="blockquote">
+                            <footer class="blockquote-footer">Diode clipper distortion circuit. Source: <a
+                                    href=https://www.strymon.net/single-stage-multistage-gain-topologies-sunset-riverside />Strymon</a>
+                            </footer>
+                        </blockquote>
+                    </div>
 
-            <p>
-                After the initial discovery of distortion effects, 
-                guitarists and audio engineers began searching for new methods to purposefully induce distortion.
-                In some cases, guitarists even intentionally damaged the speakers or circuitry within their amplifiers to achieve this effect. 
-                With the introduction of transistors, dedicated distortion devices could be built to fit in small enclosures. 
-                This led to the emergence of the <a href="https://en.wikipedia.org/wiki/Effects_unit#Stompboxes">guitar stompbox</a> or pedal, 
-                a small enclosure with a dedicated circuit for distorting audio signals. 
-                From here, engineers and guitarists with an interest in electronics began experiment with a wide range circuits designed specifically for distortion.  
-            </p>
-
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <p>
-                        The circuit diagram above shows an example of a <a href="https://en.wikipedia.org/wiki/Clipper_(electronics)">diode clipper</a>, 
-                        one of the most simple circuits of this kind, where a pair of diodes are used to clip the top and bottom of the waveform. 
-                        Designers found that by using different kinds of circuit components, or varying circuit topologies,
-                        they could achieve a wider range of unique distortion timbres. 
-                        Presently, guitarists and audio engineers are presented with a wide array of digital signal processing devices 
-                        for applying a seemingly endless number of different distortion effects. 
-                        While it may seem that all methods of generating distortion has been exhausted, 
-                        we aim to extend the world of distortion-based effects by applying randomly weighted neural networks to create new kinds of distortion effects. 
-                    </p>
+                    <div class="col-md-6">
+                        <img class="img-fluid" src="img/clipping.png" alt="inn_logo">
+                        <blockquote class="blockquote">
+                            <footer class="blockquote-footer">The input signal (grey) is clipped at the maximum and
+                                minium voltage afford by the amplifier, which results in a distorted signal (red).
+                                Source: <a
+                                    href="https://sound.stackexchange.com/questions/23122/how-to-remove-sound-clipping-in-existing-record">StackExchange</a>
+                            </footer>
+                        </blockquote>
+                    </div>
                 </div>
-               
-                <div class="col-md-6">
-                    <img class="img-fluid" src='img/pedals.jpg'>
-                    <blockquote class="blockquote">
-                    <footer class="blockquote-footer">A collection of distortion, overdrive, and boost pedals. Source: <a href="https://www.sweetwater.com/insync/boost-overdrive-distortion-fuzz-pedals-whats-the-difference/">Sweetwater</a></footer>
-                    </blockquote>
-                </div>
-            </div>
-        </div>
 
-        <div class="section">
-            <h2>Design</h2>
-            <hr>
-            <p>
-                In our case, we view a neural network as a kind of "circuit" that can distort audio signals. 
-                The benefit to this approach is that this "circuit" offers greatly complexity in the space of signal processing possibilities than traditional analog circuits or DSP.
-                Recently, there has been success in emulating the sound of classic distortion effects using neural networks 
-                (see <a href="https://ieeexplore.ieee.org/document/6567472">here</a>, 
-                <a href="https://www.mdpi.com/2076-3417/10/3/766/htm">here</a>, 
-                <a href="https://ieeexplore.ieee.org/abstract/document/8683529">here</a>, 
-                and <a href="https://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/">here</a>). 
-                These approaches generally train neural networks using a large collection of audio examples that were processed by the original effect.  
-                Our approach differs from these approaches, since instead of emulating existing effects, we aim to generate <i>new</i> distortion effects. 
-                Interestingly, we found that by randomly setting the weights of different neural networks (without using any data or training at all!) we could achieve interesting effects.  
-            </p>
-            <p>
-                For every neural network architecture (some connection of layers and activation functions), 
-                we can randomly set the weights of each layer within the network to produce a different effect. 
-                Additionally, we found that by adjusting aspects of the architecture itself, such as adding more layers, 
-                changing the intermediate nonlinear functions, of changing the size of each layer,  
-                we achieve an even wider range of interesting effects. 
-                This changes the interface we use to search for effects. 
-                Instead of tweaking the type of effect we achieve by modifying potentiometers within a circuit, 
-                or even the design of the distortion circuit or algorithm, 
-                we provide controls that let users modify elements of the neural network architecture.
-            </p>  
+                <p>
+                    After the initial discovery of distortion effects,
+                    guitarists and audio engineers began searching for new methods to purposefully induce distortion.
+                    In some cases, guitarists even intentionally damaged the speakers or circuitry within their
+                    amplifiers to achieve this effect.
+                    With the introduction of transistors, dedicated distortion devices could be built to fit in small
+                    enclosures.
+                    This led to the emergence of the <a
+                        href="https://en.wikipedia.org/wiki/Effects_unit#Stompboxes">guitar stompbox</a> or pedal,
+                    a small enclosure with a dedicated circuit for distorting audio signals.
+                    From here, engineers and guitarists with an interest in electronics began experiment with a wide
+                    range circuits designed specifically for distortion.
+                </p>
 
-            <div class="row justify-content-center">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <p>
+                            The circuit diagram above shows an example of a <a
+                                href="https://en.wikipedia.org/wiki/Clipper_(electronics)">diode clipper</a>,
+                            one of the most simple circuits of this kind, where a pair of diodes are used to clip the
+                            top and bottom of the waveform.
+                            Designers found that by using different kinds of circuit components, or varying circuit
+                            topologies,
+                            they could achieve a wider range of unique distortion timbres.
+                            Presently, guitarists and audio engineers are presented with a wide array of digital signal
+                            processing devices
+                            for applying a seemingly endless number of different distortion effects.
+                            While it may seem that all methods of generating distortion has been exhausted,
+                            we aim to extend the world of distortion-based effects by applying randomly weighted neural
+                            networks to create new kinds of distortion effects.
+                        </p>
+                    </div>
 
-                <div class="col-md-4">
-                    <img class="img-fluid" class="center" src='img/plugin-diagram-v2.svg'>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        In this work, we focus on the <a href="https://arxiv.org/abs/1803.01271">temporal convolutional network</a> (TCN) architecture. 
-                        This architecture has already been shown to be successful in modeling sequential data across a number of domains, 
-                        with <a href="https://arxiv.org/abs/1609.03499">WaveNet</a> being one of the early examples in the audio domain. 
-                        More recent works have applied this architecture to a number of different tasks, 
-                        such as <a href="https://arxiv.org/abs/1706.07162">speech denoising</a> and 
-                        <a href="https://arxiv.org/abs/2002.08933">source separation</a>.  
-                        Here we will adapt this model to provide a platform for processing and distorting audio signals.
-                    </p>
-                    <p>
-                        The diagram on the left demonstrates how we employ this network in the real-time plugin. 
-                        Here we shown an example where the network has three layers, 
-                        we can see that each layer is very simple with only a 1-dimensional convolution, 
-                        followed by a nonlinear activation function.
-                        In the plugin users can control the number of layers, as well as the type of activation function. 
-                        In addition, other parameters can be adjusted, like the number of channels c, the size of the kernels k, 
-                        and the dilation growth factor d. 
-                    </p>
-                </div>
-            </div>
-            <p>
-                The plugin contains a look-back buffer of length M+N samples, 
-                where N samples come from the current block, and M samples come from the past inputs. 
-                This M+N sample look-back buffer is then processed by the TCN network (here shown with three layers),
-                to produce an output signal that is N samples, which will be returned to the DAW. 
-                The receptive field of the model of the model is shown in the dashed box, 
-                which defines how many samples in the buffer are used to generate one output sample. 
-                As the receptive field grows (by adding more layers, using larger kernel, or dilations),
-                the look-back buffer will become larger in order to produce an output block of the correct size. 
-            </p>
-        </div>
-
-        <div class="section">
-            <h2>Plugin</h2>
-            <hr>
-            <p>
-                The goal of the plugin is to build a C++ implementation that enables users to quickly and easily construct different
-                randomly weighted TCNs, and listen to the produced effects in real-time. 
-                This shifts the process of searching for and selecting audio processing effects from the traditional paradigm 
-                where users adjust the controls of traditional DSP devices like equalizers and dynamic range compressors,
-                to one where users adjust the architecture of a neural network in order to search for new effects. 
-                The TCN can be viewed as a generalized audio effect that can effectively implement a range of transforms,
-                similar to those traditionally employed by audio engineers (e.g. equalization, dynamic range compression, delay, reverberation). 
-                In the UI shown below, users have control over a number of architectural aspects of the underlying neural network. 
-                By adjusting any of these parameters, the plugin with rebuild the network, in real-time, 
-                enabling users to listen to the results fo different architectural adjustments. 
-            </p>
-
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <p>
-                        <a type="button" href="https://drive.google.com/file/d/15tA3X21N5FhLsDvElGBArUFA9cTogDLL/view?usp=sharing" class="btn btn-secondary btn-md">Download</a>
-                        For details on the installation see the <a target="blank_" href="https://github.com/csteinmetz1/ronn">GitHub repository</a>.
-                    </p>
-                    <img class="img-fluid" class="center" src='img/ronn-vst-ui.png'>
-                    <blockquote class="blockquote">
-                    <footer class="blockquote-footer">Screenshot of the plugin user-interface.</footer>
-                    </blockquote>
-
+                    <div class="col-md-6">
+                        <img class="img-fluid" src='img/pedals.jpg'>
+                        <blockquote class="blockquote">
+                            <footer class="blockquote-footer">A collection of distortion, overdrive, and boost pedals.
+                                Source: <a
+                                    href="https://www.sweetwater.com/insync/boost-overdrive-distortion-fuzz-pedals-whats-the-difference/">Sweetwater</a>
+                            </footer>
+                        </blockquote>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Will add this examples section later....
+            <div class="section">
+                <h2>Design</h2>
+                <hr>
+                <p>
+                    In our case, we view a neural network as a kind of "circuit" that can distort audio signals.
+                    The benefit to this approach is that this "circuit" offers greatly complexity in the space of signal
+                    processing possibilities than traditional analog circuits or DSP.
+                    Recently, there has been success in emulating the sound of classic distortion effects using neural
+                    networks
+                    (see <a href="https://ieeexplore.ieee.org/document/6567472">here</a>,
+                    <a href="https://www.mdpi.com/2076-3417/10/3/766/htm">here</a>,
+                    <a href="https://ieeexplore.ieee.org/abstract/document/8683529">here</a>,
+                    and <a href="https://teddykoker.com/2020/05/deep-learning-for-guitar-effect-emulation/">here</a>).
+                    These approaches generally train neural networks using a large collection of audio examples that
+                    were processed by the original effect.
+                    Our approach differs from these approaches, since instead of emulating existing effects, we aim to
+                    generate <i>new</i> distortion effects.
+                    Interestingly, we found that by randomly setting the weights of different neural networks (without
+                    using any data or training at all!) we could achieve interesting effects.
+                </p>
+                <p>
+                    For every neural network architecture (some connection of layers and activation functions),
+                    we can randomly set the weights of each layer within the network to produce a different effect.
+                    Additionally, we found that by adjusting aspects of the architecture itself, such as adding more
+                    layers,
+                    changing the intermediate nonlinear functions, of changing the size of each layer,
+                    we achieve an even wider range of interesting effects.
+                    This changes the interface we use to search for effects.
+                    Instead of tweaking the type of effect we achieve by modifying potentiometers within a circuit,
+                    or even the design of the distortion circuit or algorithm,
+                    we provide controls that let users modify elements of the neural network architecture.
+                </p>
+
+                <div class="row justify-content-center">
+
+                    <div class="col-md-4">
+                        <img class="img-fluid" class="center" src='img/plugin-diagram-v2.svg'>
+                    </div>
+                    <div class="col-md-8">
+                        <p>
+                            In this work, we focus on the <a href="https://arxiv.org/abs/1803.01271">temporal
+                                convolutional network</a> (TCN) architecture.
+                            This architecture has already been shown to be successful in modeling sequential data across
+                            a number of domains,
+                            with <a href="https://arxiv.org/abs/1609.03499">WaveNet</a> being one of the early examples
+                            in the audio domain.
+                            More recent works have applied this architecture to a number of different tasks,
+                            such as <a href="https://arxiv.org/abs/1706.07162">speech denoising</a> and
+                            <a href="https://arxiv.org/abs/2002.08933">source separation</a>.
+                            Here we will adapt this model to provide a platform for processing and distorting audio
+                            signals.
+                        </p>
+                        <p>
+                            The diagram on the left demonstrates how we employ this network in the real-time plugin.
+                            Here we shown an example where the network has three layers,
+                            we can see that each layer is very simple with only a 1-dimensional convolution,
+                            followed by a nonlinear activation function.
+                            In the plugin users can control the number of layers, as well as the type of activation
+                            function.
+                            In addition, other parameters can be adjusted, like the number of channels c, the size of
+                            the kernels k,
+                            and the dilation growth factor d.
+                        </p>
+                    </div>
+                </div>
+                <p>
+                    The plugin contains a look-back buffer of length M+N samples,
+                    where N samples come from the current block, and M samples come from the past inputs.
+                    This M+N sample look-back buffer is then processed by the TCN network (here shown with three
+                    layers),
+                    to produce an output signal that is N samples, which will be returned to the DAW.
+                    The receptive field of the model of the model is shown in the dashed box,
+                    which defines how many samples in the buffer are used to generate one output sample.
+                    As the receptive field grows (by adding more layers, using larger kernel, or dilations),
+                    the look-back buffer will become larger in order to produce an output block of the correct size.
+                </p>
+            </div>
+
+            <div class="section">
+                <h2>Plugin</h2>
+                <hr>
+                <p>
+                    The goal of the plugin is to build a C++ implementation that enables users to quickly and easily
+                    construct different
+                    randomly weighted TCNs, and listen to the produced effects in real-time.
+                    This shifts the process of searching for and selecting audio processing effects from the traditional
+                    paradigm
+                    where users adjust the controls of traditional DSP devices like equalizers and dynamic range
+                    compressors,
+                    to one where users adjust the architecture of a neural network in order to search for new effects.
+                    The TCN can be viewed as a generalized audio effect that can effectively implement a range of
+                    transforms,
+                    similar to those traditionally employed by audio engineers (e.g. equalization, dynamic range
+                    compression, delay, reverberation).
+                    In the UI shown below, users have control over a number of architectural aspects of the underlying
+                    neural network.
+                    By adjusting any of these parameters, the plugin with rebuild the network, in real-time,
+                    enabling users to listen to the results fo different architectural adjustments.
+                </p>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <p>
+                            <a type="button"
+                                href="https://drive.google.com/file/d/15tA3X21N5FhLsDvElGBArUFA9cTogDLL/view?usp=sharing"
+                                class="btn btn-secondary btn-md">Download</a>
+                            For details on the installation see the <a target="blank_"
+                                href="https://github.com/csteinmetz1/ronn">GitHub repository</a>.
+                        </p>
+                        <img class="img-fluid" class="center" src='img/ronn-vst-ui.png'>
+                        <blockquote class="blockquote">
+                            <footer class="blockquote-footer">Screenshot of the plugin user-interface.</footer>
+                        </blockquote>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Will add this examples section later....
 
         <div class="section">
             <h2>Examples</h2>
@@ -296,69 +346,78 @@
 
         </div>
          -->
-            
-        <div class="mt-2 section">
-            <h2>Related Projects</h2>
-            <hr>
-            <p>
-                Check out our related projects on using neural networks for audio effects! <br>
-            </p>
-            <div class='row vspace-top'>
-                <div class="col-sm-3">
-                    <img src='https://csteinmetz1.github.io/NeuralReverberator/slides/static/img/nr-rir.gif' class='img-fluid'>
-                </div>
-    
-                <div class="col">
-                    <div class='paper-title'>
-                        <a href="https://www.christiansteinmetz.com/projects-blog/neuralreverberator">NeuralReverberator</a>
+
+            <div class="mt-2 section">
+                <h2>Related Projects</h2>
+                <hr>
+                <p>
+                    Check out our related projects on using neural networks for audio effects! <br>
+                </p>
+                <div class='row vspace-top'>
+                    <div class="col-sm-3">
+                        <img src='https://csteinmetz1.github.io/NeuralReverberator/slides/static/img/nr-rir.gif'
+                            class='img-fluid'>
                     </div>
-                    <div>
-                        Adding reverberation to musical sources is an essential part of creating an engaging listening experience. 
-                        NeuralReverberator is a convolutional reverb synthesizer that uses a spectral autoencoder as a generative model. 
-                        We implement the model as a real-time plugin that allows audio engineers to traverse the latent space of the autoencoder,
-                        and generate novel reverberation effect with varying timbre and duration. 
+
+                    <div class="col">
+                        <div class='paper-title'>
+                            <a
+                                href="https://www.christiansteinmetz.com/projects-blog/neuralreverberator">NeuralReverberator</a>
+                        </div>
+                        <div>
+                            Adding reverberation to musical sources is an essential part of creating an engaging
+                            listening experience.
+                            NeuralReverberator is a convolutional reverb synthesizer that uses a spectral autoencoder as
+                            a generative model.
+                            We implement the model as a real-time plugin that allows audio engineers to traverse the
+                            latent space of the autoencoder,
+                            and generate novel reverberation effect with varying timbre and duration.
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class='row vspace-top'>
+                    <div class="col-sm-3">
+                        <img src='https://floweq.ml/img/tf.gif' class='img-fluid'>
+                    </div>
+
+                    <div class="col">
+                        <div class='paper-title'>
+                            <a href="http://floweq.ml">flowEQ</a>
+                        </div>
+                        <div>
+                            We use a disentangled variational autoencoder (β-VAE) in order to provide a new modality for
+                            modifying the timbre of recordings via a parametric equalizer.
+                            By traversing the learned latent space of the trained decoder network in the real-time
+                            plugin,
+                            the user can more quickly search through the configurations of a five band parametric
+                            equalizer.
+                            This methodology promotes using one’s ears to determine the proper EQ settings over looking
+                            at transfer functions or specific frequency controls.
+                        </div>
                     </div>
                 </div>
             </div>
             <br>
-            <div class='row vspace-top'>
-                <div class="col-sm-3">
-                    <img src='https://floweq.ml/img/tf.gif' class='img-fluid'>
-                </div>
-    
-                <div class="col">
-                    <div class='paper-title'>
-                        <a href="http://floweq.ml">flowEQ</a>
-                    </div>
-                    <div>
-                        We use a disentangled variational autoencoder (β-VAE) in order to provide a new modality for modifying the timbre of recordings via a parametric equalizer. 
-                        By traversing the learned latent space of the trained decoder network in the real-time plugin, 
-                        the user can more quickly search through the configurations of a five band parametric equalizer. 
-                        This methodology promotes using one’s ears to determine the proper EQ settings over looking at transfer functions or specific frequency controls.
+
+            <div class="section">
+                <h2>Paper</h2>
+                <hr>
+                <div>
+                    <div class="list-group">
+                        <a href="https://arxiv.org/abs/2010.04237" class="list-group-item">
+                            <img src="img/paper_thumbnail_sm.jpg"
+                                style="width:100%; margin-right:-20px; margin-top:-10px;">
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-        <br>
-    
-        <div class="section">
-            <h2>Paper</h2>
-            <hr>
-            <div>
-                <div class="list-group">
-                    <a href="https://arxiv.org/abs/2010.04237"
-                       class="list-group-item">
-                        <img src="img/paper_thumbnail_sm.jpg" style="width:100%; margin-right:-20px; margin-top:-10px;">
-                    </a>
-                </div>
-            </div>
-        </div>
-    
-        <div class="section">
-            <h2>Bibtex</h2>
-            <hr>
-            <div style="background-color: #e9ecef;">
-                <pre>
+
+            <div class="section">
+                <h2>Bibtex</h2>
+                <hr>
+                <div style="background-color: #e9ecef;">
+                    <pre>
                 <code>
     @inproceedings{steinmetz2020overdrive,
              title={Randomized Overdrive Neural Networks},
@@ -366,10 +425,10 @@
              booktitle={4th Workshop on Machine Learning for Creativity and Design at NeurIPS 2020},
              year={2020}}</code>
                 </pre>
+                </div>
             </div>
-        </div>
 
-        <!-- <div class="section">
+            <!-- <div class="section">
             <h2 id="bibliography">Bibliography</h2>
             <hr>
         
@@ -393,24 +452,25 @@
             </div>
         </div>  -->
 
-        <hr>
-        <footer>
-            <p>*Accepted to the NeurIPS 2020 Workshop on Machine Learning for Creativity and Design</p>
-            <p>Send feedback and questions to <a href="http://christiansteinmetz.com">Christian Steinmetz</a>.</p>
-        </footer>
+            <hr>
+            <footer>
+                <p>*Accepted to the NeurIPS 2020 Workshop on Machine Learning for Creativity and Design</p>
+                <p>Send feedback and questions to <a href="http://christiansteinmetz.com">Christian Steinmetz</a>.</p>
+            </footer>
+        </div>
     </div>
-</div>
 
-<script type="text/javascript" src="https://cdn.rawgit.com/pcooksey/bibtex-js/5ccf967/src/bibtex_js.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    <script type="text/javascript" src="https://cdn.rawgit.com/pcooksey/bibtex-js/5ccf967/src/bibtex_js.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
 
 </body>
+
 </html>
