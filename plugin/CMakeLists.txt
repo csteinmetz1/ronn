@@ -5,6 +5,7 @@ project(RONN VERSION 0.0.2)
 set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(modules/JUCE)        
 
+set(CMAKE_PREFIX_PATH libtorch/)
 find_package(Torch REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 
