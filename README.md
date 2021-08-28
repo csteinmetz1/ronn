@@ -5,7 +5,9 @@
 Randomized Overdrive Neural Networks
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/csteinmetz1/ronn/blob/master/ronn.ipynb)
 [![arXiv](https://img.shields.io/badge/arXiv-2010.04237-b31b1b.svg)](https://arxiv.org/abs/2010.04237)
+
 
 <img width="600px" src="docs/img/ronn-vst-ui.png">
 </div>
@@ -49,9 +51,13 @@ Currently, we only have macOS builds.
 
 ### Build
 You can also build from source.
+The following steps are for building on macOS, assuming you have XCode and the Command Line Tools, as well as CMake already installed.
+The steps should be similar for other platforms. 
 
-1. Change to the root of the plugin project.
+1. Grab the modules and then change to the root of the plugin project 
 ```
+git submodule init
+git submodule update
 cd plugin/
 ```
 2. Download the `.zip` file containing the [libtorch](https://pytorch.org/cppdocs/) (PyTorch C++ API) source.
