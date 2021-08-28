@@ -18,3 +18,4 @@ libtorch/
 *.synctex.gz
 *.out
 *.pdf
+*.zip
